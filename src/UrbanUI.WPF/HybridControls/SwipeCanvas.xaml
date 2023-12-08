@@ -1,0 +1,45 @@
+﻿<Grid x:Class="UrbanUI.WPF.HybridControls.SwipeCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converter="clr-namespace:UrbanUI.WPF.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+    <Grid.Resources>
+        <converter:DoubleNegativeConverter x:Key="negate" />
+    </Grid.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="{Binding PageButtonOffset}" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Name="PageGrid" Grid.Row="0" Background="Transparent" ClipToBounds="True">
+            <Grid Name="LeftContainer" Margin="{Binding PageMargin}">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="{Binding ActualWidth, Converter={StaticResource negate}}"/>
+                </Grid.RenderTransform>
+            </Grid>
+            <Grid Name="CenterContainer" Margin="{Binding PageMargin}">
+                <Grid.RenderTransform>
+                    <TranslateTransform />
+                </Grid.RenderTransform>
+            </Grid>
+            <Grid Name="RightContainer" Margin="{Binding PageMargin}">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="{Binding ActualWidth}"/>
+                </Grid.RenderTransform>
+            </Grid>
+            <Grid Name="VirtualContainer" Visibility="Hidden" />
+            <!--<Grid Name="LeftContainer"  Grid.Column="0" />
+            <Grid Name="CenterContainer" Grid.Column="1" />
+            <Grid Name="RightContainer"  Grid.Column="2" />-->
+        </Grid>
+        <Grid Grid.Row="2" Height="{Binding PageButtonSize}" Visibility="{Binding PageButtonVisibility}">
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Name="PageButtonsContainer" Orientation="Horizontal" HorizontalAlignment="Center"/>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Grid>
