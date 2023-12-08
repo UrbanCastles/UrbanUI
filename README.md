@@ -70,7 +70,7 @@ Open your `MainWindow.xaml` file and make the following modifications:
                  MinWidth="650"
                  MinHeight="600"
                  Title="Multi-Tool"
-                 mc:Ignorable="d" ResizeMode="CanResize" WindowStyle="SingleBorderWindow">
+                 mc:Ignorable="d" ResizeMode="CanResize">
     </urbanUI:FlatWindow>
     ```
 
