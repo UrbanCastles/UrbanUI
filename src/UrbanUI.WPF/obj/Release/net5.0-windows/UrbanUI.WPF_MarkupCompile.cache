@@ -1,0 +1,20 @@
+﻿UrbanUI.WPF
+
+
+library
+C#
+.cs
+C:\Users\rurbano\OneDrive - Infor\Documents\VS Projects\UrbanUI.WPF\obj\Release\net5.0-windows\
+UrbanUI.WPF
+none
+false
+TRACE;RELEASE;NET;NET5_0;NETCOREAPP
+
+15-206269665
+
+33-666747214
+203-1791784797
+Controls\Card\Cards.xaml;Controls\CollapsibleStackPane\CollapsibleStackPane.xaml;Controls\Iconer\PathIconControl.xaml;Controls\Jumbotron\Jumbotron.xaml;Controls\MenuItem\SideBarMenuItem.xaml;Controls\Menu\SideBarMenu.xaml;Controls\ScrollViewer\CustomScrollViewerStyle.xaml;Controls\SlidingGrid\SlideUpGrid.xaml;Controls\UI\FlatWindowStyle.xaml;Controls\UI\WindowButton.xaml;HybridControls\CircularProgressBar.xaml;HybridControls\ImageButton.xaml;HybridControls\SwipeCanvas.xaml;HybridControls\ToggleButtonControl.xaml;Themes\Generic.xaml;
+
+False
+

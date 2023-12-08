@@ -1,0 +1,52 @@
+﻿<Window x:Class="UrbanUI_WPF.UI.FlatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:UrbanUI_WPF.Controls"
+        x:Name="flatWindow"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        mc:Ignorable="d"
+        Title="Window" Height="450" Width="800">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="16" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="7"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+
+            <Border x:Name="MainGridContainer" Background="#1d1f2b" CornerRadius="10" BorderThickness=".3" BorderBrush="Gray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="202*"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="138"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" IsHitTestVisible="True" Background="Transparent" MouseLeftButtonUp="Grid_MouseLeftButtonUp" MouseMove="Grid_MouseMove">
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20, 0 0 0">
+                                <controls:PathIconControl x:Name="windowIcon" Path="M0 448h384v-128h256v128h384v-384h-1024zM448 512h128v-128h-128v128zM704 704v128h-384v-128h-320v-192h384v64h256v-64h384v192h-320zM384 704v64h256v-64h-256z" FlipVertically="True" Width="15" Height="15" />
+                                <TextBlock x:Name="windowTitle" Text="{Binding Title, ElementName=flatWindow}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29">
+                            <controls:WindowButton x:Name="minWindowButton" Width="46" Click="MinimizeWindow_Click"/>
+                            <controls:WindowButton x:Name="maxWindowButton" Width="46" Click="MaximizeWindow_Click"/>
+                            <controls:WindowButton x:Name="closeWindowButton" Width="46" Click="CloseWindow_Click"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid x:Name="SubContainerGrid" Grid.Row="1">
+                        <ContentPresenter x:Name="AdditionalContentPresenter"  Content="{TemplateBinding Content}"  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </Window.Template>
+</Window>

@@ -1,0 +1,119 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
+                    xmlns:controls="clr-namespace:UrbanUI.WPF.Controls"
+                    x:Name="hyperlink">
+
+    <ControlTemplate x:Key="HyperlinkControlTemplateStyle" TargetType="{x:Type local:Hyperlink}">
+
+        <Border x:Name="PART_mainBorder"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        MinWidth="{TemplateBinding MinWidth}"
+                        MinHeight="{TemplateBinding MinHeight}"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <controls:PathIconControl x:Name="PART_iconControl"  Grid.Column="0"
+                                                     Width="{TemplateBinding PathIconWidth}" 
+                                                     Height="{TemplateBinding PathIconHeight}" 
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                     IsEnabled="{TemplateBinding IsEnabled}"  
+                                                     Path="{TemplateBinding IconPath}" 
+                                                    Color="{TemplateBinding IconColor}"
+                                                      Margin="{TemplateBinding IconMargin}"/>
+
+                <ContentPresenter x:Name="PART_contentHost" Grid.Column="1"
+                                             Focusable="False" 
+                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             Margin="{TemplateBinding Padding}" 
+                                             RecognizesAccessKey="True" 
+                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}">
+
+                    <ContentPresenter.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                            <Setter Property="TextDecorations" Value="{Binding Path=TextStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
+                        </Style>
+                    </ContentPresenter.Resources>
+                </ContentPresenter>
+            </Grid>
+
+            <!--<StackPanel Orientation="Horizontal">
+                
+            </StackPanel>-->
+
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding PressedIconPath}" Value="{x:Null}">
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+            </DataTrigger>
+
+            <Trigger Property="ButtonAppearance" Value="Transparent">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#22000000" />
+                <Setter Property="MousePressedBackground" Value="#44000000" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+
+    <Style TargetType="{x:Type local:Hyperlink}" x:Key="UrbanUI.WPF.HyperlinkUIStyle">
+        <Setter Property="PathIconWidth" Value="14"/>
+        <Setter Property="PathIconHeight" Value="14"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="IconPath" Value="M363 363c59 0 106 -48 106 -107s-47 -107 -106 -107h-86v41h86c36 0 66 30 66 66s-30 66 -66 66h-86v41h86zM171 235v42h170v-42h-170zM83 256c0 -36 30 -66 66 -66h86v-41h-86c-59 0 -106 48 -106 107s47 107 106 107h86v-41h-86c-36 0 -66 -30 -66 -66z"/>
+        <Setter Property="IconMargin" Value="0,0,10,0"/>
+        <Setter Property="Foreground" Value="#3c96db"/>
+        <Setter Property="MousePressedForeground" Value="#50A0DD" />
+        <Setter Property="MouseEnterBackground" Value="#22000000" />
+        <Setter Property="MousePressedBackground" Value="#44000000" />
+        <Setter Property="MouseEnterIconColor" Value="#3c96db" />
+        <Setter Property="IconColor" Value="#3c96db" />
+        <Setter Property="PressedIconColor" Value="#50A0DD" />
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template" Value="{StaticResource HyperlinkControlTemplateStyle}">
+        </Setter>
+
+    </Style>
+
+
+    <Style BasedOn="{StaticResource UrbanUI.WPF.HyperlinkUIStyle}" TargetType="{x:Type local:Hyperlink}"/>
+
+</ResourceDictionary>

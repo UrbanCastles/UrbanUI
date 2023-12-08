@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="UrbanUI.WPF.Controls.SideBarMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
+             x:Name="sideBarMenu"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="90">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="menuContents" Orientation="Vertical" Grid.Row="0"/>
+        <StackPanel x:Name="subMenuContents" Orientation="Vertical" Grid.Row="1"/>
+    </Grid>
+</UserControl>
