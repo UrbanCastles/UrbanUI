@@ -26,6 +26,26 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 
 ## Usage:
 
+### Modify `App.xaml`:
+
+Open your `App.xaml` file and make the following modifications:
+
+1. Add the Urban UI namespace at the top of the file:
+
+    ```xml
+    xmlns:urbanui="clr-namespace:UrbanUI.WPF.Controls;assembly=UrbanUI.WPF"
+    ```
+
+2. Include the Urban UI `ControlsDictionary` in the `MergedDictionaries` section:
+
+    ```xml
+    <ResourceDictionary.MergedDictionaries>
+        <urbanui:ControlsDictionary/>
+    </ResourceDictionary.MergedDictionaries>
+    ```
+
+These changes integrate Urban UI controls into your WPF application, providing a seamless modern look.
+
 ### Modify `MainWindow.xaml`:
 
 Open your `MainWindow.xaml` file and make the following modifications:
