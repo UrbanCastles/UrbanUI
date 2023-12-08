@@ -24,6 +24,40 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 2. Integrate the library into your WPF project.
 3. Explore the enhanced controls and start creating a modern user interface.
 
+## Usage:
+
+### Modify `MainWindow.xaml`:
+
+Open your `MainWindow.xaml` file and make the following modifications:
+
+1. Add the Urban UI namespace at the top of the file:
+
+    ```xml
+    xmlns:urbanUI="clr-namespace:UrbanUI.WPF.Controls;assembly=UrbanUI.WPF"
+    ```
+
+2. Replace your existing `Window` declaration with the Urban UI `FlatWindow`:
+
+    ```xml
+    <urbanUI:FlatWindow x:Class="OGS_MultiTool.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:urbanUI="clr-namespace:UrbanUI.WPF.Controls;assembly=UrbanUI.WPF"
+                 Width="800"
+                 Height="600"
+                 MinWidth="650"
+                 MinHeight="600"
+                 Title="Multi-Tool"
+                 mc:Ignorable="d" ResizeMode="CanResize" WindowStyle="SingleBorderWindow">
+    </urbanUI:FlatWindow>
+    ```
+
+These changes allow you to use the Urban UI `FlatWindow` in your MainWindow, providing a modernized and customizable window layout.
+
+---
+
 ## Screenshots:
 
 1. **Sample UI Application:**
