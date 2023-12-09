@@ -56,10 +56,10 @@ Open your `MainWindow.xaml` file and make the following modifications:
     xmlns:urbanUI="clr-namespace:UrbanUI.WPF.Controls;assembly=UrbanUI.WPF"
     ```
 
-2. Replace your existing `Window` declaration with the Urban UI `FlatWindow`:
+2. Replace your existing `Window` declaration with the Urban UI `Window`:
 
     ```xml
-    <urbanUI:FlatWindow x:Class="OGS_MultiTool.MainWindow"
+    <urbanUI:Window x:Class="MultiTool.MainWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -71,10 +71,10 @@ Open your `MainWindow.xaml` file and make the following modifications:
                  MinHeight="600"
                  Title="Multi-Tool"
                  mc:Ignorable="d" ResizeMode="CanResize">
-    </urbanUI:FlatWindow>
+    </urbanUI:Window>
     ```
 
-These changes allow you to use the Urban UI `FlatWindow` in your MainWindow, providing a modernized and customizable window layout.
+These changes allow you to use the Urban UI `Window` in your MainWindow, providing a modernized and customizable window layout.
 
 ---
 
