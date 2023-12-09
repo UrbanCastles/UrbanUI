@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
+                    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
+
+    <converter:BorderClipConverter x:Key="BorderClipConverter"/>
+
+    <Style x:Key="UrbanUI.WPF.ClipBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Border.Clip">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="CornerRadius"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource UrbanUI.WPF.ClipBorderStyle}" TargetType="{x:Type local:ClipBorder}"/>
+
+</ResourceDictionary>

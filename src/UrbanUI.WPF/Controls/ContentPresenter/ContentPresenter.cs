@@ -1,20 +1,18 @@
-﻿
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace UrbanUI.WPF.Controls
 {
 
-   public class CustomContentPresenter : ContentPresenter
+   public class ContentPresenter : System.Windows.Controls.ContentPresenter
    {
-      static CustomContentPresenter()
+      static ContentPresenter()
       {
-         ContentProperty.OverrideMetadata(typeof(CustomContentPresenter), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnContentChanged)));
+         ContentProperty.OverrideMetadata(typeof(ContentPresenter), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnContentChanged)));
       }
 
       private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
       {
-         var mcc = d as CustomContentPresenter;
+         var mcc = d as ContentPresenter;
          mcc?.ContentChanged?.Invoke(mcc, new DependencyPropertyChangedEventArgs(ContentProperty, e.OldValue, e.NewValue));
       }
 

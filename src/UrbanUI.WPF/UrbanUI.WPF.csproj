@@ -10,7 +10,7 @@
   <ItemGroup>
     <Compile Remove="Controls\Button\IconTextButton.cs" />
     <Compile Remove="Controls\Card\Cards.xaml.cs" />
-    <Compile Remove="Controls\UI\FlatWindowEHE.xaml.cs" />
+    <Compile Remove="Controls\Window\FlatWindowEHE.xaml.cs" />
     <Compile Remove="HybridControls\CircularProgressBar.xaml.cs" />
     <Compile Remove="HybridControls\ToggleButtonControl.xaml.cs" />
   </ItemGroup>
@@ -22,17 +22,13 @@
   <ItemGroup>
     <Page Remove="Controls\Button\IconTextButton.xaml" />
     <Page Remove="Controls\Card\Cards.xaml" />
-    <Page Remove="Controls\UI\FlatWindowEHE.xaml" />
+    <Page Remove="Controls\Window\FlatWindowEHE.xaml" />
     <Page Remove="HybridControls\CircularProgressBar.xaml" />
     <Page Remove="HybridControls\ToggleButtonControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\WindowButtonConfig\src\UrbanCastle.WinButtonConfig\UrbanCastle.WinButtonConfig.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,7 +61,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\UI\Window.xaml">
+    <Page Update="Controls\Window\Window.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
   </ItemGroup>

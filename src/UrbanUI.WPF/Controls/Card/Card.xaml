@@ -3,12 +3,19 @@
                     xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
                     xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
 
-    <converter:BorderClipConverter x:Key="CardBorderClipConverter"/>
     <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 
     <ControlTemplate x:Key="CardControlTemplateStyle" TargetType="{x:Type local:Card}">
-        
-        <local:Button x:Name="PART_mainBorderButton" 
+
+        <local:ClipBorder CornerRadius="{TemplateBinding CornerRadius}" Background="{x:Null}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <local:Button x:Name="PART_mainBorderButton" 
                           CornerRadius="{TemplateBinding CornerRadius}"
                           Background="{TemplateBinding Background}"
                           Foreground="{TemplateBinding Foreground}"
@@ -18,43 +25,37 @@
                           MouseEnterForeground="{TemplateBinding MouseHoverForeground}"
                           MousePressedBackground="{TemplateBinding PressedBackground}"
                           MousePressedForeground="{TemplateBinding PressedForeground}"
-                          IsEnabled="{TemplateBinding IsEnabled}">
+                          IsEnabled="{TemplateBinding IsEnabled}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Grid.RowSpan="2"/>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
 
-                <Border Margin="10" 
+                <local:ClipBorder Margin="10"
                         CornerRadius="{TemplateBinding ImageBorderCornerRadius}" 
                         Background="{TemplateBinding ImageBackgroundColor}"
                         MinWidth="{TemplateBinding IconBorderMinWidth}"
-                        MinHeight="{TemplateBinding IconBorderMinHeight}">
-                    <Border.Clip>
-                        <MultiBinding Converter="{StaticResource CardBorderClipConverter}">
-                            <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
-                            <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
-                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ImageBorderCornerRadius"/>
-                        </MultiBinding>
-                    </Border.Clip>
+                        MinHeight="{TemplateBinding IconBorderMinHeight}"
+                        IsHitTestVisible="False">
 
                     <Grid>
                         <local:PathIconControl x:Name="PART_pathIcon" 
                                                Path="{TemplateBinding IconPath}" 
                                                Opacity="{TemplateBinding ImageOpacity}" 
                                                Color="{TemplateBinding IconColor}" 
-                                               Margin="{TemplateBinding ImageMargin}"/>
+                                               Margin="{TemplateBinding ImageMargin}"
+                                               IsHitTestVisible="False"/>
 
                         <Image x:Name="PART_cardImage" Stretch="UniformToFill" 
                                                Source="{TemplateBinding ImageSource}" 
                                                Opacity="{TemplateBinding ImageOpacity}" 
                                                IsEnabled="{TemplateBinding IsEnabled}" 
-                                               Margin="{TemplateBinding ImageMargin}"/>
+                                               Margin="{TemplateBinding ImageMargin}"
+                                               IsHitTestVisible="False"/>
                     </Grid>
-                </Border>
+                </local:ClipBorder>
 
-                <StackPanel Grid.Row="1" Margin="10,0,10,10">
+                <StackPanel Grid.Row="1" Margin="10,0,10,10" IsHitTestVisible="False">
                     <TextBlock Name="PART_titleText" 
                                Text="{TemplateBinding TitleText}" 
                                Visibility="{TemplateBinding TitleText,  Converter={StaticResource StringToVisibilityConverter}}"
@@ -62,7 +63,8 @@
                                FontSize="{TemplateBinding FontSize}" 
                                FontStyle="{TemplateBinding FontStyle}" 
                                Foreground="{TemplateBinding Foreground}"
-                               TextTrimming="CharacterEllipsis"/>
+                               TextTrimming="CharacterEllipsis" 
+                               IsHitTestVisible="False"/>
 
                     <TextBlock Name="PART_subtext"
                                Text="{TemplateBinding SubText}" 
@@ -70,7 +72,8 @@
                                FontWeight="{TemplateBinding SubTextFontWeight}" 
                                FontSize="{TemplateBinding SubTextFontSize}" 
                                FontStyle="{TemplateBinding SubTextFontStyle}" 
-                               TextTrimming="CharacterEllipsis"/>
+                               TextTrimming="CharacterEllipsis" 
+                               IsHitTestVisible="False"/>
 
                     <TextBlock Name="PART_messageText" 
                                Text="{TemplateBinding MessageText}"  
@@ -78,12 +81,15 @@
                                FontWeight="{TemplateBinding MessageTextFontWeight}" 
                                FontSize="{TemplateBinding MessageTextFontSize}" 
                                FontStyle="{TemplateBinding MessageTextFontStyle}" 
-                               TextTrimming="CharacterEllipsis"/>
+                               TextTrimming="CharacterEllipsis" 
+                               IsHitTestVisible="False"/>
                 </StackPanel>
 
             </Grid>
+
+        </local:ClipBorder>
+
             
-        </local:Button>
 
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">

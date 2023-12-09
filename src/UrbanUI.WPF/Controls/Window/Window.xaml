@@ -20,11 +20,8 @@
                     </Grid.ColumnDefinitions>
                     <Grid x:Name="PART_dragGrid" IsHitTestVisible="True" Background="Transparent">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15, 0 0 0">
-                            <Image x:Name="PART_windowIcon" Width="16" Height="16" Source="{TemplateBinding Icon}">
-                                <!--<Image.Source>
-                                    <BitmapImage UriSource="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </Image.Source>-->
-                            </Image>
+                            <Image x:Name="PART_windowIcon" Width="16" Height="16" Source="{TemplateBinding Icon}"/>
+                            
                             <TextBlock x:Name="PART_windowTitle" Text="{TemplateBinding Title}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" TextTrimming="CharacterEllipsis" 
                                        IsEnabled="{TemplateBinding IsActive}" 
                                        FontSize="{TemplateBinding FontSize}"
@@ -67,9 +64,7 @@
                 <WindowChrome CaptionHeight="0"
                               ResizeBorderThickness="4"
                               NonClientFrameEdges="Right"
-                              UseAeroCaptionButtons="False"
-                              
-                              />
+                              UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="WindowStyle" Value="SingleBorderWindow" />

@@ -203,7 +203,7 @@ namespace UrbanUI.WPF.Controls
 
          base.OnApplyTemplate();
 
-         if (_mainBorder != null && _contentHost != null)
+         if (_mainBorder != null && _iconControl != null)
          {
             _templateApplied = true;
 

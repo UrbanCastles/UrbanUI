@@ -11,7 +11,7 @@
     <UserControl.Template>
         <ControlTemplate TargetType="UserControl">
             <Grid Name="contentGrid">
-                <local:CustomContentPresenter x:Name="contentPresenter"  Content="{TemplateBinding Content}"  ContentChanged="contentPresenter_ContentChanged"/>
+                <local:ContentPresenter x:Name="contentPresenter"  Content="{TemplateBinding Content}"  ContentChanged="contentPresenter_ContentChanged"/>
             </Grid>
         </ControlTemplate>
     </UserControl.Template>

@@ -2,29 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
                     xmlns:controls="clr-namespace:UrbanUI.WPF.Controls"
-                    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters"
-                    x:Name="flatButton">
+                    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
 
-
-
-    <converter:BorderClipConverter x:Key="FlatButtondBorderClipConverter"/>
     <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 
 
     <ControlTemplate x:Key="FlatButtonControlTemplateStyle" TargetType="{x:Type local:Button}">
 
-        <Border x:Name="PART_mainBorder"
+        <local:ClipBorder x:Name="PART_mainBorder"
                             BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Background="{TemplateBinding Background}">
-            <Border.Clip>
-                <MultiBinding Converter="{StaticResource FlatButtondBorderClipConverter}">
-                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
-                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
-                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="CornerRadius"/>
-                </MultiBinding>
-            </Border.Clip>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                 <controls:PathIconControl x:Name="PART_iconControl" 
@@ -55,7 +44,7 @@
                 </ContentPresenter>
             </StackPanel>
 
-        </Border>
+        </local:ClipBorder>
 
         <ControlTemplate.Triggers>
 

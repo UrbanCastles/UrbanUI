@@ -8,11 +8,10 @@ using System.Windows.Interop;
 using UrbanUI.WPF.Themes;
 using UrbanUI.WPF.Win32;
 using UrbanUI.WPF.Win32.Interop.Methods;
-using UrbanCastle.WinButtonConfig;
 using Icon = UrbanUI.WPF.Themes.Icon;
-using System.Diagnostics;
 using System.Windows.Media.Imaging;
 using System.IO;
+using UrbanUI.WPF.Win32.WinBUttonContext;
 
 namespace UrbanUI.WPF.Controls
 {
