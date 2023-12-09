@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
+                    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
+
+    <converter:BorderClipConverter x:Key="CardBorderClipConverter"/>
+    <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+
+    <ControlTemplate x:Key="CardControlTemplateStyle" TargetType="{x:Type local:Card}">
+        
+        <local:Button x:Name="PART_mainBorderButton" 
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Background="{TemplateBinding Background}"
+                          Foreground="{TemplateBinding Foreground}"
+                          DisabledBackground="{TemplateBinding DisabledBackground}"
+                          DisabledForeground="{TemplateBinding DisabledForeground}"
+                          MouseEnterBackground="{TemplateBinding MouseHoverBackground}"
+                          MouseEnterForeground="{TemplateBinding MouseHoverForeground}"
+                          MousePressedBackground="{TemplateBinding PressedBackground}"
+                          MousePressedForeground="{TemplateBinding PressedForeground}"
+                          IsEnabled="{TemplateBinding IsEnabled}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Margin="10" 
+                        CornerRadius="{TemplateBinding ImageBorderCornerRadius}" 
+                        Background="{TemplateBinding ImageBackgroundColor}"
+                        MinWidth="{TemplateBinding IconBorderMinWidth}"
+                        MinHeight="{TemplateBinding IconBorderMinHeight}">
+                    <Border.Clip>
+                        <MultiBinding Converter="{StaticResource CardBorderClipConverter}">
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ImageBorderCornerRadius"/>
+                        </MultiBinding>
+                    </Border.Clip>
+
+                    <Grid>
+                        <local:PathIconControl x:Name="PART_pathIcon" 
+                                               Path="{TemplateBinding IconPath}" 
+                                               Opacity="{TemplateBinding ImageOpacity}" 
+                                               Color="{TemplateBinding IconColor}" 
+                                               Margin="{TemplateBinding ImageMargin}"/>
+
+                        <Image x:Name="PART_cardImage" Stretch="UniformToFill" 
+                                               Source="{TemplateBinding ImageSource}" 
+                                               Opacity="{TemplateBinding ImageOpacity}" 
+                                               IsEnabled="{TemplateBinding IsEnabled}" 
+                                               Margin="{TemplateBinding ImageMargin}"/>
+                    </Grid>
+                </Border>
+
+                <StackPanel Grid.Row="1" Margin="10,0,10,10">
+                    <TextBlock Name="PART_titleText" 
+                               Text="{TemplateBinding TitleText}" 
+                               Visibility="{TemplateBinding TitleText,  Converter={StaticResource StringToVisibilityConverter}}"
+                               FontWeight="{TemplateBinding FontWeight}" 
+                               FontSize="{TemplateBinding FontSize}" 
+                               FontStyle="{TemplateBinding FontStyle}" 
+                               Foreground="{TemplateBinding Foreground}"
+                               TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock Name="PART_subtext"
+                               Text="{TemplateBinding SubText}" 
+                               Visibility="{TemplateBinding SubText,  Converter={StaticResource StringToVisibilityConverter}}"
+                               FontWeight="{TemplateBinding SubTextFontWeight}" 
+                               FontSize="{TemplateBinding SubTextFontSize}" 
+                               FontStyle="{TemplateBinding SubTextFontStyle}" 
+                               TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock Name="PART_messageText" 
+                               Text="{TemplateBinding MessageText}"  
+                               Visibility="{TemplateBinding MessageText,  Converter={StaticResource StringToVisibilityConverter}}"
+                               FontWeight="{TemplateBinding MessageTextFontWeight}" 
+                               FontSize="{TemplateBinding MessageTextFontSize}" 
+                               FontStyle="{TemplateBinding MessageTextFontStyle}" 
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+            </Grid>
+            
+        </local:Button>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_titleText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
+                <Setter TargetName="PART_subtext" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
+                <Setter TargetName="PART_messageText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+        
+    </ControlTemplate>
+
+
+    <Style x:Key="UrbanUI.WPF.CardDefaultStyle" TargetType="{x:Type local:Card}">
+        <Setter Property="Template" Value="{StaticResource CardControlTemplateStyle}"/>
+    </Style>
+
+    <Style BasedOn="{StaticResource UrbanUI.WPF.CardDefaultStyle}" TargetType="{x:Type local:Card}"/>
+
+</ResourceDictionary>

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
-             xmlns:hybrid="clr-namespace:UrbanUI.WPF.HybridControls"
              mc:Ignorable="d" 
              x:Name="jumbotronControl"
              d:DesignHeight="300" d:DesignWidth="600">
@@ -20,9 +19,10 @@
             <TextBlock Name="introTitleText" Text="{Binding IntroText, ElementName=jumbotronControl}" HorizontalAlignment="Left" Margin="0,0,0,4" FontSize="16" FontWeight="Light" TextWrapping="WrapWithOverflow" Foreground="{Binding Foreground, ElementName=jumbotronControl}"/>
             <TextBlock Name="titleText" Text="{Binding TitleText, ElementName=jumbotronControl}" HorizontalAlignment="Left" Margin="0,0,0,4" FontSize="20" FontWeight="Bold" TextWrapping="WrapWithOverflow" Foreground="{Binding Foreground, ElementName=jumbotronControl}"/>
             <TextBlock Name="messageText" Text="{Binding MessageText, ElementName=jumbotronControl}" HorizontalAlignment="Left" Margin="0,0,0,4" FontSize="14" FontWeight="Light" TextWrapping="WrapWithOverflow" Foreground="{Binding Foreground, ElementName=jumbotronControl}"/>
-            <hybrid:ImageButton x:Name="mainButton" Content="{Binding ButtonText, ElementName=jumbotronControl}" Margin="0,0,0,0" MinWidth="100" HorizontalAlignment="Left" CornerRadius="6" FontSize="12" FontWeight="Light"
-                                PressedBackground="{Binding ButtonPressedBackground, ElementName=jumbotronControl}" PressedForeground="{Binding ButtonPressedForeground, ElementName=jumbotronControl}" 
-                                Background="{Binding ButtonBackground, ElementName=jumbotronControl}" Foreground="{Binding ButtonForeground, ElementName=jumbotronControl}" MouseEnter="ImageButton_MouseEnter" MouseLeave="ImageButton_MouseLeave" Click="mainButton_Click"/>
+            <local:Button x:Name="mainButton" Content="{Binding ButtonText, ElementName=jumbotronControl}" MinWidth="100" HorizontalAlignment="Left" CornerRadius="6" FontSize="12" FontWeight="Light" Height="30"
+                              MousePressedBackground="{Binding ButtonPressedBackground, ElementName=jumbotronControl}" MousePressedForeground="{Binding ButtonPressedForeground, ElementName=jumbotronControl}"
+                              MouseEnterBackground="{Binding ButtonHighlightBackground, ElementName=jumbotronControl}"
+                              Background="{Binding ButtonBackground, ElementName=jumbotronControl}" Foreground="{Binding ButtonForeground, ElementName=jumbotronControl}"  Click="mainButton_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

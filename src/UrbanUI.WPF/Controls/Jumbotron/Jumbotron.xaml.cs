@@ -221,16 +221,6 @@ namespace UrbanUI.WPF.Controls
          }
       }
 
-      private void ImageButton_MouseEnter(object sender, MouseEventArgs e)
-      {
-         mainButton.Background = ButtonHighlightBackground;
-      }
-
-      private void ImageButton_MouseLeave(object sender, MouseEventArgs e)
-      {
-         mainButton.Background = ButtonBackground;
-      }
-
       public void SetThemeUI(Theme theme, bool UpdateContentThemes = false)
       {
          _theme = theme;

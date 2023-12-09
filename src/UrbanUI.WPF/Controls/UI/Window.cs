@@ -16,23 +16,23 @@ using System.IO;
 
 namespace UrbanUI.WPF.Controls
 {
-   [TemplatePart(Name = "PART_minimizeButton", Type = typeof(FlatButton))]
-   [TemplatePart(Name = "PART_maximizeButton", Type = typeof(FlatButton))]
-   [TemplatePart(Name = "PART_restoreButton", Type = typeof(FlatButton))]
-   [TemplatePart(Name = "PART_closeButton", Type = typeof(FlatButton))]
+   [TemplatePart(Name = "PART_minimizeButton", Type = typeof(Button))]
+   [TemplatePart(Name = "PART_maximizeButton", Type = typeof(Button))]
+   [TemplatePart(Name = "PART_restoreButton", Type = typeof(Button))]
+   [TemplatePart(Name = "PART_closeButton", Type = typeof(Button))]
    [TemplatePart(Name = "PART_dragGrid", Type = typeof(Grid))]
    [TemplatePart(Name = "PART_MainGridContainer", Type = typeof(Border))]
    [TemplatePart(Name = "PART_windowIcon", Type = typeof(System.Windows.Controls.Image))]
    [TemplatePart(Name = "PART_windowTitle", Type = typeof(TextBlock))]
    [TemplatePart(Name = "PART_ContentPresenter", Type = typeof(ContentPresenter))]
 
-   public partial class FlatWindow : System.Windows.Window, ITheme
+   public partial class Window : System.Windows.Window, ITheme
    {
       #region Initializations
       private bool mRestoreIfMove = false;
       private Theme? _theme;
 
-      internal FlatButton? minimizeButton, maximizeButton, restoreButton, closeButton;
+      internal Button? minimizeButton, maximizeButton, restoreButton, closeButton;
       private Grid? dragGrid;
       private Border? MainGridContainer;
       private System.Windows.Controls.Image? windowIcon;
@@ -42,10 +42,10 @@ namespace UrbanUI.WPF.Controls
       #endregion Initializations
 
 
-      public FlatWindow()
+      public Window()
       {
          #region Setups
-         DefaultStyleKeyProperty.OverrideMetadata(typeof(FlatWindow), new FrameworkPropertyMetadata(typeof(FlatWindow)));
+         DefaultStyleKeyProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata(typeof(Window)));
 
          double currentDPIScaleFactor =
                 (double)SystemDPI.GetCurrentDPIScaleFactor();
@@ -81,19 +81,19 @@ namespace UrbanUI.WPF.Controls
       #region On Apply Template
       public override void OnApplyTemplate()
       {
-         minimizeButton = GetTemplateChild("PART_minimizeButton") as FlatButton;
+         minimizeButton = GetTemplateChild("PART_minimizeButton") as Button;
          if (minimizeButton != null)
             minimizeButton.Click += MinimizeButton_Click;
 
-         maximizeButton = GetTemplateChild("PART_maximizeButton") as FlatButton;
+         maximizeButton = GetTemplateChild("PART_maximizeButton") as Button;
          if (maximizeButton != null)
             maximizeButton.Click += MaximizeAndRestoreButton_Click;
 
-         restoreButton = GetTemplateChild("PART_restoreButton") as FlatButton;
+         restoreButton = GetTemplateChild("PART_restoreButton") as Button;
          if (restoreButton != null)
             restoreButton.Click += MaximizeAndRestoreButton_Click;
 
-         closeButton = GetTemplateChild("PART_closeButton") as FlatButton;
+         closeButton = GetTemplateChild("PART_closeButton") as Button;
          if (closeButton != null)
             closeButton.Click += CloseButton_Click;
 
@@ -189,7 +189,7 @@ namespace UrbanUI.WPF.Controls
          }
       }
 
-      private void ChangeWindowButtonColor(FlatButton? winButton, Theme theme, Icon? icon)
+      private void ChangeWindowButtonColor(Button? winButton, Theme theme, Icon? icon)
       {
          if (theme == null || winButton == null)
          {

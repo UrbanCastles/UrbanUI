@@ -2,18 +2,31 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
                     xmlns:controls="clr-namespace:UrbanUI.WPF.Controls"
+                    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters"
                     x:Name="flatButton">
 
 
-    <ControlTemplate x:Key="FlatButtonControlTemplateStyle" TargetType="{x:Type local:FlatButton}">
+
+    <converter:BorderClipConverter x:Key="FlatButtondBorderClipConverter"/>
+    <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+
+
+    <ControlTemplate x:Key="FlatButtonControlTemplateStyle" TargetType="{x:Type local:Button}">
 
         <Border x:Name="PART_mainBorder"
                             BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Background="{TemplateBinding Background}">
+            <Border.Clip>
+                <MultiBinding Converter="{StaticResource FlatButtondBorderClipConverter}">
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="CornerRadius"/>
+                </MultiBinding>
+            </Border.Clip>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                 <controls:PathIconControl x:Name="PART_iconControl" 
                                                       Width="{TemplateBinding PathIconWidth}" 
                                                       Height="{TemplateBinding PathIconHeight}" 
@@ -21,21 +34,22 @@
                                                       IsEnabled="{TemplateBinding IsEnabled}"  
                                                       Path="{TemplateBinding IconPath}"
                                                       Margin="{TemplateBinding IconMargin}"
-                                                      Color="{TemplateBinding IconColor}"/>
+                                                      Color="{TemplateBinding IconColor}"
+                                                      Visibility="{TemplateBinding IconPath, Converter={StaticResource StringToVisibilityConverter}}"/>
 
                 <ContentPresenter x:Name="PART_contentHost" 
-                                              Focusable="False" 
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Focusable="False"
                                               Margin="{TemplateBinding Padding}" 
                                               RecognizesAccessKey="True" 
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               TextElement.Foreground="{TemplateBinding Foreground}"
                                               Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" >
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                     <ContentPresenter.Resources>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="TextDecorations" Value="{Binding Path=TextStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}" />
+                            <Setter Property="TextDecorations" Value="{Binding Path=TextStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
                         </Style>
                     </ContentPresenter.Resources>
                 </ContentPresenter>
@@ -46,26 +60,26 @@
         <ControlTemplate.Triggers>
 
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}" />
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}" />
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}" />
+                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
+                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=MouseEnterForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
             </Trigger>
             <DataTrigger Binding="{Binding PressedIconPath}" Value="{x:Null}">
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FlatButton}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
             </DataTrigger>
 
             <Trigger Property="IconPath" Value="{x:Null}">
                 <Setter TargetName="PART_iconControl" Property="Margin" Value="0" />
-                <Setter TargetName="PART_iconControl" Property="Visibility" Value="Collapsed" />
             </Trigger>
 
 
@@ -173,14 +187,16 @@
 
 
 
-    <Style TargetType="{x:Type local:FlatButton}" x:Key="UrbanUI.WPF.FlatButtonUIStyle">
+    <Style TargetType="{x:Type local:Button}" x:Key="UrbanUI.WPF.FlatButtonUIStyle">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Template" Value="{StaticResource FlatButtonControlTemplateStyle}">
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource UrbanUI.WPF.FlatButtonUIStyle}" TargetType="{x:Type local:FlatButton}"/>
+    <Style BasedOn="{StaticResource UrbanUI.WPF.FlatButtonUIStyle}" TargetType="{x:Type local:Button}"/>
 </ResourceDictionary>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using UrbanUI.WPF.Themes;
@@ -7,9 +6,9 @@ using UrbanUI.WPF.Themes;
 namespace UrbanUI.WPF.Controls
 {
    [TemplatePart(Name = "PART_mainBorder", Type = typeof(Border))]
-   [TemplatePart(Name = "PART_iconControl", Type = typeof(PathIconControl))]
    [TemplatePart(Name = "PART_contentHost", Type = typeof(ContentPresenter))]
-   public partial class FlatButton : System.Windows.Controls.Button, ITheme
+   [TemplatePart(Name = "PART_iconControl", Type = typeof(PathIconControl))]
+   public partial class Button : System.Windows.Controls.Button, ITheme
    {
       #region Dependency Properties
 
@@ -19,8 +18,17 @@ namespace UrbanUI.WPF.Controls
          get { return (Brush)GetValue(MouseEnterBackgroundProperty); }
          set { SetValue(MouseEnterBackgroundProperty, value); }
       }
-      public static readonly DependencyProperty MouseEnterBackgroundProperty = DependencyProperty.Register(nameof(MouseEnterBackground), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.Green));
+      public static readonly DependencyProperty MouseEnterBackgroundProperty = DependencyProperty.Register(nameof(MouseEnterBackground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Green));
       #endregion DP: MouseEnterBackground
+
+      #region DP: MouseEnterForeground
+      public Brush MouseEnterForeground
+      {
+         get { return (Brush)GetValue(MouseEnterForegroundProperty); }
+         set { SetValue(MouseEnterForegroundProperty, value); }
+      }
+      public static readonly DependencyProperty MouseEnterForegroundProperty = DependencyProperty.Register(nameof(MouseEnterForeground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.White));
+      #endregion DP: MouseEnterForeground
 
       #region DP: MousePressedBackground
       public Brush MousePressedBackground
@@ -28,7 +36,7 @@ namespace UrbanUI.WPF.Controls
          get { return (Brush)GetValue(MousePressedBackgroundProperty); }
          set { SetValue(MousePressedBackgroundProperty, value); }
       }
-      public static readonly DependencyProperty MousePressedBackgroundProperty = DependencyProperty.Register(nameof(MousePressedBackground), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.DarkGreen));
+      public static readonly DependencyProperty MousePressedBackgroundProperty = DependencyProperty.Register(nameof(MousePressedBackground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.DarkGreen));
       #endregion DP: MousePressedBackground
 
       #region DP: MousePressedForeground
@@ -37,7 +45,7 @@ namespace UrbanUI.WPF.Controls
          get { return (Brush)GetValue(MousePressedForegroundProperty); }
          set { SetValue(MousePressedForegroundProperty, value); }
       }
-      public static readonly DependencyProperty MousePressedForegroundProperty = DependencyProperty.Register(nameof(MousePressedForeground), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.White));
+      public static readonly DependencyProperty MousePressedForegroundProperty = DependencyProperty.Register(nameof(MousePressedForeground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.White));
       #endregion DP: MousePressedForeground
 
       #region DP: DisabledBackground
@@ -46,7 +54,7 @@ namespace UrbanUI.WPF.Controls
          get { return (Brush)GetValue(DisabledBackgroundProperty); }
          set { SetValue(DisabledBackgroundProperty, value); }
       }
-      public static readonly DependencyProperty DisabledBackgroundProperty = DependencyProperty.Register(nameof(DisabledBackground), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.DarkGray));
+      public static readonly DependencyProperty DisabledBackgroundProperty = DependencyProperty.Register(nameof(DisabledBackground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.DarkGray));
       #endregion DP: MousePressedBackground
 
       #region DP: DisabledForeground
@@ -55,72 +63,7 @@ namespace UrbanUI.WPF.Controls
          get { return (Brush)GetValue(DisabledForegroundProperty); }
          set { SetValue(DisabledForegroundProperty, value); }
       }
-      public static readonly DependencyProperty DisabledForegroundProperty = DependencyProperty.Register(nameof(DisabledForeground), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.Gray));
-      #endregion DP: MousePressedBackground
-
-      #region DP: IconPath
-      public string IconPath
-      {
-         get { return (string)GetValue(IconPathProperty); }
-         set { SetValue(IconPathProperty, value); }
-      }
-      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(string), typeof(FlatButton), new PropertyMetadata(null));
-      #endregion DP: IconPath
-
-      #region DP: IconMargin
-      public Thickness IconMargin
-      {
-         get { return (Thickness)GetValue(IconMarginProperty); }
-         set { SetValue(IconMarginProperty, value); }
-      }
-      public static readonly DependencyProperty IconMarginProperty = DependencyProperty.Register(nameof(IconMargin), typeof(Thickness), typeof(FlatButton), new PropertyMetadata(new Thickness(0)));
-      #endregion DP: IconMargin
-
-      #region DP: PressedIconPath
-      public string PressedIconPath
-      {
-         get { return (string)GetValue(PressedIconPathProperty); }
-         set { SetValue(PressedIconPathProperty, value); }
-      }
-      public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(string), typeof(FlatButton), new PropertyMetadata(null));
-      #endregion DP: PressedIconPath
-
-      #region DP: IconColor
-      public Brush IconColor
-      {
-         get { return (Brush)GetValue(IconColorProperty); }
-         set { SetValue(IconColorProperty, value); }
-      }
-      public static readonly DependencyProperty IconColorProperty = DependencyProperty.Register(nameof(IconColor), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.Green));
-      #endregion DP:IconColor
-
-      #region DP: PressedIconColor
-      public Brush PressedIconColor
-      {
-         get { return (Brush)GetValue(PressedIconColorProperty); }
-         set { SetValue(PressedIconColorProperty, value); }
-      }
-
-      public static readonly DependencyProperty PressedIconColorProperty = DependencyProperty.Register(nameof(PressedIconColor), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.Gray));
-      #endregion DP:PressedIconColor
-
-      #region DP: MouseEnterIconColor
-      public Brush MouseEnterIconColor
-      {
-         get { return (Brush)GetValue(MouseEnterIconColorProperty); }
-         set { SetValue(MouseEnterIconColorProperty, value); }
-      }
-
-      public static readonly DependencyProperty MouseEnterIconColorProperty = DependencyProperty.Register(nameof(MouseEnterIconColor), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.Black));
-      #endregion DP: MouseEnterIconColor
-
-      #region DP: DisabledIconColor
-      public Brush DisabledIconColor
-      {
-         get { return (Brush)GetValue(DisabledIconColorProperty); }
-         set { SetValue(DisabledIconColorProperty, value); }
-      }
-      public static readonly DependencyProperty DisabledIconColorProperty = DependencyProperty.Register(nameof(DisabledIconColor), typeof(Brush), typeof(FlatButton), new PropertyMetadata(Brushes.LightGray));
+      public static readonly DependencyProperty DisabledForegroundProperty = DependencyProperty.Register(nameof(DisabledForeground), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Gray));
       #endregion DP: MousePressedBackground
 
       #region DP: CornerRadius
@@ -130,26 +73,8 @@ namespace UrbanUI.WPF.Controls
          set { SetValue(CornerRadiusProperty, value); }
       }
 
-      public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(FlatButton), new PropertyMetadata(new CornerRadius(0)));
+      public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(Button), new PropertyMetadata(new CornerRadius(0)));
       #endregion DP: CornerRadius
-
-      #region DP: PathIconWidth
-      public double PathIconWidth
-      {
-         get { return (double)GetValue(PathIconWidthProperty); }
-         set { SetValue(PathIconWidthProperty, value); }
-      }
-      public static readonly DependencyProperty PathIconWidthProperty = DependencyProperty.Register(nameof(PathIconWidth), typeof(double), typeof(FlatButton), new PropertyMetadata(12.0));
-      #endregion DP: PathIconWidth
-
-      #region DP: PathIconHeight
-      public double PathIconHeight
-      {
-         get { return (double)GetValue(PathIconHeightProperty); }
-         set { SetValue(PathIconHeightProperty, value); }
-      }
-      public static readonly DependencyProperty PathIconHeightProperty = DependencyProperty.Register(nameof(PathIconHeight), typeof(double), typeof(FlatButton), new PropertyMetadata(12.0));
-      #endregion DP: PathIconHeight
 
       #region DP: ButtonAppearance
       public ButtonAppearance? ButtonAppearance
@@ -157,7 +82,7 @@ namespace UrbanUI.WPF.Controls
          get { return (ButtonAppearance)GetValue(ButtonAppearanceProperty); }
          set { SetValue(ButtonAppearanceProperty, value); }
       }
-      public static readonly DependencyProperty ButtonAppearanceProperty = DependencyProperty.Register(nameof(ButtonAppearance), typeof(ButtonAppearance?), typeof(FlatButton), new PropertyMetadata(null));
+      public static readonly DependencyProperty ButtonAppearanceProperty = DependencyProperty.Register(nameof(ButtonAppearance), typeof(ButtonAppearance?), typeof(Button), new PropertyMetadata(null));
       #endregion DP: ButtonAppearance
 
       #region DP: TextStyle
@@ -166,8 +91,91 @@ namespace UrbanUI.WPF.Controls
          get { return (TextDecorationCollection)GetValue(TextStyleProperty); }
          set { SetValue(TextStyleProperty, value); }
       }
-      public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register(nameof(TextStyle), typeof(TextDecorationCollection), typeof(FlatButton), new PropertyMetadata(null));
+      public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register(nameof(TextStyle), typeof(TextDecorationCollection), typeof(Button), new PropertyMetadata(null));
       #endregion DP: TextStyle
+
+      #region DP: IconPath
+      public string IconPath
+      {
+         get { return (string)GetValue(IconPathProperty); }
+         set { SetValue(IconPathProperty, value); }
+      }
+      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(string), typeof(Button), new PropertyMetadata(null));
+      #endregion DP: IconPath
+
+      #region DP: IconMargin
+      public Thickness IconMargin
+      {
+         get { return (Thickness)GetValue(IconMarginProperty); }
+         set { SetValue(IconMarginProperty, value); }
+      }
+      public static readonly DependencyProperty IconMarginProperty = DependencyProperty.Register(nameof(IconMargin), typeof(Thickness), typeof(Button), new PropertyMetadata(new Thickness(0)));
+      #endregion DP: IconMargin
+
+      #region DP: PressedIconPath
+      public string PressedIconPath
+      {
+         get { return (string)GetValue(PressedIconPathProperty); }
+         set { SetValue(PressedIconPathProperty, value); }
+      }
+      public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(string), typeof(Button), new PropertyMetadata(null));
+      #endregion DP: PressedIconPath
+
+      #region DP: IconColor
+      public Brush IconColor
+      {
+         get { return (Brush)GetValue(IconColorProperty); }
+         set { SetValue(IconColorProperty, value); }
+      }
+      public static readonly DependencyProperty IconColorProperty = DependencyProperty.Register(nameof(IconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Green));
+      #endregion DP:IconColor
+
+      #region DP: PressedIconColor
+      public Brush PressedIconColor
+      {
+         get { return (Brush)GetValue(PressedIconColorProperty); }
+         set { SetValue(PressedIconColorProperty, value); }
+      }
+
+      public static readonly DependencyProperty PressedIconColorProperty = DependencyProperty.Register(nameof(PressedIconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Gray));
+      #endregion DP:PressedIconColor
+
+      #region DP: MouseEnterIconColor
+      public Brush MouseEnterIconColor
+      {
+         get { return (Brush)GetValue(MouseEnterIconColorProperty); }
+         set { SetValue(MouseEnterIconColorProperty, value); }
+      }
+
+      public static readonly DependencyProperty MouseEnterIconColorProperty = DependencyProperty.Register(nameof(MouseEnterIconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Black));
+      #endregion DP: MouseEnterIconColor
+
+      #region DP: DisabledIconColor
+      public Brush DisabledIconColor
+      {
+         get { return (Brush)GetValue(DisabledIconColorProperty); }
+         set { SetValue(DisabledIconColorProperty, value); }
+      }
+      public static readonly DependencyProperty DisabledIconColorProperty = DependencyProperty.Register(nameof(DisabledIconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.LightGray));
+      #endregion DP: MousePressedBackground
+
+      #region DP: PathIconWidth
+      public double PathIconWidth
+      {
+         get { return (double)GetValue(PathIconWidthProperty); }
+         set { SetValue(PathIconWidthProperty, value); }
+      }
+      public static readonly DependencyProperty PathIconWidthProperty = DependencyProperty.Register(nameof(PathIconWidth), typeof(double), typeof(Button), new PropertyMetadata(12.0));
+      #endregion DP: PathIconWidth
+
+      #region DP: PathIconHeight
+      public double PathIconHeight
+      {
+         get { return (double)GetValue(PathIconHeightProperty); }
+         set { SetValue(PathIconHeightProperty, value); }
+      }
+      public static readonly DependencyProperty PathIconHeightProperty = DependencyProperty.Register(nameof(PathIconHeight), typeof(double), typeof(Button), new PropertyMetadata(12.0));
+      #endregion DP: PathIconHeight
 
       #endregion Dependency Properties
 
@@ -179,7 +187,7 @@ namespace UrbanUI.WPF.Controls
 
       private bool _templateApplied = false;
       private bool _manuallyTriggerUIEvents = false;
-      public FlatButton()
+      public Button()
       {
          //DefaultStyleKeyProperty.OverrideMetadata(typeof(FlatButton), new FrameworkPropertyMetadata(typeof(FlatButton)));
       }
@@ -195,7 +203,7 @@ namespace UrbanUI.WPF.Controls
 
          base.OnApplyTemplate();
 
-         if (_mainBorder != null && _iconControl != null && _contentHost != null)
+         if (_mainBorder != null && _contentHost != null)
          {
             _templateApplied = true;
 

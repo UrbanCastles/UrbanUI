@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
              xmlns:converter="clr-namespace:UrbanUI.WPF.Converters"
-             xmlns:hybrid="clr-namespace:UrbanUI.WPF.HybridControls"
              x:Name="cardsControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="150">
@@ -39,7 +38,7 @@
                 </Grid>
             </Border>
 
-            <hybrid:ImageButton x:Name="mainImgButton" Background="Transparent" Grid.RowSpan="2" MouseEnter="ImageButton_MouseEnter" MouseLeave="ImageButton_MouseLeave" PressHold="mainImgButton_PressHold" IsEnabled="{Binding IsEnabled, ElementName=cardsControl}" Click="mainImgButton_Click"/>
+            <local:FlatButton x:Name="mainImgButton" Background="Transparent" Grid.RowSpan="2" MouseEnter="ImageButton_MouseEnter" MouseLeave="ImageButton_MouseLeave" PressHold="mainImgButton_PressHold" IsEnabled="{Binding IsEnabled, ElementName=cardsControl}" Click="mainImgButton_Click"/>
         </Grid>
     </Border>
 </UserControl>

@@ -5,7 +5,7 @@
                     xmlns:converters="clr-namespace:UrbanUI.WPF.Converters">
 
 
-    <ControlTemplate x:Key="UrbanUI.WPF.FlatWindowStyle" TargetType="{x:Type Window}">
+    <ControlTemplate x:Key="UrbanUI.WPF.WindowStyle" TargetType="{x:Type Window}">
 
         <Border x:Name="PART_MainGridContainer" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
             <Grid>
@@ -35,10 +35,10 @@
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30">
-                        <controls:FlatButton x:Name="PART_minimizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M175 100V87.5H37.5V100H175z"/>
-                        <controls:FlatButton x:Name="PART_maximizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 162.5V37.5H162.5V162.5H37.5zM150 50H50V150H150V50z"/>
-                        <controls:FlatButton x:Name="PART_restoreButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 137.5V25H150V137.5H37.5zM137.5 37.5H50V125H137.5V37.5zM62.5 137.5H75V150H162.5V62.5H150V50H175V162.5H62.5V137.5z"/>
-                        <controls:FlatButton x:Name="PART_closeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M88.95 100L31.975 43.025L43.025 31.975L100 88.95L156.975 31.975L168.025 43.025L111.05 100L168.025 156.975L156.975 168.025L100 111.05L43.025 168.025L31.975 156.975L88.95 100z"/>
+                        <controls:Button x:Name="PART_minimizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M175 100V87.5H37.5V100H175z"/>
+                        <controls:Button x:Name="PART_maximizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 162.5V37.5H162.5V162.5H37.5zM150 50H50V150H150V50z"/>
+                        <controls:Button x:Name="PART_restoreButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 137.5V25H150V137.5H37.5zM137.5 37.5H50V125H137.5V37.5zM62.5 137.5H75V150H162.5V62.5H150V50H175V162.5H62.5V137.5z"/>
+                        <controls:Button x:Name="PART_closeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M88.95 100L31.975 43.025L43.025 31.975L100 88.95L156.975 31.975L168.025 43.025L111.05 100L168.025 156.975L156.975 168.025L100 111.05L43.025 168.025L31.975 156.975L88.95 100z"/>
                     </StackPanel>
                 </Grid>
 
@@ -61,7 +61,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="UrbanUI.WPF.FlatWindowStyleTemplate" BasedOn="{StaticResource {x:Type Window}}" TargetType="{x:Type local:FlatWindow}">
+    <Style x:Key="UrbanUI.WPF.WindowStyleTemplate" BasedOn="{StaticResource {x:Type Window}}" TargetType="{x:Type local:Window}">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="0"
@@ -78,10 +78,10 @@
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Template" Value="{StaticResource UrbanUI.WPF.FlatWindowStyle}"/>
+        <Setter Property="Template" Value="{StaticResource UrbanUI.WPF.WindowStyle}"/>
     </Style>
 
-    <Style BasedOn="{StaticResource UrbanUI.WPF.FlatWindowStyleTemplate}" TargetType="{x:Type local:FlatWindow}"/>
+    <Style BasedOn="{StaticResource UrbanUI.WPF.WindowStyleTemplate}" TargetType="{x:Type local:Window}"/>
 
 
 </ResourceDictionary>

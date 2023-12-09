@@ -4,11 +4,12 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Marker/HighlightMarker.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Button/FlatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Button/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Card/Card.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ScrollViewer/ScrollViewer.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ScrollBar/ScrollBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/RichTextBox/RichTextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Hyperlink/Hyperlink.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/UI/FlatWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/UI/Window.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\Button\IconTextButton.cs" />
+    <Compile Remove="Controls\Card\Cards.xaml.cs" />
     <Compile Remove="Controls\UI\FlatWindowEHE.xaml.cs" />
+    <Compile Remove="HybridControls\CircularProgressBar.xaml.cs" />
+    <Compile Remove="HybridControls\ToggleButtonControl.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Controls\Button\IconTextButton.xaml" />
+    <Page Remove="Controls\Card\Cards.xaml" />
     <Page Remove="Controls\UI\FlatWindowEHE.xaml" />
+    <Page Remove="HybridControls\CircularProgressBar.xaml" />
+    <Page Remove="HybridControls\ToggleButtonControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,9 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\Card\Cards.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\CollapsibleStackPane\CollapsibleStackPane.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,7 +65,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\UI\FlatWindow.xaml">
+    <Page Update="Controls\UI\Window.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using UrbanUI.WPF.Controls;
 using UrbanUI.WPF.Themes;
 
 namespace UrbanUI.WPF.ControlGenerators
@@ -9,16 +10,21 @@ namespace UrbanUI.WPF.ControlGenerators
    {
 
 
-      public static UrbanUI.WPF.Controls.Cards generateCard(Theme theme, string Title, string subtitle, string message, double? width = null, double? height = null, bool IsEnabled = true, string uriImgSource = null, Icon icon = null)
+      public static Card generateCard(Theme theme, string Title, string subtitle, string message, double? width = null, double? height = null, bool IsEnabled = true, string uriImgSource = null, Icon icon = null)
       {
-         var card = new UrbanUI.WPF.Controls.Cards();
+         var card = new Card();
          card.Width = width != null ? width.Value : card.Width;
          card.Height = height != null ? height.Value : card.Height;
          card.TitleText = Title;
          card.SubText = subtitle;
          card.MessageText = message;
          card.ImageBackgroundColor = theme.MenuFocusIconColor;
-         card.Icon = icon;
+         if(icon != null)
+         {
+            card.IconPath = icon.StrokePath;
+            card.IconFlipVertically = icon.FlipY;
+            card.IconFlipHorizontally = icon.FlipX;
+         }
          card.IconColor = theme.ThemeBackground;
          card.ImageMargin = new Thickness(40);
 
@@ -36,12 +42,12 @@ namespace UrbanUI.WPF.ControlGenerators
 
 
 
-      public static UrbanUI.WPF.Controls.SideBarMenuItem GenerateMenuItem(Theme theme, Icon icon, string Text, bool IsSubMenu = false, bool IsFocusable = true)
+      public static SideBarMenuItem GenerateMenuItem(Theme theme, Icon icon, string Text, bool IsSubMenu = false, bool IsFocusable = true)
       {
          if (icon == null)
             icon = new Icon();
 
-         var sidebarMenuItem = new UrbanUI.WPF.Controls.SideBarMenuItem()
+         var sidebarMenuItem = new SideBarMenuItem()
          {
             Width = 70,
             Height = 70,
@@ -61,22 +67,25 @@ namespace UrbanUI.WPF.ControlGenerators
          return sidebarMenuItem;
       }
 
-      public static UrbanUI.WPF.Controls.Cards GenerateThemeCard(Theme theme, bool IsDarkTheme = false)
+      public static Card GenerateThemeCard(Theme theme, bool IsDarkTheme = false)
       {
          if (theme == null)
-            return new UrbanUI.WPF.Controls.Cards();
+            return new Card();
 
-         var newThemeCard = new UrbanUI.WPF.Controls.Cards()
+         var newThemeCard = new Card()
          {
             Width = 80.0,
-            Height = 110.0,
+            MinHeight = 110.0,
             TitleText = theme.Name,
             MessageText = theme.Details,
             ImageBackgroundColor = IsDarkTheme ? theme.MenuFocusForeground : theme.MenuFocusBackground,
             Margin = new Thickness(5),
+            ImageMargin = new Thickness(20),
             FontSize = 11,
             MessageTextFontSize = 10,
-            MessageTextFontWeight = FontWeights.Light
+            MessageTextFontWeight = FontWeights.Light,
+            IconBorderMinWidth = 40,
+            IconBorderMinHeight = 60
          };
          return newThemeCard;
       }

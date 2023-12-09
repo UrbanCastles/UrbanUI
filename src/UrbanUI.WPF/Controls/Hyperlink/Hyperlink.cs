@@ -7,7 +7,7 @@ using UrbanUI.WPF.Themes;
 
 namespace UrbanUI.WPF.Controls
 {
-   public partial class Hyperlink : FlatButton
+   public partial class Hyperlink : Button
    {
       #region Dependency Properties
 
