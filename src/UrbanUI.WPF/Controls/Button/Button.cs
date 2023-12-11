@@ -147,7 +147,7 @@ namespace UrbanUI.WPF.Controls
          set { SetValue(MouseEnterIconColorProperty, value); }
       }
 
-      public static readonly DependencyProperty MouseEnterIconColorProperty = DependencyProperty.Register(nameof(MouseEnterIconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.Black));
+      public static readonly DependencyProperty MouseEnterIconColorProperty = DependencyProperty.Register(nameof(MouseEnterIconColor), typeof(Brush), typeof(Button), new PropertyMetadata(Brushes.White));
       #endregion DP: MouseEnterIconColor
 
       #region DP: DisabledIconColor

@@ -53,10 +53,6 @@
                 </ContentPresenter>
             </Grid>
 
-            <!--<StackPanel Orientation="Horizontal">
-                
-            </StackPanel>-->
-
         </Border>
 
         <ControlTemplate.Triggers>
@@ -78,6 +74,12 @@
                 <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
             </DataTrigger>
 
+            <Trigger Property="IconPath" Value="{x:Null}">
+                <Setter TargetName="PART_iconControl" Property="Margin" Value="0" />
+            </Trigger>
+
+
+            <!--  TRANSPARENT  -->
             <Trigger Property="ButtonAppearance" Value="Transparent">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="White" />
@@ -85,6 +87,103 @@
                 <Setter Property="MouseEnterBackground" Value="#22000000" />
                 <Setter Property="MousePressedBackground" Value="#44000000" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  PRIMARY  -->
+            <Trigger Property="ButtonAppearance" Value="Primary">
+                <Setter Property="Background" Value="#337ab7" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#2e6da4" />
+                <Setter Property="MousePressedBackground" Value="#095C7A" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  SECONDARY  -->
+            <Trigger Property="ButtonAppearance" Value="Secondary">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#3c96db" />
+                <Setter Property="MousePressedForeground" Value="#50A0DD" />
+                <Setter Property="MouseEnterBackground" Value="#22000000" />
+                <Setter Property="MousePressedBackground" Value="#44000000" />
+                <Setter Property="IconColor" Value="#3c96db" />
+                <Setter Property="MouseEnterIconColor" Value="#3c96db" />
+                <Setter Property="PressedIconColor" Value="#50A0DD" />
+            </Trigger>
+
+            <!--  SUCCESS  -->
+            <Trigger Property="ButtonAppearance" Value="Success">
+                <Setter Property="Background" Value="#5cb85c" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#4cae4c" />
+                <Setter Property="MousePressedBackground" Value="#2C862C" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  INFORMATION  -->
+            <Trigger Property="ButtonAppearance" Value="Information">
+                <Setter Property="Background" Value="#5bc0de" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#46b8da" />
+                <Setter Property="MousePressedBackground" Value="#3489A3" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  WARNING  -->
+            <Trigger Property="ButtonAppearance" Value="Warning">
+                <Setter Property="Background" Value="#f0ad4e" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#eea236" />
+                <Setter Property="MousePressedBackground" Value="#C4852C" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  DANGER  -->
+            <Trigger Property="ButtonAppearance" Value="Danger">
+                <Setter Property="Background" Value="#d9534f" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#d43f3a" />
+                <Setter Property="MousePressedBackground" Value="#BC3834" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
+                <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  LIGHT  -->
+            <Trigger Property="ButtonAppearance" Value="Light">
+                <Setter Property="Background" Value="#f0f0f0" />
+                <Setter Property="Foreground" Value="#333" />
+                <Setter Property="MousePressedForeground" Value="#333" />
+                <Setter Property="MouseEnterBackground" Value="#DFDFDF" />
+                <Setter Property="MousePressedBackground" Value="#D8D7D7" />
+                <Setter Property="IconColor" Value="#333" />
+                <Setter Property="MouseEnterIconColor" Value="#333" />
+                <Setter Property="PressedIconColor" Value="#333" />
+            </Trigger>
+
+            <!--  DARK  -->
+            <Trigger Property="ButtonAppearance" Value="Dark">
+                <Setter Property="Background" Value="#343434" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="MousePressedForeground" Value="White" />
+                <Setter Property="MouseEnterBackground" Value="#2D2D2D" />
+                <Setter Property="MousePressedBackground" Value="#272727" />
+                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -95,22 +194,13 @@
     <Style TargetType="{x:Type local:Hyperlink}" x:Key="UrbanUI.WPF.HyperlinkUIStyle">
         <Setter Property="PathIconWidth" Value="14"/>
         <Setter Property="PathIconHeight" Value="14"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ButtonAppearance" Value="Secondary"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="IconPath" Value="M363 363c59 0 106 -48 106 -107s-47 -107 -106 -107h-86v41h86c36 0 66 30 66 66s-30 66 -66 66h-86v41h86zM171 235v42h170v-42h-170zM83 256c0 -36 30 -66 66 -66h86v-41h-86c-59 0 -106 48 -106 107s47 107 106 107h86v-41h-86c-36 0 -66 -30 -66 -66z"/>
         <Setter Property="IconMargin" Value="0,0,10,0"/>
-        <Setter Property="Foreground" Value="#3c96db"/>
-        <Setter Property="MousePressedForeground" Value="#50A0DD" />
-        <Setter Property="MouseEnterBackground" Value="#22000000" />
-        <Setter Property="MousePressedBackground" Value="#44000000" />
-        <Setter Property="MouseEnterIconColor" Value="#3c96db" />
-        <Setter Property="IconColor" Value="#3c96db" />
-        <Setter Property="PressedIconColor" Value="#50A0DD" />
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Template" Value="{StaticResource HyperlinkControlTemplateStyle}">
         </Setter>
-
     </Style>
 
 

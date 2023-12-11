@@ -72,6 +72,7 @@
             </Trigger>
 
 
+
             <!--  TRANSPARENT  -->
             <Trigger Property="ButtonAppearance" Value="Transparent">
                 <Setter Property="Background" Value="Transparent" />
@@ -80,6 +81,7 @@
                 <Setter Property="MouseEnterBackground" Value="#22000000" />
                 <Setter Property="MousePressedBackground" Value="#44000000" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
@@ -91,7 +93,20 @@
                 <Setter Property="MouseEnterBackground" Value="#2e6da4" />
                 <Setter Property="MousePressedBackground" Value="#095C7A" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
+            </Trigger>
+
+            <!--  SECONDARY  -->
+            <Trigger Property="ButtonAppearance" Value="Secondary">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#3c96db" />
+                <Setter Property="MousePressedForeground" Value="#50A0DD" />
+                <Setter Property="MouseEnterBackground" Value="#22000000" />
+                <Setter Property="MousePressedBackground" Value="#44000000" />
+                <Setter Property="IconColor" Value="#3c96db" />
+                <Setter Property="MouseEnterIconColor" Value="#3c96db" />
+                <Setter Property="PressedIconColor" Value="#50A0DD" />
             </Trigger>
 
             <!--  SUCCESS  -->
@@ -102,6 +117,7 @@
                 <Setter Property="MouseEnterBackground" Value="#4cae4c" />
                 <Setter Property="MousePressedBackground" Value="#2C862C" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
@@ -113,6 +129,7 @@
                 <Setter Property="MouseEnterBackground" Value="#46b8da" />
                 <Setter Property="MousePressedBackground" Value="#3489A3" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
@@ -124,6 +141,7 @@
                 <Setter Property="MouseEnterBackground" Value="#eea236" />
                 <Setter Property="MousePressedBackground" Value="#C4852C" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
@@ -135,6 +153,7 @@
                 <Setter Property="MouseEnterBackground" Value="#d43f3a" />
                 <Setter Property="MousePressedBackground" Value="#BC3834" />
                 <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
@@ -146,6 +165,7 @@
                 <Setter Property="MouseEnterBackground" Value="#DFDFDF" />
                 <Setter Property="MousePressedBackground" Value="#D8D7D7" />
                 <Setter Property="IconColor" Value="#333" />
+                <Setter Property="MouseEnterIconColor" Value="#333" />
                 <Setter Property="PressedIconColor" Value="#333" />
             </Trigger>
 
@@ -157,17 +177,7 @@
                 <Setter Property="MouseEnterBackground" Value="#2D2D2D" />
                 <Setter Property="MousePressedBackground" Value="#272727" />
                 <Setter Property="IconColor" Value="White" />
-                <Setter Property="PressedIconColor" Value="White" />
-            </Trigger>
-
-            <!--  DARK  -->
-            <Trigger Property="ButtonAppearance" Value="Dark">
-                <Setter Property="Background" Value="#343434" />
-                <Setter Property="Foreground" Value="White" />
-                <Setter Property="MousePressedForeground" Value="White" />
-                <Setter Property="MouseEnterBackground" Value="#2D2D2D" />
-                <Setter Property="MousePressedBackground" Value="#272727" />
-                <Setter Property="IconColor" Value="White" />
+                <Setter Property="MouseEnterIconColor" Value="White" />
                 <Setter Property="PressedIconColor" Value="White" />
             </Trigger>
 
