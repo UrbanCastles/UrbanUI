@@ -47,9 +47,6 @@
     <Compile Update="Controls\Jumbotron\Jumbotron.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Menu\SideBarMenu.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\SlidingGrid\SlideUpGrid.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

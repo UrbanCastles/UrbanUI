@@ -14,8 +14,8 @@
                             Foreground="{TemplateBinding Foreground}"
                             HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
                             VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}" 
-                            ScrollBrush="{Binding Path=ScrollBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:RichTextBox}}}"
-                            ScrollTrackBrush="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:RichTextBox}}}"/>
+                            ScrollBrush="{Binding Path=ScrollBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:RichTextBox}}}"
+                            ScrollTrackBrush="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:RichTextBox}}}"/>
         </Border>
         <ControlTemplate.Triggers>
             <MultiTrigger>

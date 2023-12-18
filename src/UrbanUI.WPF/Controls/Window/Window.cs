@@ -238,7 +238,7 @@ namespace UrbanUI.WPF.Controls
          else
          {
             SetWindowState(WindowState, true);
-            this.BorderThickness = new Thickness(1);
+            this.BorderThickness = new Thickness(0);
          }
       }
 

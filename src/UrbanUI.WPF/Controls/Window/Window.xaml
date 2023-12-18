@@ -40,7 +40,7 @@
                 </Grid>
 
                 <Grid x:Name="SubContainerGrid" Grid.Row="1" FocusVisualStyle="{x:Null}">
-                    <ContentPresenter x:Name="PART_ContentPresenter"/>
+                    <ContentPresenter x:Name="PART_ContentPresenter" Margin="1"/>
                 </Grid>
 
                 <ResizeGrip HorizontalAlignment="Right" x:Name="WindowResizeGrip" VerticalAlignment="Bottom" IsTabStop="False" Visibility="Collapsed" Grid.Row="1"/>
@@ -67,7 +67,7 @@
                               UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+        <Setter Property="WindowStyle" Value="ToolWindow" />
         <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />

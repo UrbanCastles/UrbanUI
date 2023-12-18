@@ -93,9 +93,9 @@
 
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_titleText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
-                <Setter TargetName="PART_subtext" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
-                <Setter TargetName="PART_messageText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Card}}}" />
+                <Setter TargetName="PART_titleText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Card}}}" />
+                <Setter TargetName="PART_subtext" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Card}}}" />
+                <Setter TargetName="PART_messageText" Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Card}}}" />
             </Trigger>
         </ControlTemplate.Triggers>
         

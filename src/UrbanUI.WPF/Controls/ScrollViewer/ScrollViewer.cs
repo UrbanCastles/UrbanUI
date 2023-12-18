@@ -36,7 +36,7 @@ namespace UrbanUI.WPF.Controls
 
       static ScrollViewer()
       {
-         DefaultStyleKeyProperty.OverrideMetadata(typeof(ScrollViewer), new FrameworkPropertyMetadata(typeof(ScrollViewer)));
+         //DefaultStyleKeyProperty.OverrideMetadata(typeof(ScrollViewer), new FrameworkPropertyMetadata(typeof(ScrollViewer)));
       }
 
       public override void OnApplyTemplate()

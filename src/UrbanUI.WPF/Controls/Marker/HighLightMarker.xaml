@@ -3,18 +3,33 @@
                     xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
                     x:Name="highlightMarker">
 
-    <ControlTemplate x:Key="UrbanUI.WPF.HighlightMarkerContentStyle" TargetType="{x:Type ContentControl}">
+    <ControlTemplate x:Key="UrbanUI.WPF.HighlightMarkerContentStyle" TargetType="{x:Type local:HighlightMarker}">
         <Grid x:Name="PART_mainGrid" Background="Transparent">
-            <Border x:Name="PART_mainBorder" IsHitTestVisible="True" VerticalAlignment="Center" Background="{TemplateBinding Background}" CornerRadius="4">
-                <!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:HighlightMarker}}}"/>-->
-            </Border>
+            <Border x:Name="PART_mainBorder" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter TargetName="PART_mainBorder" Property="VerticalAlignment" Value="Center"/>
+                <Setter TargetName="PART_mainBorder" Property="HorizontalAlignment" Value="Stretch"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter TargetName="PART_mainBorder" Property="VerticalAlignment" Value="Stretch"/>
+                <Setter TargetName="PART_mainBorder" Property="HorizontalAlignment" Value="Center"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type ContentControl}" x:Key="UrbanUI.WPF.HighlightMarkerStyle">
+    <Style TargetType="{x:Type local:HighlightMarker}" x:Key="UrbanUI.WPF.HighlightMarkerStyle">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Width" Value="4"/>
         <Setter Property="Template" Value="{StaticResource UrbanUI.WPF.HighlightMarkerContentStyle}"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="4"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Height" Value="4"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style BasedOn="{StaticResource UrbanUI.WPF.HighlightMarkerStyle}" TargetType="{x:Type local:HighlightMarker}"/>

@@ -32,13 +32,13 @@
 
     <ControlTemplate x:Key="UrbanUI.WPF.ScrollBar.VerticalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid >
-            <Border Background="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+            <Border Background="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
             <Track Name="PART_Track" IsDirectionReversed="true">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarThumb}" Background="{Binding Path=ScrollBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+                    <Thumb Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarThumb}" Background="{Binding Path=ScrollBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
@@ -49,13 +49,13 @@
 
     <ControlTemplate x:Key="UrbanUI.WPF.ScrollBar.HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid >
-            <Border Background="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+            <Border Background="{Binding Path=ScrollTrackBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
             <Track Name="PART_Track" IsDirectionReversed="False">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarThumb}" Background="{Binding Path=ScrollBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+                    <Thumb Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarThumb}" Background="{Binding Path=ScrollBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{DynamicResource UrbanUI.WPF.ScrollBar.ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />

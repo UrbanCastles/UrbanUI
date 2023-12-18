@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
-                    xmlns:controls="clr-namespace:UrbanUI.WPF.Controls"
                     xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
 
     <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
@@ -16,7 +15,7 @@
                             Background="{TemplateBinding Background}">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
-                <controls:PathIconControl x:Name="PART_iconControl" 
+                <local:PathIconControl x:Name="PART_iconControl" 
                                                       Width="{TemplateBinding PathIconWidth}" 
                                                       Height="{TemplateBinding PathIconHeight}" 
                                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
@@ -38,7 +37,7 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                     <ContentPresenter.Resources>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="TextDecorations" Value="{Binding Path=TextStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
+                            <Setter Property="TextDecorations" Value="{Binding Path=TextStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}" />
                         </Style>
                     </ContentPresenter.Resources>
                 </ContentPresenter>
@@ -49,24 +48,23 @@
         <ControlTemplate.Triggers>
 
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=MouseEnterForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}" />
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=MouseEnterForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}" />
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
             </Trigger>
-            <DataTrigger Binding="{Binding PressedIconPath}" Value="{x:Null}">
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Button}}}"/>
-            </DataTrigger>
-
+            <Trigger Property="PressedIconPath" Value="{x:Null}">
+                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Button}}}"/>
+            </Trigger>
             <Trigger Property="IconPath" Value="{x:Null}">
                 <Setter TargetName="PART_iconControl" Property="Margin" Value="0" />
             </Trigger>

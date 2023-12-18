@@ -6,11 +6,14 @@
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ClipBorder/ClipBorder.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Marker/HighlightMarker.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Button/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Hyperlink/Hyperlink.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Card/Card.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ScrollViewer/ScrollViewer.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ScrollBar/ScrollBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Seperator/Seperator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Menu/MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Menu/Menu.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/RichTextBox/RichTextBox.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Hyperlink/Hyperlink.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Window/Window.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

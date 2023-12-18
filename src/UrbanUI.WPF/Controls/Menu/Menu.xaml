@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UrbanUI.WPF.Controls">
+    
+    <ControlTemplate x:Key="MenuDefaultControlTemplateStyle" TargetType="{x:Type local:Menu}">
+        <local:ClipBorder CornerRadius="{TemplateBinding CornerRadius}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+            <ItemsPresenter/>
+        </local:ClipBorder>
+    </ControlTemplate>
+    
+    
+    
+    
+
+
+    <Style TargetType="{x:Type local:Menu}" x:Key="UrbanUI.WPF.MenuUIStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Menu}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel
+                            ClipToBounds="True"
+                            IsItemsHost="True"
+                            Orientation="Horizontal" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template" Value="{StaticResource MenuDefaultControlTemplateStyle}"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+    <Style BasedOn="{StaticResource UrbanUI.WPF.MenuUIStyle}" TargetType="{x:Type local:Menu}"/>
+
+</ResourceDictionary>

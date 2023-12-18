@@ -39,34 +39,6 @@ namespace UrbanUI.WPF.ControlGenerators
          return card;
       }
 
-
-
-
-      public static SideBarMenuItem GenerateMenuItem(Theme theme, Icon icon, string Text, bool IsSubMenu = false, bool IsFocusable = true)
-      {
-         if (icon == null)
-            icon = new Icon();
-
-         var sidebarMenuItem = new SideBarMenuItem()
-         {
-            Width = 70,
-            Height = 70,
-            IconPath = icon?.StrokePath,
-            FocusedIconPath = icon?.FilledPath,
-            IsSubMenuItem = IsSubMenu,
-            IsActiveFocusableMenu = IsFocusable,
-            Text = Text,
-            FlipIconHorizontally = icon.FlipX,
-            FlipIconVertically = icon.FlipY,
-            FontSize = 10,
-            IconWidth = 20,
-            IconHeight = 20,
-            TextMargin = new Thickness(0, 4,0,0)
-         };
-         sidebarMenuItem.SetThemeUI(theme);
-         return sidebarMenuItem;
-      }
-
       public static Card GenerateThemeCard(Theme theme, bool IsDarkTheme = false)
       {
          if (theme == null)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using UrbanUI.WPF.Themes;
 
@@ -25,17 +26,62 @@ namespace UrbanUI.WPF.Controls
          {
             if(_hasUnfinishedSetupAnim && _unfinishedAnimState != null)
             {
-               Animate(_unfinishedAnimState.Value);
+               if(_unfinishedAnimState.Value == MarkerState.ToggleOn)
+               {
+                  ToggleOn();
+               }
+               else
+               {
+                  ToggleOff();
+               }
             }
          };
       }
 
+      #region Dependency Properties
+
+      #region DP: Toggle
+      public bool Toggle
+      {
+         get { return (bool)GetValue(ToggleProperty); }
+         set { SetValue(ToggleProperty, value); }
+      }
+      public static readonly DependencyProperty ToggleProperty = DependencyProperty.Register(nameof(Toggle), typeof(bool), typeof(HighlightMarker), new PropertyMetadata(false, (d, p) =>
+      {
+         var _this = (HighlightMarker)d;
+         if (_this.Toggle)
+            _this.ToggleOn();
+         else
+            _this.ToggleOff();
+      }));
+      #endregion DP: Toggle
+
+      #region DP: CornerRadius
+      public CornerRadius CornerRadius
+      {
+         get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+         set { SetValue(CornerRadiusProperty, value); }
+      }
+      public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(HighlightMarker), new PropertyMetadata(new CornerRadius(4)));
+      #endregion DP: CornerRadius
+
+      #region DP: Orientation
+      public Orientation Orientation
+      {
+         get { return (Orientation)GetValue(OrientationProperty); }
+         set { SetValue(OrientationProperty, value); }
+      }
+      public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(HighlightMarker), new PropertyMetadata(Orientation.Vertical));
+      #endregion DP: Orientation
+
+      #endregion Dependency Properties
+
       #region Public Methods
-      public void ToggleOn(double millisecSpeed = 300)
+      public void ToggleOn(double millisecSpeed = 170)
       {
          Animate(MarkerState.ToggleOn, millisecSpeed);
       }
-      public void ToggleOff(double millisecSpeed = 300)
+      public void ToggleOff(double millisecSpeed = 170)
       {
          Animate(MarkerState.ToggleOff, millisecSpeed);
       }
@@ -58,7 +104,7 @@ namespace UrbanUI.WPF.Controls
       #endregion Apply Templates
 
       #region Animations
-      private void Animate(MarkerState markerState, double millisecSpeed = 300)
+      private void Animate(MarkerState markerState, double millisecSpeed)
       {
          if (!_templateApplied)
          {
@@ -72,48 +118,57 @@ namespace UrbanUI.WPF.Controls
             _hasUnfinishedSetupAnim = false;
          }
 
-         DoubleAnimation heightAnimation;
+         DoubleAnimation sizeAnimation;
          //ObjectAnimationUsingKeyFrames visibilityAnimation;
 
          if (markerState is MarkerState.ToggleOn)
          {
-            heightAnimation = new DoubleAnimation()
+            sizeAnimation = new DoubleAnimation()
             {
-               From = GetHeight(_mainBorder),
-               To = GetBorderMaxHeight(),
+               From = this.Orientation == Orientation.Vertical ? GetHeight(_mainBorder) : GetWidth(_mainBorder),
+               To = this.Orientation == Orientation.Vertical ? GetBorderMaxHeight() : GetBorderMaxWidth(),
                Duration = TimeSpan.FromMilliseconds(millisecSpeed)
             };
          }
          else
          {
-            heightAnimation = new DoubleAnimation()
+            sizeAnimation = new DoubleAnimation()
             {
-               From = GetBorderMaxHeight(),
+               From = this.Orientation == Orientation.Vertical ? GetBorderMaxHeight() : GetBorderMaxWidth(),
                To = 0,
                Duration = TimeSpan.FromMilliseconds(millisecSpeed)
             };
          }
 
-         ElasticEase easingFunction = new ElasticEase
-         {
-            EasingMode = EasingMode.EaseOut,
-            Oscillations = 2,
-            Springiness = 2
-         };
-
-         heightAnimation.EasingFunction = easingFunction;
-
          Storyboard storyboard = new Storyboard();
-         storyboard.Children.Add(heightAnimation);
+         storyboard.Children.Add(sizeAnimation);
 
-         Storyboard.SetTarget(heightAnimation, _mainBorder);
-         Storyboard.SetTargetProperty(heightAnimation, new PropertyPath("Height"));
+         Storyboard.SetTarget(sizeAnimation, _mainBorder);
+         if(this.Orientation == Orientation.Horizontal)
+         {
+            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Width"));
+         }
+         else
+         {
+            Storyboard.SetTargetProperty(sizeAnimation, new PropertyPath("Height"));
+         }
 
          storyboard.Begin();
       }
       #endregion Animations
 
-      #region Height Fetcher
+      #region Width and Height Fetcher
+      private double GetBorderMaxWidth()
+      {
+         double mainGridWidth = _mainGrid.Width is double.NaN ? _mainGrid.ActualWidth : _mainGrid.Width;
+
+         return mainGridWidth * .60;
+      }
+      private double GetWidth(FrameworkElement element)
+      {
+         return element.Width is double.NaN ? element.ActualWidth : element.Width;
+      }
+
       private double GetBorderMaxHeight()
       {
          double mainGridHeight = _mainGrid.Height is double.NaN ? _mainGrid.ActualHeight : _mainGrid.Height;
@@ -124,7 +179,7 @@ namespace UrbanUI.WPF.Controls
       {
          return element.Height is double.NaN ? element.ActualHeight : element.Height;
       }
-      #endregion Height Fetcher
+      #endregion Width and Height Fetcher
 
       #region Themeing
       public Theme? GetTheme()

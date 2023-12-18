@@ -1,0 +1,942 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
+    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
+
+    <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    <!--Seperator Style-->
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+        <Setter Property="Margin" Value="0,1,0,1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border Width="{TemplateBinding Width}" 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Arrow and Popup, And Inline Menu Animations-->
+    <Storyboard x:Key="RotateDownArrowElement">
+        <DoubleAnimation
+                Storyboard.TargetName="ArrowElement"
+                Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+                From="0"
+                To="180"
+                Duration="00:00:00.200">
+            <DoubleAnimation.EasingFunction>
+                <CircleEase EasingMode="EaseOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+    <Storyboard x:Key="RotateUpArrowElement">
+        <DoubleAnimation
+                Storyboard.TargetName="ArrowElement"
+                Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+                From="180"
+                To="0"
+                Duration="00:00:00.200">
+            <DoubleAnimation.EasingFunction>
+                <CircleEase EasingMode="EaseOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+    <Storyboard x:Key="OpenPopUpMenuAnimation">
+        <DoubleAnimation
+                Storyboard.TargetName="SubmenuBorder"
+                Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                From="-90"
+                To="0"
+                Duration="00:00:00.200">
+            <DoubleAnimation.EasingFunction>
+                <CircleEase EasingMode="EaseOut" />
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+    <Storyboard x:Key="OpacityInlineMenuAnimation">
+        <DoubleAnimationUsingKeyFrames 
+            BeginTime="0:0:0.1" 
+            Duration="0:0:0:3" 
+            Storyboard.TargetName="SubmenuBorder_inLine"
+            Storyboard.TargetProperty="Opacity">
+            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"/>
+            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <!--  TopLevelHeader -->
+    <ControlTemplate x:Key="MenuItem.TopLevelHeaderControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
+
+        <Grid Margin="{TemplateBinding Margin}">
+
+            <local:ClipBorder x:Name="Border" Grid.Row="0"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}">
+                
+                <Grid>
+
+                    <Grid x:Name="menuContents_Grid" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel x:Name="IconTextContentStackPane" Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Grid.Column="0">
+
+                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}" >
+
+                                <local:PathIconControl x:Name="IconPathElement"
+                                Path="{TemplateBinding IconPath}"
+                                Color="{TemplateBinding IconColor}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}"/>
+
+                                <ContentControl x:Name="IconElement"
+                                Content="{TemplateBinding Icon}"
+                                FontSize="{TemplateBinding FontSize}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}" />
+                            </Grid>
+
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ContentSource="Header"
+                            RecognizesAccessKey="True"
+                            TextElement.Foreground="{TemplateBinding Foreground}">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+
+                        </StackPanel>
+
+                        <local:PathIconControl x:Name="ArrowElement"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Width="8"
+                            Height="8"
+                            Path="M6.582,12.141c-0.271,0.268-0.709,0.268-0.978,0c-0.269-0.268-0.272-0.701,0-0.969l3.908-3.83  c0.27-0.268,0.707-0.268,0.979,0l3.908,3.83c0.27,0.267,0.27,0.701,0,0.969c-0.271,0.268-0.709,0.268-0.979,0L10,9L6.582,12.141z"
+                            Color="{TemplateBinding Foreground}" 
+                            Margin="8,0,4,0" 
+                            RenderTransformOrigin="0.5,0.5"
+                            Visibility="{TemplateBinding ShowTopLevelHeaderArrow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <local:PathIconControl.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </local:PathIconControl.RenderTransform>
+                        </local:PathIconControl>
+
+                    </Grid>
+
+                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
+                                           HorizontalAlignment="Left" 
+                                           Orientation="Vertical"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
+                                           Visibility="Collapsed"/>
+
+                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder"
+                                           VerticalAlignment="Bottom" 
+                                           Orientation="Horizontal"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
+                                           Visibility="Collapsed"/>
+
+                </Grid>
+
+            </local:ClipBorder>
+
+            <Popup  x:Name="Popup"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    HorizontalOffset="0"
+                    IsOpen="{TemplateBinding IsSubmenuOpen}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=Border}"
+                    PopupAnimation="None"
+                    VerticalOffset="1"
+                    Visibility="Collapsed">
+
+                <Grid HorizontalAlignment="Right">
+
+                    <local:ClipBorder
+                            x:Name="SubmenuBorder"
+                            Margin="2,0,0,10"
+                            Background="{TemplateBinding PopupBackground}"
+                            BorderBrush="{TemplateBinding PopupBorderBrush}"
+                            BorderThickness="{TemplateBinding PopupBorderThickness}"
+                            CornerRadius="{TemplateBinding PopupCornerRadius}"
+                            SnapsToDevicePixels="True">
+                        <local:ClipBorder.RenderTransform>
+                            <TranslateTransform />
+                        </local:ClipBorder.RenderTransform>
+                        <local:ScrollViewer CanContentScroll="True" >
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </local:ScrollViewer>
+                        <local:ClipBorder.Effect>
+                            <DropShadowEffect BlurRadius="25" Direction="270" Opacity="0.30" ShadowDepth="7"/>
+                        </local:ClipBorder.Effect>
+                    </local:ClipBorder>
+
+                </Grid>
+            </Popup>
+
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                    <Setter TargetName="iconGrid" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="OpenPopUpMenuAnimationStoryBoard" Storyboard="{StaticResource OpenPopUpMenuAnimation}" />
+                    <BeginStoryboard x:Name="RotateDownArrowElementStoryBoard" Storyboard="{StaticResource RotateDownArrowElement}" />
+                </MultiDataTrigger.EnterActions>
+                <MultiDataTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="RotateDownArrowElementStoryBoard" />
+                    <RemoveStoryboard BeginStoryboardName="OpenPopUpMenuAnimationStoryBoard" />
+                </MultiDataTrigger.ExitActions>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="RotateUpArrowElementStoryBoard" Storyboard="{StaticResource RotateUpArrowElement}" />
+                </MultiDataTrigger.EnterActions>
+                <MultiDataTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="RotateUpArrowElementStoryBoard" />
+                </MultiDataTrigger.ExitActions>
+            </MultiDataTrigger>
+            
+
+            <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
+                <Setter TargetName="Popup" Property="Placement" Value="Bottom" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical">
+                <Setter TargetName="Popup" Property="Placement" Value="Right" />
+                <Setter TargetName="ArrowElement" Property="Path" Value="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
+            </DataTrigger>
+
+            <Trigger Property="Header" Value="{x:Null}">
+                <Setter TargetName="IconElement" Property="Margin" Value="0" />
+                <Setter TargetName="IconPathElement" Property="Margin" Value="0" />
+                <Setter TargetName="HeaderContentPresenter" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
+                <Setter TargetName="menuContents_Grid" Property="VerticalAlignment" Value="Center" />
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="IconTextContentStackPane" Property="Margin" Value="4,0,0,0" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=ShowTopLevelHeaderArrow, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="IconTextContentStackPane" Property="Margin" Value="20,0,0,0" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical">
+                <Setter TargetName="menuContents_Grid" Property="VerticalAlignment" Value="Center" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
+                <Setter TargetName="menuContents_Grid" Property="HorizontalAlignment" Value="Stretch" />
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            
+
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}"/>
+            </Trigger>
+            
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--  TopLevelItem  -->
+    <ControlTemplate x:Key="MenuItem.TopLevelItemControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
+
+        <Grid Margin="{TemplateBinding Margin}">
+
+            <local:ClipBorder x:Name="Border" Grid.Row="0"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid x:Name="CheckMarkGrid" Width="10" Height="10" Margin="10, 0,0,0" Grid.Column="0" VerticalAlignment="Center">
+                        <local:PathIconControl Color="{TemplateBinding Foreground}"
+                                                       Path="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
+                                                       Visibility="{TemplateBinding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+
+
+                    <Grid x:Name="menuContents_Grid" Margin="10" Grid.Column="1">
+
+                        <StackPanel x:Name="IconTextContentStackPane"  Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}">
+
+
+                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}">
+                                <local:PathIconControl x:Name="IconPathElement"
+                                Path="{TemplateBinding IconPath}"
+                                Color="{TemplateBinding IconColor}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}"/>
+
+                                <ContentControl x:Name="IconElement"
+                                Content="{TemplateBinding Icon}"
+                                FontSize="{TemplateBinding FontSize}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}" />
+                            </Grid>
+
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ContentSource="Header"
+                            RecognizesAccessKey="True"
+                            TextElement.Foreground="{TemplateBinding Foreground}">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
+                                           HorizontalAlignment="Left" 
+                                           Orientation="Vertical"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsChecked}" 
+                                           Visibility="Collapsed"/>
+
+                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
+                                           VerticalAlignment="Bottom" 
+                                           Grid.ColumnSpan="2"
+                                           Orientation="Horizontal"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsChecked}" 
+                                           Visibility="Collapsed"/>
+
+                </Grid>
+
+            </local:ClipBorder>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                    <Setter TargetName="iconGrid" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <Trigger Property="IsCheckable" Value="False">
+                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <Trigger Property="Header" Value="{x:Null}">
+                <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                <Setter TargetName="HeaderContentPresenter" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
+                <Setter TargetName="menuContents_Grid" Property="VerticalAlignment" Value="Center" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical">
+                <Setter TargetName="menuContents_Grid" Property="HorizontalAlignment" Value="Center" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical">
+                <Setter TargetName="menuContents_Grid" Property="VerticalAlignment" Value="Center" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
+                <Setter TargetName="menuContents_Grid" Property="HorizontalAlignment" Value="Stretch" />
+            </DataTrigger>
+
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <!--  SubMenuItem  -->
+    <ControlTemplate x:Key="MenuItem.SubMenuItemControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
+
+        <Grid Margin="{TemplateBinding Margin}">
+
+            <local:ClipBorder x:Name="Border" Grid.Row="0"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid x:Name="CheckMarkGrid" Width="10" Height="10" Margin="10, 0,0,0" Grid.Column="0" VerticalAlignment="Center">
+                        <local:PathIconControl Color="{TemplateBinding Foreground}"
+                                                       Path="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
+                                                       Visibility="{TemplateBinding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+
+
+                    <Grid x:Name="menuContents_Grid" Margin="10" Grid.Column="1" VerticalAlignment="Center">
+
+                        <StackPanel x:Name="IconTextContentStackPane"  Orientation="Horizontal">
+
+
+                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}">
+                                <local:PathIconControl x:Name="IconPathElement"
+                                Path="{TemplateBinding IconPath}"
+                                Color="{TemplateBinding IconColor}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}"/>
+
+                                <ContentControl x:Name="IconElement"
+                                Content="{TemplateBinding Icon}"
+                                FontSize="{TemplateBinding FontSize}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}" />
+                            </Grid>
+
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ContentSource="Header"
+                            RecognizesAccessKey="True"
+                            TextElement.Foreground="{TemplateBinding Foreground}">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+
+                        </StackPanel>
+
+                    </Grid>
+
+
+                    <TextBlock x:Name="InputCommandText" Grid.Column="2"
+                        Margin="10,0,8,0"
+                        VerticalAlignment="Center"
+                        FontSize="11"
+                        Foreground="Gray"
+                        Text="{TemplateBinding InputGestureText}" />
+
+
+                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
+                                           HorizontalAlignment="Left" 
+                                           Orientation="Vertical"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsChecked}" 
+                                           Visibility="Collapsed"/>
+
+                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
+                                           VerticalAlignment="Bottom" 
+                                           Orientation="Horizontal"
+                                           Grid.ColumnSpan="3"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsChecked}" 
+                                           Visibility="Collapsed"/>
+
+                </Grid>
+
+            </local:ClipBorder>
+
+        </Grid>
+
+
+
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                    <Setter TargetName="iconGrid" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <Trigger Property="IsCheckable" Value="False">
+                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <Trigger Property="Header" Value="{x:Null}">
+                <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                <Setter TargetName="HeaderContentPresenter" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+            </Trigger>
+
+            <Trigger Property="InputGestureText" Value="">
+                <Setter TargetName="InputCommandText" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <!--  SubMenuHeader -->
+    <ControlTemplate x:Key="MenuItem.SubMenuHeaderControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
+
+        <Grid Margin="{TemplateBinding Margin}">
+
+            <local:ClipBorder x:Name="Border" Grid.Row="0"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}">
+
+                <Grid>
+
+                    <Grid x:Name="menuContents_Grid" Margin="10" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel x:Name="IconTextContentStackPane" Orientation="Horizontal" Grid.Column="0">
+
+                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}" >
+
+                                <local:PathIconControl x:Name="IconPathElement"
+                                Path="{TemplateBinding IconPath}"
+                                Color="{TemplateBinding IconColor}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}"/>
+
+                                <ContentControl x:Name="IconElement"
+                                Content="{TemplateBinding Icon}"
+                                FontSize="{TemplateBinding FontSize}" 
+                                Width="{TemplateBinding PathIconWidth}" 
+                                Height="{TemplateBinding PathIconHeight}" />
+                            </Grid>
+
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ContentSource="Header"
+                            RecognizesAccessKey="True"
+                            TextElement.Foreground="{TemplateBinding Foreground}">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+
+                        </StackPanel>
+
+                        <local:PathIconControl x:Name="ArrowElement_Right"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Width="8"
+                        Height="8"
+                        Path="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                        Color="{TemplateBinding Foreground}" 
+                        Margin="8,0,4,0" 
+                        RenderTransformOrigin="0.5,0.5"
+                        Visibility="{TemplateBinding ShowTopLevelHeaderArrow, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    </Grid>
+
+                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
+                                           HorizontalAlignment="Left" 
+                                           Orientation="Vertical"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
+                                           Visibility="Collapsed"/>
+
+                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
+                                           VerticalAlignment="Bottom" 
+                                           Orientation="Horizontal"
+                                           Panel.ZIndex="2"
+                                           Background="{TemplateBinding FocusMarkerColor}"
+                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
+                                           Visibility="Collapsed"/>
+
+                </Grid>
+
+            </local:ClipBorder>
+
+            <Popup  x:Name="Popup"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    HorizontalOffset="0"
+                    IsOpen="{TemplateBinding IsSubmenuOpen}"
+                    Placement="Right"
+                    PlacementTarget="{Binding ElementName=Border}"
+                    PopupAnimation="None"
+                    VerticalOffset="1"
+                    Visibility="Collapsed">
+
+                <Grid HorizontalAlignment="Right">
+
+                    <local:ClipBorder
+                            x:Name="SubmenuBorder"
+                            Margin="2,0,0,10"
+                            Background="{TemplateBinding PopupBackground}"
+                            BorderBrush="{TemplateBinding PopupBorderBrush}"
+                            BorderThickness="{TemplateBinding PopupBorderThickness}"
+                            CornerRadius="{TemplateBinding PopupCornerRadius}"
+                            SnapsToDevicePixels="True">
+                        <local:ClipBorder.RenderTransform>
+                            <TranslateTransform />
+                        </local:ClipBorder.RenderTransform>
+                        <local:ScrollViewer CanContentScroll="True" >
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </local:ScrollViewer>
+                        <local:ClipBorder.Effect>
+                            <DropShadowEffect BlurRadius="25" Direction="270" Opacity="0.30" ShadowDepth="7"/>
+                        </local:ClipBorder.Effect>
+                    </local:ClipBorder>
+
+                </Grid>
+            </Popup>
+
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="HideIconWhenNull" Value="True"/>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconPath" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter TargetName="iconGrid" Property="Margin" Value="0" />
+                    <Setter TargetName="iconGrid" Property="Visibility" Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+
+            <Trigger Property="Header" Value="{x:Null}">
+                <Setter TargetName="IconElement" Property="Margin" Value="0" />
+                <Setter TargetName="IconPathElement" Property="Margin" Value="0" />
+                <Setter TargetName="HeaderContentPresenter" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--  MenuItem Style  -->
+    <Style x:Key="WpfUiMenuItem" TargetType="{x:Type local:MenuItem}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <!--<Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />-->
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
+        <Setter Property="Focusable" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource MenuItem.TopLevelHeaderControlTemplateStyle}" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{StaticResource MenuItem.TopLevelItemControlTemplateStyle}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource MenuItem.SubMenuHeaderControlTemplateStyle}" />
+                <Setter Property="Foreground" Value="#292929" />
+                <Setter Property="MouseEnterBackground" Value="#eff6fc" />
+                <Setter Property="MousePressedBackground" Value="#DCEEFD"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource MenuItem.SubMenuItemControlTemplateStyle}" />
+                <Setter Property="Foreground" Value="#292929" />
+                <Setter Property="MouseEnterBackground" Value="#eff6fc" />
+                <Setter Property="MousePressedBackground" Value="#DCEEFD"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource WpfUiMenuItem}" TargetType="{x:Type local:MenuItem}" />
+
+</ResourceDictionary>
