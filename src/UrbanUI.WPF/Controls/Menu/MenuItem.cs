@@ -276,14 +276,6 @@ public partial class MenuItem : System.Windows.Controls.MenuItem
 
    #endregion Dependency Properties
 
-   public MenuItem()
-   {
-      this.Loaded += delegate
-      {
-         if(HoldUncheckingWhenGrouped)
-         {
+   public MenuItem() { }
 
-         }
-      };
-   }
 }
