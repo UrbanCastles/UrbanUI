@@ -13,7 +13,7 @@
         <Grid>
             <local:HighlightMarker x:Name="selectionMarkerBorder" HorizontalAlignment="Left" Panel.ZIndex="2" Background="{Binding FocusMarkerColor, ElementName=sideBarMenuItem}"/>
             <StackPanel Name="stackPane" VerticalAlignment="Center" Orientation="{Binding IconTextOrientation, ElementName=sideBarMenuItem}">
-                <local:PathIconControl x:Name="iconControl" HorizontalAlignment="{Binding IconHorizontalAlignment, ElementName=sideBarMenuItem}"  Width="{Binding IconWidth, ElementName=sideBarMenuItem}" Height="{Binding IconHeight, ElementName=sideBarMenuItem}" Margin="{Binding IconMargin, ElementName=sideBarMenuItem}"/>
+                <local:PathIconer x:Name="iconControl" HorizontalAlignment="{Binding IconHorizontalAlignment, ElementName=sideBarMenuItem}"  Width="{Binding IconWidth, ElementName=sideBarMenuItem}" Height="{Binding IconHeight, ElementName=sideBarMenuItem}" Margin="{Binding IconMargin, ElementName=sideBarMenuItem}"/>
                 <TextBlock x:Name="menuTextBlock" Foreground="White" HorizontalAlignment="{Binding TextHorizontalAlignment, ElementName=sideBarMenuItem}" Margin="{Binding TextMargin, ElementName=sideBarMenuItem}" Visibility="Collapsed"
                                     FontSize="{Binding FontSize, ElementName=sideBarMenuItem}"
                                     FontFamily="{Binding FontFamily, ElementName=sideBarMenuItem}"

@@ -25,13 +25,13 @@
                 </Grid.ColumnDefinitions>
 
 
-                <local:PathIconControl x:Name="PART_iconControl"  Grid.Column="0"
+                <local:PathIconer x:Name="PART_iconControl"  Grid.Column="0"
                                                      Width="{TemplateBinding PathIconWidth}" 
                                                      Height="{TemplateBinding PathIconHeight}" 
                                                      VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                      IsEnabled="{TemplateBinding IsEnabled}"  
-                                                     Path="{TemplateBinding IconPath}" 
-                                                    Color="{TemplateBinding IconColor}"
+                                                     DataPath="{TemplateBinding IconPath}" 
+                                                    Fill="{TemplateBinding IconColor}"
                                                       Margin="{TemplateBinding IconMargin}"/>
 
                 <ContentPresenter x:Name="PART_contentHost" Grid.Column="1"
@@ -58,19 +58,19 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="PART_contentHost" Property="TextElement.Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
                 <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
+                <Setter TargetName="PART_iconControl" Property="Fill" Value="{Binding Path=DisabledIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Fill" Value="{Binding Path=MouseEnterIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="PART_mainBorder" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Color" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="Fill" Value="{Binding Path=PressedIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="DataPath" Value="{Binding Path=PressedIconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
             </Trigger>
             <DataTrigger Binding="{Binding PressedIconPath}" Value="{x:Null}">
-                <Setter TargetName="PART_iconControl" Property="Path" Value="{Binding Path=IconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
+                <Setter TargetName="PART_iconControl" Property="DataPath" Value="{Binding Path=IconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Hyperlink}}}"/>
             </DataTrigger>
 
             <Trigger Property="IconPath" Value="{x:Null}">

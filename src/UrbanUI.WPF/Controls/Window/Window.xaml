@@ -70,7 +70,7 @@
         <Setter Property="WindowStyle" Value="ToolWindow" />
         <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-        <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
+        <Setter Property="RenderOptions.EdgeMode" Value="Unspecified" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template" Value="{StaticResource UrbanUI.WPF.WindowStyle}"/>

@@ -39,10 +39,10 @@
                         IsHitTestVisible="False">
 
                     <Grid>
-                        <local:PathIconControl x:Name="PART_pathIcon" 
-                                               Path="{TemplateBinding IconPath}" 
+                        <local:PathIconer x:Name="PART_pathIcon" 
+                                               DataPath="{TemplateBinding IconPath}" 
                                                Opacity="{TemplateBinding ImageOpacity}" 
-                                               Color="{TemplateBinding IconColor}" 
+                                               Fill="{TemplateBinding IconColor}" 
                                                Margin="{TemplateBinding ImageMargin}"
                                                IsHitTestVisible="False"/>
 
