@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/PathIconer/PathIconer.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/ClipBorder/ClipBorder.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Marker/HighlightMarker.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Button/Button.xaml" />

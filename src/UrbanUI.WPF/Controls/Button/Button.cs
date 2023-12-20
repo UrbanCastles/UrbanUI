@@ -7,7 +7,7 @@ namespace UrbanUI.WPF.Controls
 {
    [TemplatePart(Name = "PART_mainBorder", Type = typeof(Border))]
    [TemplatePart(Name = "PART_contentHost", Type = typeof(ContentPresenter))]
-   [TemplatePart(Name = "PART_iconControl", Type = typeof(PathIconControl))]
+   [TemplatePart(Name = "PART_iconControl", Type = typeof(PathIconer))]
    public partial class Button : System.Windows.Controls.Button, ITheme
    {
       #region Dependency Properties
@@ -95,12 +95,12 @@ namespace UrbanUI.WPF.Controls
       #endregion DP: TextStyle
 
       #region DP: IconPath
-      public string IconPath
+      public Geometry IconPath
       {
-         get { return (string)GetValue(IconPathProperty); }
+         get { return (Geometry)GetValue(IconPathProperty); }
          set { SetValue(IconPathProperty, value); }
       }
-      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(string), typeof(Button), new PropertyMetadata(null));
+      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(Geometry), typeof(Button), new PropertyMetadata(null));
       #endregion DP: IconPath
 
       #region DP: IconMargin
@@ -113,12 +113,12 @@ namespace UrbanUI.WPF.Controls
       #endregion DP: IconMargin
 
       #region DP: PressedIconPath
-      public string PressedIconPath
+      public Geometry PressedIconPath
       {
-         get { return (string)GetValue(PressedIconPathProperty); }
+         get { return (Geometry)GetValue(PressedIconPathProperty); }
          set { SetValue(PressedIconPathProperty, value); }
       }
-      public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(string), typeof(Button), new PropertyMetadata(null));
+      public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(Geometry), typeof(Button), new PropertyMetadata(null));
       #endregion DP: PressedIconPath
 
       #region DP: IconColor
@@ -182,7 +182,7 @@ namespace UrbanUI.WPF.Controls
       private Theme? _theme;
 
       private Border? _mainBorder;
-      private PathIconControl? _iconControl;
+      private PathIconer? _iconControl;
       private ContentPresenter? _contentHost;
 
       private bool _templateApplied = false;
@@ -198,7 +198,7 @@ namespace UrbanUI.WPF.Controls
       public override void OnApplyTemplate()
       {
          _mainBorder = GetTemplateChild("PART_mainBorder") as Border;
-         _iconControl = GetTemplateChild("PART_iconControl") as PathIconControl;
+         _iconControl = GetTemplateChild("PART_iconControl") as PathIconer;
          _contentHost = GetTemplateChild("PART_contentHost") as ContentPresenter;
 
          base.OnApplyTemplate();
@@ -212,7 +212,7 @@ namespace UrbanUI.WPF.Controls
                if(_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.MouseEnterBackground;
-                  _iconControl.Color = this.MouseEnterIconColor;
+                  _iconControl.Fill = this.MouseEnterIconColor;
                }
             };
 
@@ -221,7 +221,7 @@ namespace UrbanUI.WPF.Controls
                if (_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.Background;
-                  _iconControl.Color = this.IconColor;
+                  _iconControl.Fill = this.IconColor;
                }
             };
 
@@ -230,8 +230,8 @@ namespace UrbanUI.WPF.Controls
                if (_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.MousePressedBackground;
-                  _iconControl.Color = this.PressedIconColor;
-                  _iconControl.Path = string.IsNullOrWhiteSpace(this.PressedIconPath) ? this.IconPath : this.PressedIconPath;
+                  _iconControl.Fill = this.PressedIconColor;
+                  _iconControl.DataPath = this.PressedIconPath == null ? this.IconPath : this.PressedIconPath;
                }
             };
 
@@ -240,8 +240,8 @@ namespace UrbanUI.WPF.Controls
                if (_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.Background;
-                  _iconControl.Color = this.IconColor;
-                  _iconControl.Path = this.IconPath;
+                  _iconControl.Fill = this.IconColor;
+                  _iconControl.DataPath = this.IconPath;
                }
             };
 

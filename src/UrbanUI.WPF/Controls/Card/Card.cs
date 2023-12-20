@@ -132,31 +132,13 @@ namespace UrbanUI.WPF.Controls
       #endregion  DP: DisabledForeground
 
       #region DP: IconPath
-      public string IconPath
+      public Geometry IconPath
       {
-         get { return (string)GetValue(IconPathProperty); }
+         get { return (Geometry)GetValue(IconPathProperty); }
          set { SetValue(IconPathProperty, value); }
       }
-      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(string), typeof(Card), new PropertyMetadata(null));
+      public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(Geometry), typeof(Card), new PropertyMetadata(null));
       #endregion DP: IconPath
-
-      #region DP: IconFlipVertically
-      public bool IconFlipVertically
-      {
-         get { return (bool)GetValue(IconFlipVerticallyProperty); }
-         set { SetValue(IconFlipVerticallyProperty, value); }
-      }
-      public static readonly DependencyProperty IconFlipVerticallyProperty = DependencyProperty.Register(nameof(IconFlipVertically), typeof(bool), typeof(Card), new PropertyMetadata(false));
-      #endregion DP:IconFlipVertically
-
-      #region DP: IconFlipHorizontally
-      public bool IconFlipHorizontally
-      {
-         get { return (bool)GetValue(IconFlipHorizontallyProperty); }
-         set { SetValue(IconFlipHorizontallyProperty, value); }
-      }
-      public static readonly DependencyProperty IconFlipHorizontallyProperty = DependencyProperty.Register(nameof(IconFlipHorizontally), typeof(bool), typeof(Card), new PropertyMetadata(false));
-      #endregion DP:IconFlipHorizontally
 
       #region DP: IconColor
       public Brush IconColor

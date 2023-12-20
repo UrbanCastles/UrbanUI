@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using UrbanUI.WPF.Controls;
 using UrbanUI.WPF.Themes;
@@ -21,9 +22,7 @@ namespace UrbanUI.WPF.ControlGenerators
          card.ImageBackgroundColor = theme.MenuFocusIconColor;
          if(icon != null)
          {
-            card.IconPath = icon.StrokePath;
-            card.IconFlipVertically = icon.FlipY;
-            card.IconFlipHorizontally = icon.FlipX;
+            card.IconPath = Geometry.Parse(icon.StrokePath);
          }
          card.IconColor = theme.ThemeBackground;
          card.ImageMargin = new Thickness(40);

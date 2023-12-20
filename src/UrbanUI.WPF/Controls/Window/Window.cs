@@ -12,6 +12,7 @@ using Icon = UrbanUI.WPF.Themes.Icon;
 using System.Windows.Media.Imaging;
 using System.IO;
 using UrbanUI.WPF.Win32.WinBUttonContext;
+using System.Windows.Media;
 
 namespace UrbanUI.WPF.Controls
 {
@@ -204,7 +205,7 @@ namespace UrbanUI.WPF.Controls
 
          if (icon != null)
          {
-            winButton.IconPath = icon?.StrokePath;
+            winButton.IconPath = Geometry.Parse(icon?.StrokePath);
          }
       }
       #endregion Change Theme

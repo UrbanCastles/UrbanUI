@@ -102,12 +102,12 @@ public partial class MenuItem : System.Windows.Controls.MenuItem
    #endregion DP: TextStyle
 
    #region DP: IconPath
-   public string IconPath
+   public Geometry IconPath
    {
-      get { return (string)GetValue(IconPathProperty); }
+      get { return (Geometry)GetValue(IconPathProperty); }
       set { SetValue(IconPathProperty, value); }
    }
-   public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(string), typeof(MenuItem), new PropertyMetadata(null));
+   public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(nameof(IconPath), typeof(Geometry), typeof(MenuItem), new PropertyMetadata(null));
    #endregion DP: IconPath
 
    #region DP: IconMargin
@@ -129,12 +129,12 @@ public partial class MenuItem : System.Windows.Controls.MenuItem
    #endregion DP: HideIconWhenNull
 
    #region DP: PressedIconPath
-   public string PressedIconPath
+   public Geometry PressedIconPath
    {
-      get { return (string)GetValue(PressedIconPathProperty); }
+      get { return (Geometry)GetValue(PressedIconPathProperty); }
       set { SetValue(PressedIconPathProperty, value); }
    }
-   public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(string), typeof(MenuItem), new PropertyMetadata(null));
+   public static readonly DependencyProperty PressedIconPathProperty = DependencyProperty.Register(nameof(PressedIconPath), typeof(Geometry), typeof(MenuItem), new PropertyMetadata(null));
    #endregion DP: PressedIconPath
 
    #region DP: IconColor
@@ -276,14 +276,6 @@ public partial class MenuItem : System.Windows.Controls.MenuItem
 
    #endregion Dependency Properties
 
-   public MenuItem()
-   {
-      this.Loaded += delegate
-      {
-         if(HoldUncheckingWhenGrouped)
-         {
+   public MenuItem() { }
 
-         }
-      };
-   }
 }

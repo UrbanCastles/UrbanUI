@@ -516,10 +516,10 @@ namespace UrbanUI.WPF.Controls
       {
          this.Dispatcher.Invoke(new Action(() =>
          {
-            this.iconControl.Path = string.IsNullOrWhiteSpace(iconPath) ? IconPath : iconPath;
-            this.iconControl.Color = iconColor == null ?IconColor : iconColor;
-            this.iconControl.FlipVertically = FlipVertically == null ? FlipIconVertically : FlipVertically.Value;
-            this.iconControl.FlipHorizontally = FlipVertically == null ? FlipIconHorizontally : FlipVertically.Value;
+            this.iconControl.DataPath = Geometry.Parse(string.IsNullOrWhiteSpace(iconPath) ? IconPath : iconPath);
+            this.iconControl.Fill = iconColor == null ?IconColor : iconColor;
+            //this.iconControl.FlipVertically = FlipVertically == null ? FlipIconVertically : FlipVertically.Value;
+            //this.iconControl.FlipHorizontally = FlipVertically == null ? FlipIconHorizontally : FlipVertically.Value;
          }));
       }
 
