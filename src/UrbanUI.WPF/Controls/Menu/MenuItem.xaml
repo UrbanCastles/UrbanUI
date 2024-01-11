@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:UrbanUI.WPF.Controls"
-    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters">
+    xmlns:converter="clr-namespace:UrbanUI.WPF.Converters"
+    xmlns:local="clr-namespace:UrbanUI.WPF.Controls">
 
-    <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converter:IsNullConverter x:Key="IsNullConverter" />
 
-    <!--Seperator Style-->
+    <!--  Seperator Style  -->
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
         <Setter Property="Margin" Value="0,1,0,1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -14,23 +15,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border Width="{TemplateBinding Width}" 
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" />
+                    <Border
+                        Width="{TemplateBinding Width}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!--Arrow and Popup, And Inline Menu Animations-->
+    <!--  Arrow and Popup, And Inline Menu Animations  -->
     <Storyboard x:Key="RotateDownArrowElement">
         <DoubleAnimation
-                Storyboard.TargetName="ArrowElement"
-                Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
-                From="0"
-                To="180"
-                Duration="00:00:00.200">
+            Storyboard.TargetName="ArrowElement"
+            Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+            From="0"
+            To="180"
+            Duration="00:00:00.200">
             <DoubleAnimation.EasingFunction>
                 <CircleEase EasingMode="EaseOut" />
             </DoubleAnimation.EasingFunction>
@@ -38,11 +40,11 @@
     </Storyboard>
     <Storyboard x:Key="RotateUpArrowElement">
         <DoubleAnimation
-                Storyboard.TargetName="ArrowElement"
-                Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
-                From="180"
-                To="0"
-                Duration="00:00:00.200">
+            Storyboard.TargetName="ArrowElement"
+            Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+            From="180"
+            To="0"
+            Duration="00:00:00.200">
             <DoubleAnimation.EasingFunction>
                 <CircleEase EasingMode="EaseOut" />
             </DoubleAnimation.EasingFunction>
@@ -50,147 +52,168 @@
     </Storyboard>
     <Storyboard x:Key="OpenPopUpMenuAnimation">
         <DoubleAnimation
-                Storyboard.TargetName="SubmenuBorder"
-                Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
-                From="-90"
-                To="0"
-                Duration="00:00:00.200">
+            Storyboard.TargetName="SubmenuBorder"
+            Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+            From="-90"
+            To="0"
+            Duration="00:00:00.200">
             <DoubleAnimation.EasingFunction>
                 <CircleEase EasingMode="EaseOut" />
             </DoubleAnimation.EasingFunction>
         </DoubleAnimation>
     </Storyboard>
     <Storyboard x:Key="OpacityInlineMenuAnimation">
-        <DoubleAnimationUsingKeyFrames 
-            BeginTime="0:0:0.1" 
-            Duration="0:0:0:3" 
+        <DoubleAnimationUsingKeyFrames
+            BeginTime="0:0:0.1"
             Storyboard.TargetName="SubmenuBorder_inLine"
-            Storyboard.TargetProperty="Opacity">
-            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.0"/>
-            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+            Storyboard.TargetProperty="Opacity"
+            Duration="0:0:0:3">
+            <LinearDoubleKeyFrame KeyTime="0:0:0.0" Value="0" />
+            <LinearDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
         </DoubleAnimationUsingKeyFrames>
     </Storyboard>
 
-    <!--  TopLevelHeader -->
+    <!--  TopLevelHeader  -->
     <ControlTemplate x:Key="MenuItem.TopLevelHeaderControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
 
         <Grid Margin="{TemplateBinding Margin}">
 
-            <local:ClipBorder x:Name="Border" Grid.Row="0"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}">
-                
+            <local:ClipBorder
+                x:Name="Border"
+                Grid.Row="0"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+
                 <Grid>
 
                     <Grid x:Name="menuContents_Grid" Margin="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel x:Name="IconTextContentStackPane" Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Grid.Column="0">
+                        <StackPanel
+                            x:Name="IconTextContentStackPane"
+                            Grid.Column="0"
+                            Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}">
 
-                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}" >
+                            <Grid
+                                x:Name="iconGrid"
+                                Margin="{TemplateBinding IconMargin}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
 
-                                <local:PathIconer x:Name="IconPathElement"
-                                DataPath="{TemplateBinding IconPath}"
-                                Fill="{TemplateBinding IconColor}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}"/>
+                                <local:PathIconer
+                                    x:Name="IconPathElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    DataPath="{TemplateBinding IconPath}"
+                                    Fill="{TemplateBinding IconColor}" />
 
-                                <ContentControl x:Name="IconElement"
-                                Content="{TemplateBinding Icon}"
-                                FontSize="{TemplateBinding FontSize}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}" />
+                                <ContentControl
+                                    x:Name="IconElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    Content="{TemplateBinding Icon}"
+                                    FontSize="{TemplateBinding FontSize}" />
                             </Grid>
 
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            ContentSource="Header"
-                            RecognizesAccessKey="True"
-                            TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter
+                                x:Name="HeaderContentPresenter"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </ContentPresenter.Resources>
                             </ContentPresenter>
 
                         </StackPanel>
 
-                        <local:PathIconer x:Name="ArrowElement"
+                        <local:PathIconer
+                            x:Name="ArrowElement"
                             Grid.Column="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
                             Width="8"
                             Height="8"
+                            Margin="8,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
                             DataPath="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-                            Fill="{TemplateBinding Foreground}" 
-                            Margin="8,0,4,0" 
+                            Fill="{TemplateBinding Foreground}"
                             RenderTransformOrigin="0.5,0.5"
-                            Visibility="{TemplateBinding ShowTopLevelHeaderArrow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Visibility="{TemplateBinding ShowTopLevelHeaderArrow,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}">
                             <local:PathIconer.RenderTransform>
-                                <RotateTransform Angle="0"/>
+                                <RotateTransform Angle="0" />
                             </local:PathIconer.RenderTransform>
                         </local:PathIconer>
 
                     </Grid>
 
-                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
-                                           HorizontalAlignment="Left" 
-                                           Orientation="Vertical"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Left_selectionMarkerBorder"
+                        HorizontalAlignment="Left"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Vertical"
+                        Toggle="{TemplateBinding IsSubmenuOpen}"
+                        Visibility="Collapsed" />
 
-                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder"
-                                           VerticalAlignment="Bottom" 
-                                           Orientation="Horizontal"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Bottom_selectionMarkerBorder"
+                        VerticalAlignment="Bottom"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Horizontal"
+                        Toggle="{TemplateBinding IsSubmenuOpen}"
+                        Visibility="Collapsed" />
 
                 </Grid>
 
             </local:ClipBorder>
 
-            <Popup  x:Name="Popup"
-                    AllowsTransparency="True"
-                    Focusable="False"
-                    HorizontalOffset="0"
-                    IsOpen="{TemplateBinding IsSubmenuOpen}"
-                    Placement="Bottom"
-                    PlacementTarget="{Binding ElementName=Border}"
-                    PopupAnimation="None"
-                    VerticalOffset="1"
-                    Visibility="Collapsed">
+            <Popup
+                x:Name="Popup"
+                AllowsTransparency="True"
+                Focusable="False"
+                HorizontalOffset="0"
+                IsOpen="{TemplateBinding IsSubmenuOpen}"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=Border}"
+                PopupAnimation="None"
+                VerticalOffset="1"
+                Visibility="Collapsed">
 
                 <Grid HorizontalAlignment="Right">
 
                     <local:ClipBorder
-                            x:Name="SubmenuBorder"
-                            Margin="2,0,0,10"
-                            Background="{TemplateBinding PopupBackground}"
-                            BorderBrush="{TemplateBinding PopupBorderBrush}"
-                            BorderThickness="{TemplateBinding PopupBorderThickness}"
-                            CornerRadius="{TemplateBinding PopupCornerRadius}"
-                            SnapsToDevicePixels="True">
+                        x:Name="SubmenuBorder"
+                        Margin="2,0,0,10"
+                        Background="{TemplateBinding PopupBackground}"
+                        BorderBrush="{TemplateBinding PopupBorderBrush}"
+                        BorderThickness="{TemplateBinding PopupBorderThickness}"
+                        CornerRadius="{TemplateBinding PopupCornerRadius}"
+                        SnapsToDevicePixels="True">
                         <local:ClipBorder.RenderTransform>
                             <TranslateTransform />
                         </local:ClipBorder.RenderTransform>
-                        <local:ScrollViewer CanContentScroll="True" >
+                        <local:ScrollViewer CanContentScroll="True">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </local:ScrollViewer>
                         <local:ClipBorder.Effect>
-                            <DropShadowEffect BlurRadius="25" Direction="270" Opacity="0.30" ShadowDepth="7"/>
+                            <DropShadowEffect
+                                BlurRadius="25"
+                                Direction="270"
+                                Opacity="0.30"
+                                ShadowDepth="7" />
                         </local:ClipBorder.Effect>
                     </local:ClipBorder>
 
@@ -202,8 +225,8 @@
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
@@ -211,8 +234,8 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
@@ -220,9 +243,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="iconGrid" Property="Margin" Value="0" />
@@ -232,8 +255,8 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.EnterActions>
                     <BeginStoryboard x:Name="OpenPopUpMenuAnimationStoryBoard" Storyboard="{StaticResource OpenPopUpMenuAnimation}" />
@@ -247,8 +270,8 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource Mode=Self}}" Value="False" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.EnterActions>
                     <BeginStoryboard x:Name="RotateUpArrowElementStoryBoard" Storyboard="{StaticResource RotateUpArrowElement}" />
@@ -257,14 +280,14 @@
                     <RemoveStoryboard BeginStoryboardName="RotateUpArrowElementStoryBoard" />
                 </MultiDataTrigger.ExitActions>
             </MultiDataTrigger>
-            
+
 
             <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal">
                 <Setter TargetName="Popup" Property="Placement" Value="Bottom" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical">
                 <Setter TargetName="Popup" Property="Placement" Value="Right" />
-                <Setter TargetName="ArrowElement" Property="DataPath" Value="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
+                <Setter TargetName="ArrowElement" Property="DataPath" Value="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
             </DataTrigger>
 
             <Trigger Property="Header" Value="{x:Null}">
@@ -279,19 +302,19 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
-                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
+                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="IconTextContentStackPane" Property="Margin" Value="4,0,0,0" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
-            
+
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
-                    <Condition Binding="{Binding Path=ShowTopLevelHeaderArrow, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
+                    <Condition Binding="{Binding Path=ShowTopLevelHeaderArrow, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="IconTextContentStackPane" Property="Margin" Value="20,0,0,0" />
@@ -308,8 +331,8 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
-                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
@@ -318,14 +341,14 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
-                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
-            
+
 
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
@@ -334,10 +357,10 @@
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
-                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
-            
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -346,53 +369,73 @@
 
         <Grid Margin="{TemplateBinding Margin}">
 
-            <local:ClipBorder x:Name="Border" Grid.Row="0"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}">
+            <local:ClipBorder
+                x:Name="Border"
+                Grid.Row="0"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid x:Name="CheckMarkGrid" Width="10" Height="10" Margin="10, 0,0,0" Grid.Column="0" VerticalAlignment="Center">
-                        <local:PathIconer Fill="{TemplateBinding Foreground}"
-                                                       DataPath="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
-                                                       Visibility="{TemplateBinding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Grid
+                        x:Name="CheckMarkGrid"
+                        Grid.Column="0"
+                        Width="10"
+                        Height="10"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center">
+                        <local:PathIconer
+                            DataPath="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
+                            Fill="{TemplateBinding Foreground}"
+                            Visibility="{TemplateBinding IsChecked,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </Grid>
 
 
-                    <Grid x:Name="menuContents_Grid" Margin="10" Grid.Column="1">
+                    <Grid
+                        x:Name="menuContents_Grid"
+                        Grid.Column="1"
+                        Margin="10">
 
-                        <StackPanel x:Name="IconTextContentStackPane"  Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}">
+                        <StackPanel x:Name="IconTextContentStackPane" Orientation="{Binding Path=IconTextOrientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}">
 
 
-                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}">
-                                <local:PathIconer x:Name="IconPathElement"
-                                DataPath="{TemplateBinding IconPath}"
-                                Fill="{TemplateBinding IconColor}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}"/>
+                            <Grid
+                                x:Name="iconGrid"
+                                Margin="{TemplateBinding IconMargin}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <local:PathIconer
+                                    x:Name="IconPathElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    DataPath="{TemplateBinding IconPath}"
+                                    Fill="{TemplateBinding IconColor}" />
 
-                                <ContentControl x:Name="IconElement"
-                                Content="{TemplateBinding Icon}"
-                                FontSize="{TemplateBinding FontSize}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}" />
+                                <ContentControl
+                                    x:Name="IconElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    Content="{TemplateBinding Icon}"
+                                    FontSize="{TemplateBinding FontSize}" />
                             </Grid>
 
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            ContentSource="Header"
-                            RecognizesAccessKey="True"
-                            TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter
+                                x:Name="HeaderContentPresenter"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </ContentPresenter.Resources>
                             </ContentPresenter>
@@ -401,24 +444,26 @@
 
                     </Grid>
 
-                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
-                                           HorizontalAlignment="Left" 
-                                           Orientation="Vertical"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsChecked}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Left_selectionMarkerBorder"
+                        HorizontalAlignment="Left"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Vertical"
+                        Toggle="{TemplateBinding IsChecked}"
+                        Visibility="Collapsed" />
 
-                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
-                                           VerticalAlignment="Bottom" 
-                                           Grid.ColumnSpan="2"
-                                           Orientation="Horizontal"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsChecked}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Bottom_selectionMarkerBorder"
+                        Grid.ColumnSpan="2"
+                        VerticalAlignment="Bottom"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Horizontal"
+                        Toggle="{TemplateBinding IsChecked}"
+                        Visibility="Collapsed" />
 
                 </Grid>
 
@@ -428,8 +473,8 @@
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
@@ -437,8 +482,8 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
@@ -446,9 +491,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="iconGrid" Property="Margin" Value="0" />
@@ -457,37 +502,37 @@
             </MultiTrigger>
 
             <Trigger Property="IsCheckable" Value="False">
-                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
@@ -512,6 +557,19 @@
                 <Setter TargetName="menuContents_Grid" Property="HorizontalAlignment" Value="Stretch" />
             </DataTrigger>
 
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Border" Property="Background" Value="{Binding Path=CheckedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+                    <Setter Property="Foreground" Value="{Binding Path=CheckedForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                    <Setter TargetName="IconPathElement" Property="DataPath" Value="{Binding Path=CheckedIconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+                    <Setter TargetName="IconPathElement" Property="Fill" Value="{Binding Path=CheckedIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MouseEnterBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
             </Trigger>
@@ -519,8 +577,8 @@
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
-                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
             </Trigger>
 
         </ControlTemplate.Triggers>
@@ -532,54 +590,75 @@
 
         <Grid Margin="{TemplateBinding Margin}">
 
-            <local:ClipBorder x:Name="Border" Grid.Row="0"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}">
+            <local:ClipBorder
+                x:Name="Border"
+                Grid.Row="0"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid x:Name="CheckMarkGrid" Width="10" Height="10" Margin="10, 0,0,0" Grid.Column="0" VerticalAlignment="Center">
-                        <local:PathIconer Fill="{TemplateBinding Foreground}"
-                                                       DataPath="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
-                                                       Visibility="{TemplateBinding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Grid
+                        x:Name="CheckMarkGrid"
+                        Grid.Column="0"
+                        Width="10"
+                        Height="10"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center">
+                        <local:PathIconer
+                            DataPath="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951  c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445  c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"
+                            Fill="{TemplateBinding Foreground}"
+                            Visibility="{TemplateBinding IsChecked,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </Grid>
 
 
-                    <Grid x:Name="menuContents_Grid" Margin="10" Grid.Column="1" VerticalAlignment="Center">
+                    <Grid
+                        x:Name="menuContents_Grid"
+                        Grid.Column="1"
+                        Margin="10"
+                        VerticalAlignment="Center">
 
-                        <StackPanel x:Name="IconTextContentStackPane"  Orientation="Horizontal">
+                        <StackPanel x:Name="IconTextContentStackPane" Orientation="Horizontal">
 
 
-                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}">
-                                <local:PathIconer x:Name="IconPathElement"
-                                DataPath="{TemplateBinding IconPath}"
-                                Fill="{TemplateBinding IconColor}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}"/>
+                            <Grid
+                                x:Name="iconGrid"
+                                Margin="{TemplateBinding IconMargin}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <local:PathIconer
+                                    x:Name="IconPathElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    DataPath="{TemplateBinding IconPath}"
+                                    Fill="{TemplateBinding IconColor}" />
 
-                                <ContentControl x:Name="IconElement"
-                                Content="{TemplateBinding Icon}"
-                                FontSize="{TemplateBinding FontSize}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}" />
+                                <ContentControl
+                                    x:Name="IconElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    Content="{TemplateBinding Icon}"
+                                    FontSize="{TemplateBinding FontSize}" />
                             </Grid>
 
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            ContentSource="Header"
-                            RecognizesAccessKey="True"
-                            TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter
+                                x:Name="HeaderContentPresenter"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </ContentPresenter.Resources>
                             </ContentPresenter>
@@ -589,7 +668,9 @@
                     </Grid>
 
 
-                    <TextBlock x:Name="InputCommandText" Grid.Column="2"
+                    <TextBlock
+                        x:Name="InputCommandText"
+                        Grid.Column="2"
                         Margin="10,0,8,0"
                         VerticalAlignment="Center"
                         FontSize="11"
@@ -597,24 +678,26 @@
                         Text="{TemplateBinding InputGestureText}" />
 
 
-                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
-                                           HorizontalAlignment="Left" 
-                                           Orientation="Vertical"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsChecked}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Left_selectionMarkerBorder"
+                        HorizontalAlignment="Left"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Vertical"
+                        Toggle="{TemplateBinding IsChecked}"
+                        Visibility="Collapsed" />
 
-                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
-                                           VerticalAlignment="Bottom" 
-                                           Orientation="Horizontal"
-                                           Grid.ColumnSpan="3"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsChecked}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Bottom_selectionMarkerBorder"
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Bottom"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Horizontal"
+                        Toggle="{TemplateBinding IsChecked}"
+                        Visibility="Collapsed" />
 
                 </Grid>
 
@@ -627,8 +710,8 @@
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
@@ -636,8 +719,8 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
@@ -645,9 +728,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="iconGrid" Property="Margin" Value="0" />
@@ -656,37 +739,51 @@
             </MultiTrigger>
 
             <Trigger Property="IsCheckable" Value="False">
-                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="Check" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Visible" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker"/>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=CheckedType, RelativeSource={RelativeSource Mode=Self}}" Value="BadgeMarker" />
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
-                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="CheckMarkGrid" Property="Visibility" Value="Collapsed" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                    <Condition Binding="{Binding Path=IsCheckable, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter TargetName="Border" Property="Background" Value="{Binding Path=CheckedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+                    <Setter Property="Foreground" Value="{Binding Path=CheckedForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                    <Setter TargetName="IconPathElement" Property="DataPath" Value="{Binding Path=CheckedIconPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
+                    <Setter TargetName="IconPathElement" Property="Fill" Value="{Binding Path=CheckedIconColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
@@ -703,8 +800,8 @@
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
-                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
             </Trigger>
 
             <Trigger Property="InputGestureText" Value="">
@@ -715,121 +812,145 @@
 
     </ControlTemplate>
 
-    <!--  SubMenuHeader -->
+    <!--  SubMenuHeader  -->
     <ControlTemplate x:Key="MenuItem.SubMenuHeaderControlTemplateStyle" TargetType="{x:Type local:MenuItem}">
 
         <Grid Margin="{TemplateBinding Margin}">
 
-            <local:ClipBorder x:Name="Border" Grid.Row="0"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}">
+            <local:ClipBorder
+                x:Name="Border"
+                Grid.Row="0"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
 
                 <Grid>
 
-                    <Grid x:Name="menuContents_Grid" Margin="10" VerticalAlignment="Center">
+                    <Grid
+                        x:Name="menuContents_Grid"
+                        Margin="10"
+                        VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel x:Name="IconTextContentStackPane" Orientation="Horizontal" Grid.Column="0">
+                        <StackPanel
+                            x:Name="IconTextContentStackPane"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
 
-                            <Grid x:Name="iconGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding IconMargin}" >
+                            <Grid
+                                x:Name="iconGrid"
+                                Margin="{TemplateBinding IconMargin}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
 
-                                <local:PathIconer x:Name="IconPathElement"
-                                DataPath="{TemplateBinding IconPath}"
-                                Fill="{TemplateBinding IconColor}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}"/>
+                                <local:PathIconer
+                                    x:Name="IconPathElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    DataPath="{TemplateBinding IconPath}"
+                                    Fill="{TemplateBinding IconColor}" />
 
-                                <ContentControl x:Name="IconElement"
-                                Content="{TemplateBinding Icon}"
-                                FontSize="{TemplateBinding FontSize}" 
-                                Width="{TemplateBinding PathIconWidth}" 
-                                Height="{TemplateBinding PathIconHeight}" />
+                                <ContentControl
+                                    x:Name="IconElement"
+                                    Width="{TemplateBinding PathIconWidth}"
+                                    Height="{TemplateBinding PathIconHeight}"
+                                    Content="{TemplateBinding Icon}"
+                                    FontSize="{TemplateBinding FontSize}" />
                             </Grid>
 
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            ContentSource="Header"
-                            RecognizesAccessKey="True"
-                            TextElement.Foreground="{TemplateBinding Foreground}">
+                            <ContentPresenter
+                                x:Name="HeaderContentPresenter"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True"
+                                TextElement.Foreground="{TemplateBinding Foreground}">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </ContentPresenter.Resources>
                             </ContentPresenter>
 
                         </StackPanel>
 
-                        <local:PathIconer x:Name="ArrowElement_Right"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Width="8"
-                        Height="8"
-                        DataPath="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
-                        Fill="{TemplateBinding Foreground}" 
-                        Margin="8,0,4,0" 
-                        RenderTransformOrigin="0.5,0.5"
-                        Visibility="{TemplateBinding ShowTopLevelHeaderArrow, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <local:PathIconer
+                            x:Name="ArrowElement_Right"
+                            Grid.Column="1"
+                            Width="8"
+                            Height="8"
+                            Margin="8,0,4,0"
+                            VerticalAlignment="Center"
+                            DataPath="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                            Fill="{TemplateBinding Foreground}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Visibility="{TemplateBinding ShowTopLevelHeaderArrow,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     </Grid>
 
-                    <local:HighlightMarker x:Name="Left_selectionMarkerBorder" 
-                                           HorizontalAlignment="Left" 
-                                           Orientation="Vertical"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Left_selectionMarkerBorder"
+                        HorizontalAlignment="Left"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Vertical"
+                        Toggle="{TemplateBinding IsSubmenuOpen}"
+                        Visibility="Collapsed" />
 
-                    <local:HighlightMarker x:Name="Bottom_selectionMarkerBorder" 
-                                           VerticalAlignment="Bottom" 
-                                           Orientation="Horizontal"
-                                           Panel.ZIndex="2"
-                                           Background="{TemplateBinding FocusMarkerColor}"
-                                           CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
-                                           Toggle="{TemplateBinding IsSubmenuOpen}" 
-                                           Visibility="Collapsed"/>
+                    <local:HighlightMarker
+                        x:Name="Bottom_selectionMarkerBorder"
+                        VerticalAlignment="Bottom"
+                        Panel.ZIndex="2"
+                        Background="{TemplateBinding FocusMarkerColor}"
+                        CornerRadius="{TemplateBinding FocusMarkerCorderRadius}"
+                        Orientation="Horizontal"
+                        Toggle="{TemplateBinding IsSubmenuOpen}"
+                        Visibility="Collapsed" />
 
                 </Grid>
 
             </local:ClipBorder>
 
-            <Popup  x:Name="Popup"
-                    AllowsTransparency="True"
-                    Focusable="False"
-                    HorizontalOffset="0"
-                    IsOpen="{TemplateBinding IsSubmenuOpen}"
-                    Placement="Right"
-                    PlacementTarget="{Binding ElementName=Border}"
-                    PopupAnimation="None"
-                    VerticalOffset="1"
-                    Visibility="Collapsed">
+            <Popup
+                x:Name="Popup"
+                AllowsTransparency="True"
+                Focusable="False"
+                HorizontalOffset="0"
+                IsOpen="{TemplateBinding IsSubmenuOpen}"
+                Placement="Right"
+                PlacementTarget="{Binding ElementName=Border}"
+                PopupAnimation="None"
+                VerticalOffset="1"
+                Visibility="Collapsed">
 
                 <Grid HorizontalAlignment="Right">
 
                     <local:ClipBorder
-                            x:Name="SubmenuBorder"
-                            Margin="2,0,0,10"
-                            Background="{TemplateBinding PopupBackground}"
-                            BorderBrush="{TemplateBinding PopupBorderBrush}"
-                            BorderThickness="{TemplateBinding PopupBorderThickness}"
-                            CornerRadius="{TemplateBinding PopupCornerRadius}"
-                            SnapsToDevicePixels="True">
+                        x:Name="SubmenuBorder"
+                        Margin="2,0,0,10"
+                        Background="{TemplateBinding PopupBackground}"
+                        BorderBrush="{TemplateBinding PopupBorderBrush}"
+                        BorderThickness="{TemplateBinding PopupBorderThickness}"
+                        CornerRadius="{TemplateBinding PopupCornerRadius}"
+                        SnapsToDevicePixels="True">
                         <local:ClipBorder.RenderTransform>
                             <TranslateTransform />
                         </local:ClipBorder.RenderTransform>
-                        <local:ScrollViewer CanContentScroll="True" >
+                        <local:ScrollViewer CanContentScroll="True">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </local:ScrollViewer>
                         <local:ClipBorder.Effect>
-                            <DropShadowEffect BlurRadius="25" Direction="270" Opacity="0.30" ShadowDepth="7"/>
+                            <DropShadowEffect
+                                BlurRadius="25"
+                                Direction="270"
+                                Opacity="0.30"
+                                ShadowDepth="7" />
                         </local:ClipBorder.Effect>
                     </local:ClipBorder>
 
@@ -841,8 +962,8 @@
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
@@ -850,8 +971,8 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="IconPathElement" Property="Visibility" Value="Collapsed" />
@@ -859,9 +980,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="HideIconWhenNull" Value="True"/>
-                    <Condition Property="Icon" Value="{x:Null}"/>
-                    <Condition Property="IconPath" Value="{x:Null}"/>
+                    <Condition Property="HideIconWhenNull" Value="True" />
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IconPath" Value="{x:Null}" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter TargetName="iconGrid" Property="Margin" Value="0" />
@@ -877,8 +998,8 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal"/>
-                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Horizontal" />
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Bottom_selectionMarkerBorder" Property="Visibility" Value="Visible" />
@@ -887,8 +1008,8 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical"/>
-                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="Vertical" />
+                    <Condition Binding="{Binding Path=ShowSelectionMarker, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:Menu}}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter TargetName="Left_selectionMarkerBorder" Property="Visibility" Value="Visible" />
@@ -902,8 +1023,8 @@
                 <Setter TargetName="Border" Property="Background" Value="{Binding Path=MousePressedBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuItem}}}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}"/>
-                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=DisabledForeground, RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter TargetName="Border" Property="Background" Value="{Binding Path=DisabledBackground, RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
 
         </ControlTemplate.Triggers>
@@ -926,13 +1047,13 @@
                 <Setter Property="Template" Value="{StaticResource MenuItem.SubMenuHeaderControlTemplateStyle}" />
                 <Setter Property="Foreground" Value="#292929" />
                 <Setter Property="MouseEnterBackground" Value="#eff6fc" />
-                <Setter Property="MousePressedBackground" Value="#DCEEFD"/>
+                <Setter Property="MousePressedBackground" Value="#DCEEFD" />
             </Trigger>
             <Trigger Property="Role" Value="SubmenuItem">
                 <Setter Property="Template" Value="{StaticResource MenuItem.SubMenuItemControlTemplateStyle}" />
                 <Setter Property="Foreground" Value="#292929" />
                 <Setter Property="MouseEnterBackground" Value="#eff6fc" />
-                <Setter Property="MousePressedBackground" Value="#DCEEFD"/>
+                <Setter Property="MousePressedBackground" Value="#DCEEFD" />
             </Trigger>
         </Style.Triggers>
     </Style>

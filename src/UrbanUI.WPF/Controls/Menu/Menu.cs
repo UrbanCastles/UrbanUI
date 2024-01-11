@@ -78,10 +78,12 @@ public partial class Menu : System.Windows.Controls.Menu, ITheme
          menuItem.MouseEnterForeground = _theme.MenuHighlightForeground;
          menuItem.MousePressedBackground = _theme.MenuFocusBackground;
          menuItem.MousePressedForeground = _theme.MenuFocusForeground;
+         menuItem.CheckedBackground = _theme.MenuFocusBackground;
+         menuItem.CheckedForeground = _theme.MenuFocusForeground;
          menuItem.FocusMarkerColor = _theme.MenuFocusMarkerColor;
          menuItem.IconColor = _theme.MenuForeground;
          menuItem.MouseEnterIconColor = _theme.MenuForeground;
-         menuItem.PressedIconColor = _theme.MenuFocusIconColor;
+         menuItem.PressedIconColor = menuItem.CheckedIconColor = _theme.MenuFocusIconColor;
       }   
    }
 
