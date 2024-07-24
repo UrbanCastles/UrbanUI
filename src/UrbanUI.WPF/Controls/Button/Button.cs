@@ -212,7 +212,7 @@ namespace UrbanUI.WPF.Controls
                if(_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.MouseEnterBackground;
-                  _iconControl.Fill = this.MouseEnterIconColor;
+                  //_iconControl.Fill = this.MouseEnterIconColor;
                }
             };
 
@@ -221,7 +221,7 @@ namespace UrbanUI.WPF.Controls
                if (_manuallyTriggerUIEvents)
                {
                   _mainBorder.Background = this.Background;
-                  _iconControl.Fill = this.IconColor;
+                  //_iconControl.Fill = this.IconColor;
                }
             };
 
