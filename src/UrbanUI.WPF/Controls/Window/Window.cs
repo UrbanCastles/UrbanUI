@@ -52,7 +52,7 @@ namespace UrbanUI.WPF.Controls
          Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
 
          Rectangle workingArea = screen.WorkingArea;
-         base.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
+         //base.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
          #endregion Setups
 
          #region On Loaded Setups
@@ -136,9 +136,6 @@ namespace UrbanUI.WPF.Controls
       protected override void OnInitialized(EventArgs e)
       {
          base.OnInitialized(e);
-
-         this.MaxWidth = this.Width;
-         this.MaxHeight = this.Height;
       }
       #endregion On Initialized
 
@@ -316,7 +313,6 @@ namespace UrbanUI.WPF.Controls
 
       private void SetWindowState(WindowState state, bool onlyChangeUI = false)
       {
-         Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
          Thickness thickness = new Thickness(0);
 
          if (!onlyChangeUI)
@@ -324,19 +320,17 @@ namespace UrbanUI.WPF.Controls
             WindowState = state;
          }
 
-         if (WindowState != WindowState.Maximized)
+         if (this.WindowState == WindowState.Maximized)
          {
-            double currentDPIScaleFactor = (double)SystemDPI.GetCurrentDPIScaleFactor();
-            Rectangle workingArea = screen.WorkingArea;
-            this.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
-            this.MaxWidth = double.PositiveInfinity;
+            MainGridContainer.Padding = new Thickness(
+                SystemParameters.WorkArea.Left + 7,
+                SystemParameters.WorkArea.Top + 7,
+                (SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right) + 7, 7);
          }
          else
          {
-            thickness = SystemDPI.GetDefaultMarginForDpi();
+            MainGridContainer.Padding = new Thickness(0, 0, 0, 0);
          }
-
-         MainGridContainer.Margin = thickness;
       }
 
       private void SetWindowButtonsStateVisibility()

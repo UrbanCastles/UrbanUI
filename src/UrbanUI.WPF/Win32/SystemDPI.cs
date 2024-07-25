@@ -16,32 +16,32 @@ namespace UrbanUI.WPF.Win32
          return (double)GetCurrentDPI() / 96;
       }
 
-      public static Thickness GetDefaultMarginForDpi()
-      {
-         int currentDPI = GetCurrentDPI();
-         Thickness thickness = new Thickness(8, 8, 8, 8);
-         if (currentDPI == 120)
-         {
-            thickness = new Thickness(7, 7, 4, 5);
-         }
-         else if (currentDPI == 144)
-         {
-            thickness = new Thickness(7, 7, 3, 1);
-         }
-         else if (currentDPI == 168)
-         {
-            thickness = new Thickness(6, 6, 2, 0);
-         }
-         else if (currentDPI == 192)
-         {
-            thickness = new Thickness(6, 6, 0, 0);
-         }
-         else if (currentDPI == 240)
-         {
-            thickness = new Thickness(6, 6, 0, 0);
-         }
-         return thickness;
-      }
+      //public static Thickness GetDefaultMarginForDpi()
+      //{
+      //   int currentDPI = GetCurrentDPI();
+      //   Thickness thickness = new Thickness(8, 8, 7, 8);
+      //   if (currentDPI == 120)
+      //   {
+      //      thickness = new Thickness(7, 7, 4, 5);
+      //   }
+      //   else if (currentDPI == 144)
+      //   {
+      //      thickness = new Thickness(7, 7, 3, 1);
+      //   }
+      //   else if (currentDPI == 168)
+      //   {
+      //      thickness = new Thickness(6, 6, 2, 0);
+      //   }
+      //   else if (currentDPI == 192)
+      //   {
+      //      thickness = new Thickness(6, 6, 0, 0);
+      //   }
+      //   else if (currentDPI == 240)
+      //   {
+      //      thickness = new Thickness(6, 6, 0, 0);
+      //   }
+      //   return thickness;
+      //}
 
       public static Thickness GetFromMinimizedMarginForDpi()
       {
