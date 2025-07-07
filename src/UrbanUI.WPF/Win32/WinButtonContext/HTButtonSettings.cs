@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Shell;
+using UrbanUI.WPF.Win32.Helper;
+using UrbanUI.WPF.Win32.Interop.Methods;
 using UrbanUI.WPF.Win32.Interop.Values;
 
 namespace UrbanUI.WPF.Win32.WinBUttonContext
 {
    public class HTButtonSettings
    {
-      private static HTButtonSettings? _instance = null;
-      private Window? _windowSource;
-      private Button? _minimizeButton, _maximizeButton, _restoreButton, _closeButton;
+      private static HTButtonSettings _instance = null;
+      private Window _windowSource;
+      private Button _minimizeButton, _maximizeButton, _restoreButton, _closeButton;
 
 
       private const int
@@ -126,7 +124,7 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
                      break;
                   case WindowHelper.ButtonType.MAXIMIZEBUTTON:
                   case WindowHelper.ButtonType.RESTOREBUTTON:
-                     if (OSVersionHelper.IsWindows11_OrGreater && this._windowSource.ResizeMode is not ResizeMode.NoResize and not ResizeMode.CanMinimize)
+                     if (OSVersionHelper.IsWindows11_OrGreater && this._windowSource.ResizeMode != ResizeMode.NoResize && this._windowSource.ResizeMode != ResizeMode.CanMinimize)
                      {
                         returnPtr = new IntPtr(HTButtonSettings.HTMAXBUTTON);
                      }
@@ -252,7 +250,7 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
       {
          if (uMsg == WM_NCHITTEST)
          {
-            if (NativeMethods.DefWindowProc(hWnd, uMsg, wParam, lParam).ToInt32() == HTCLIENT)
+            if (InteropMethods.DefWindowProc(hWnd, uMsg, wParam, lParam).ToInt32() == HTCLIENT)
             {
                return true;
             }
@@ -263,73 +261,5 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
    }
 
 
-   static class WindowHelper
-   {
-      internal static IntPtr GetHandle(this Window window) => new WindowInteropHelper(window).EnsureHandle();
-      internal static HwndSource GetHwndSource(this Window window) => HwndSource.FromHwnd(window.GetHandle());
 
-      internal enum ButtonType
-      {
-         NONE = -1,
-         MINIMIZEBUTTON = 0,
-         MAXIMIZEBUTTON = 1,
-         RESTOREBUTTON = 2,
-         CLOSEBUTTON = 3
-      };
-   }
-
-   static class OSVersionHelper
-   {
-
-      internal static readonly Version OSVersion = GetOSVersion();
-      public static bool IsWindowsNT { get; } = Environment.OSVersion.Platform == PlatformID.Win32NT;
-      public static bool IsWindows11_OrGreater { get; } = IsWindowsNT && OSVersion >= new Version(10, 0, 22000);
-      public static Version GetOSVersion()
-      {
-         var osv = new NativeMethods.RTL_OSVERSIONINFOEX();
-#if !NET5_0_OR_GREATER
-            osv.dwOSVersionInfoSize = (uint) Marshal.SizeOf(osv);
-#endif
-         NativeMethods.RtlGetVersion(out osv);
-         return new Version((int)osv.dwMajorVersion, (int)osv.dwMinorVersion, (int)osv.dwBuildNumber, (int)osv.dwRevision);
-      }
-   }
-
-
-
-   static class NativeMethods
-   {
-      [DllImport(InteropValues.ExternDll.NTdll)]
-      internal static extern int RtlGetVersion(out NativeMethods.RTL_OSVERSIONINFOEX lpVersionInformation);
-
-      [DllImport(InteropValues.ExternDll.User32)]
-      internal static extern IntPtr DefWindowProc(IntPtr hWnd, int uMsg, IntPtr wParam, IntPtr lParam);
-
-
-      [StructLayout(LayoutKind.Sequential)]
-      internal struct RTL_OSVERSIONINFOEX
-      {
-#if NET6_0_OR_GREATER
-         public RTL_OSVERSIONINFOEX(uint dwMajorVersion, uint dwMinorVersion, uint dwBuildNumber, uint dwRevision, uint dwPlatformId, string szCSDVersion) : this()
-         {
-            this.dwMajorVersion = dwMajorVersion;
-            this.dwMinorVersion = dwMinorVersion;
-            this.dwBuildNumber = dwBuildNumber;
-            this.dwRevision = dwRevision;
-            this.dwPlatformId = dwPlatformId;
-            this.szCSDVersion = szCSDVersion;
-         }
-         public readonly uint dwOSVersionInfoSize { get; init; } = (uint)Marshal.SizeOf<RTL_OSVERSIONINFOEX>();
-#else
-         public uint dwOSVersionInfoSize;
-#endif
-         public uint dwMajorVersion;
-         public uint dwMinorVersion;
-         public uint dwBuildNumber;
-         public uint dwRevision;
-         public uint dwPlatformId;
-         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-         public string szCSDVersion;
-      }
-   }
 }

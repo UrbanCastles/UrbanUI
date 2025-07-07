@@ -32,7 +32,7 @@ namespace UrbanUI.WPF.Controls
 
 
 
-      private Theme? _theme;
+      private Theme _theme;
 
       static ScrollViewer()
       {

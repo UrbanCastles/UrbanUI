@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using UrbanUI.WPF.Themes;
@@ -30,14 +29,14 @@ namespace UrbanUI.WPF.Controls
    {
       #region Initializations
       private bool mRestoreIfMove = false;
-      private Theme? _theme;
+      private Theme _theme;
 
-      internal Button? minimizeButton, maximizeButton, restoreButton, closeButton;
-      private Grid? dragGrid;
-      private Border? MainGridContainer;
-      private System.Windows.Controls.Image? windowIcon;
-      private TextBlock? windowTitle;
-      private ContentPresenter? contentPresenter;
+      internal Button minimizeButton, maximizeButton, restoreButton, closeButton;
+      private Grid dragGrid;
+      private Border MainGridContainer;
+      private System.Windows.Controls.Image windowIcon;
+      private TextBlock windowTitle;
+      private ContentPresenter contentPresenter;
       private bool _templateApplied = false;
       #endregion Initializations
 
@@ -49,9 +48,9 @@ namespace UrbanUI.WPF.Controls
 
          double currentDPIScaleFactor =
                 (double)SystemDPI.GetCurrentDPIScaleFactor();
-         Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
+         //Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
 
-         Rectangle workingArea = screen.WorkingArea;
+         Rect workingArea = ScreenHelper.GetWorkingArea(this);
          //base.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
          #endregion Setups
 
@@ -159,7 +158,7 @@ namespace UrbanUI.WPF.Controls
          ChangeTheme(theme);
       }
 
-      public Theme? GetTheme()
+      public Theme GetTheme()
       {
          return _theme;
       }
@@ -186,7 +185,7 @@ namespace UrbanUI.WPF.Controls
          }
       }
 
-      private void ChangeWindowButtonColor(Button? winButton, Theme theme, Icon? icon)
+      private void ChangeWindowButtonColor(Button winButton, Theme theme, Icon icon)
       {
          if (theme == null || winButton == null)
          {
@@ -240,7 +239,7 @@ namespace UrbanUI.WPF.Controls
          }
       }
 
-      private void Window_StateChanged(object? sender, EventArgs e)
+      private void Window_StateChanged(object sender, EventArgs e)
       {
          if (maximizeButton != null && restoreButton != null)
          {

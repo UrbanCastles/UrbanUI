@@ -2,25 +2,26 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace UrbanUI.WPF.Controls;
-
-public partial class PathIconer: Control
+namespace UrbanUI.WPF.Controls
 {
-   #region DP: DataPath
-   public Geometry DataPath
+   public partial class PathIconer : Control
    {
-      get { return (Geometry)GetValue(DataPathProperty); }
-      set { SetValue(DataPathProperty, value); }
-   }
-   public static readonly DependencyProperty DataPathProperty = DependencyProperty.Register(nameof(DataPath), typeof(Geometry), typeof(PathIconer), new PropertyMetadata(null));
-   #endregion DP: DataPath
+      #region DP: DataPath
+      public Geometry DataPath
+      {
+         get { return (Geometry)GetValue(DataPathProperty); }
+         set { SetValue(DataPathProperty, value); }
+      }
+      public static readonly DependencyProperty DataPathProperty = DependencyProperty.Register(nameof(DataPath), typeof(Geometry), typeof(PathIconer), new PropertyMetadata(null));
+      #endregion DP: DataPath
 
-   #region DP: Fill
-   public Brush Fill
-   {
-      get { return (Brush)GetValue(FillProperty); }
-      set { SetValue(FillProperty, value); }
+      #region DP: Fill
+      public Brush Fill
+      {
+         get { return (Brush)GetValue(FillProperty); }
+         set { SetValue(FillProperty, value); }
+      }
+      public static readonly DependencyProperty FillProperty = DependencyProperty.Register(nameof(Fill), typeof(Brush), typeof(PathIconer), new PropertyMetadata(Brushes.White));
+      #endregion DP:Fill
    }
-   public static readonly DependencyProperty FillProperty = DependencyProperty.Register(nameof(Fill), typeof(Brush), typeof(PathIconer), new PropertyMetadata(Brushes.White));
-   #endregion DP:Fill
 }

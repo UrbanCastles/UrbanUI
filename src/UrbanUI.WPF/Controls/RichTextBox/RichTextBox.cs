@@ -17,8 +17,8 @@ namespace UrbanUI.WPF.Controls
    public partial class RichTextBox : System.Windows.Controls.RichTextBox, ITheme
    {
 
-      private UrbanUI.WPF.Controls.ScrollViewer? _ContentHost;
-      private Theme? _theme;
+      private UrbanUI.WPF.Controls.ScrollViewer _ContentHost;
+      private Theme _theme;
       public RichTextBox()
       {
          //DefaultStyleKeyProperty.OverrideMetadata(typeof(RichTextBox), new FrameworkPropertyMetadata(typeof(RichTextBox)));

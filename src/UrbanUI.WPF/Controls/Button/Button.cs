@@ -179,11 +179,11 @@ namespace UrbanUI.WPF.Controls
 
       #endregion Dependency Properties
 
-      private Theme? _theme;
+      private Theme _theme;
 
-      private Border? _mainBorder;
-      private PathIconer? _iconControl;
-      private ContentPresenter? _contentHost;
+      private Border _mainBorder;
+      private PathIconer _iconControl;
+      private ContentPresenter _contentHost;
 
       private bool _templateApplied = false;
       private bool _manuallyTriggerUIEvents = false;

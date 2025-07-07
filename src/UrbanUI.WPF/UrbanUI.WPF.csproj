@@ -1,29 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <!-- Multi-target .NET Framework 4.6.2 + .NET 6.0 -->
+    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
-	<UseWindowsForms>true</UseWindowsForms>
+
+    <!-- NuGet Package Info -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>UrbanUI.Controls</PackageId>
+    <Version>0.8.0-alpha</Version>
+    <Authors>Reymark Cruz Urbano</Authors>
+    <Company>Urban Castle</Company>
+    <Description>Urban UI - Transform Your WPF Applications with Modern Design</Description>
+    <PackageTags>wpf ui controls xaml usercontrol theme</PackageTags>
+    <RepositoryUrl>https://github.com/UrbanCastles/UrbanUI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/UrbanCastles/UrbanUI</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controls\Button\IconTextButton.cs" />
-    <Compile Remove="Controls\Card\Cards.xaml.cs" />
-    <Compile Remove="Controls\PathIconer\PathIconControl.xaml.cs" />
-    <Compile Remove="Controls\Window\FlatWindowEHE.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Themes\default_icon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Remove="Controls\Button\IconTextButton.xaml" />
-    <Page Remove="Controls\Card\Cards.xaml" />
-    <Page Remove="Controls\PathIconer\PathIconControl.xaml" />
-    <Page Remove="Controls\Window\FlatWindowEHE.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

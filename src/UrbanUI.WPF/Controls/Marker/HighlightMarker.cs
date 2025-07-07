@@ -11,9 +11,9 @@ namespace UrbanUI.WPF.Controls
    internal partial class HighlightMarker : System.Windows.Controls.ContentControl, ITheme
    {
 
-      private System.Windows.Controls.Grid? _mainGrid;
-      private System.Windows.Controls.Border? _mainBorder;
-      private Theme? _theme;
+      private System.Windows.Controls.Grid _mainGrid;
+      private System.Windows.Controls.Border _mainBorder;
+      private Theme _theme;
       private bool _templateApplied = false;
       private bool _hasUnfinishedSetupAnim = false;
       private MarkerState? _unfinishedAnimState = null;
@@ -182,7 +182,7 @@ namespace UrbanUI.WPF.Controls
       #endregion Width and Height Fetcher
 
       #region Themeing
-      public Theme? GetTheme()
+      public Theme GetTheme()
       {
          return _theme;
       }
