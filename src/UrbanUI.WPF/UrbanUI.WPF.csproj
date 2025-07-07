@@ -12,8 +12,6 @@
     <Compile Remove="Controls\Card\Cards.xaml.cs" />
     <Compile Remove="Controls\PathIconer\PathIconControl.xaml.cs" />
     <Compile Remove="Controls\Window\FlatWindowEHE.xaml.cs" />
-    <Compile Remove="HybridControls\CircularProgressBar.xaml.cs" />
-    <Compile Remove="HybridControls\ToggleButtonControl.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,8 +23,6 @@
     <Page Remove="Controls\Card\Cards.xaml" />
     <Page Remove="Controls\PathIconer\PathIconControl.xaml" />
     <Page Remove="Controls\Window\FlatWindowEHE.xaml" />
-    <Page Remove="HybridControls\CircularProgressBar.xaml" />
-    <Page Remove="HybridControls\ToggleButtonControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
