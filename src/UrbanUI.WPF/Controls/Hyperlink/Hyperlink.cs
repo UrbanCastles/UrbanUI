@@ -33,8 +33,10 @@ namespace UrbanUI.WPF.Controls
 
          try
          {
-
-            ProcessStartInfo sInfo = new(new Uri(Link).AbsoluteUri) { UseShellExecute = true };
+            ProcessStartInfo sInfo = new ProcessStartInfo(new Uri(Link).AbsoluteUri)
+            {
+               UseShellExecute = true
+            };
 
             Process.Start(sInfo);
          }

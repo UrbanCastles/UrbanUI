@@ -4,8 +4,8 @@ namespace UrbanUI.WPF.Themes
 {
    public interface ITheme
    {
-      public void SetThemeUI(Theme theme, bool UpdateContentThemes = false);
-      public Theme GetTheme();
+      void SetThemeUI(Theme theme, bool UpdateContentThemes = false);
+      Theme GetTheme();
    }
 
    public static class ThemeChanger

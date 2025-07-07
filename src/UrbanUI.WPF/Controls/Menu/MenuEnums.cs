@@ -1,8 +1,8 @@
-﻿
-namespace UrbanUI.WPF.Controls;
-
- public enum MenuItemCheckedType
- {
-   Check,
-   BadgeMarker
- }
+﻿namespace UrbanUI.WPF.Controls
+{
+   public enum MenuItemCheckedType
+   {
+      Check,
+      BadgeMarker
+   }
+}

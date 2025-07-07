@@ -15,6 +15,8 @@ namespace UrbanUI.WPF.Win32.Interop.Values
              NTdll = "ntdll.dll";
       }
 
-      public static double DPI_SCALE => SystemDPI.GetCurrentDPIScaleFactor();
+      internal static double DPI_SCALE => SystemDPI.GetCurrentDPIScaleFactor();
+
+      internal const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
    }
 }

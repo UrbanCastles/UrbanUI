@@ -273,9 +273,9 @@ namespace UrbanUI.WPF.Controls
 
       #endregion Routing Events
 
-      private Theme? _theme;
+      private Theme _theme;
 
-      private Button? _mainBorderButton;
+      private Button _mainBorderButton;
 
       public Card()
       {
