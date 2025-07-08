@@ -6,9 +6,10 @@ Welcome to Urban UI, your go-to UI Library Tool for breathing new life into WPF 
 
 We're constantly evolving to bring you even more stunning designs and enhanced features. Stay tuned for updates as we continue to expand our repertoire of supported controls.
 
-![NuGet](https://img.shields.io/nuget/v/UrbanUI.WPF.svg)
-![NuGet Downloads](https://img.shields.io/nuget/dt/UrbanUI.WPF.svg)
-![License](https://img.shields.io/badge/license-MIT-green)
+[![NuGet](https://img.shields.io/nuget/v/UrbanUI.WPF.svg)](https://www.nuget.org/packages/UrbanUI.WPF/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/UrbanUI.WPF.svg)](https://www.nuget.org/packages/UrbanUI.WPF/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/UrbanCastles/UrbanUI/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/UrbanCastles/UrbanUI?style=social)](https://github.com/UrbanCastles/UrbanUI/stargazers)
 
 ## 📦 NuGet Package
 
