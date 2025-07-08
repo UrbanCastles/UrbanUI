@@ -6,8 +6,10 @@ namespace UrbanUI.WPF.Win32.Helper
 {
    internal static class WindowHelper
    {
-      internal static IntPtr GetHandle(this Window window) => new WindowInteropHelper(window).EnsureHandle();
-      internal static HwndSource GetHwndSource(this Window window) => HwndSource.FromHwnd(window.GetHandle());
+      internal static IntPtr GetHandle(this Window window) => new WindowInteropHelper(window).Handle;
+      internal static IntPtr EnsureHandle(this Window window) => new WindowInteropHelper(window).EnsureHandle();
+      internal static HwndSource GetHwndSource(this Window window) => HwndSource.FromHwnd(window.EnsureHandle());
+      internal static HwndSource GetHwndSource(this Window window, IntPtr Handle) => HwndSource.FromHwnd(Handle);
 
       internal enum ButtonType
       {

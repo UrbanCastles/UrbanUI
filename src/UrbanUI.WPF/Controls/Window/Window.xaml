@@ -10,14 +10,23 @@
         <Border x:Name="PART_MainGridContainer" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" MinHeight="35"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid>
+                <Grid x:Name="PART_TopBarGrid" MinHeight="35">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowStyle}" Value="None">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                     <Grid x:Name="PART_dragGrid" IsHitTestVisible="True" Background="Transparent">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15, 0 0 0">
                             <Image x:Name="PART_windowIcon" Width="16" Height="16" Source="{TemplateBinding Icon}"/>
@@ -43,17 +52,17 @@
                     <ContentPresenter x:Name="PART_ContentPresenter" Margin="1"/>
                 </Grid>
 
-                <ResizeGrip HorizontalAlignment="Right" x:Name="WindowResizeGrip" VerticalAlignment="Bottom" IsTabStop="False" Visibility="Collapsed" Grid.Row="1"/>
+                <ResizeGrip HorizontalAlignment="Right" x:Name="PART_WindowResizeGrip" VerticalAlignment="Bottom" IsTabStop="False" Visibility="Collapsed" Grid.Row="1"/>
             </Grid>
         </Border>
 
         <ControlTemplate.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
-                    <Condition Property="WindowState" Value="Normal"/>
+                    <Condition Property="ResizeMode" Value="CanResize"/>
+                    <Condition Property="WindowState" Value="Maximized"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="PART_WindowResizeGrip" Value="Collapsed"/>
             </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -67,7 +76,7 @@
                               UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="WindowStyle" Value="ToolWindow" />
+        <Setter Property="WindowStyle" Value="SingleBorderWindow" />
         <Setter Property="AllowsTransparency" Value="False" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
         <Setter Property="RenderOptions.EdgeMode" Value="Unspecified" />
