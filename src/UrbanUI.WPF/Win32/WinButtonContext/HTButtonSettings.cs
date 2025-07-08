@@ -19,23 +19,14 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
       private Button _minimizeButton, _maximizeButton, _restoreButton, _closeButton;
 
 
-      private const int
-         HTMAXBUTTON = 9,
-         HTMINBUTTON = 8,
-         HTCLOSE = 20,
-         HTCLIENT = 1;
-
-      private const int
-         WM_NCHITTEST = 0x0084,
-         WM_NCLBUTTONDOWN = 0x00A1,
-         WM_NCLBUTTONUP = 0x00A2;
-
       private WindowHelper.ButtonType _newButtonMouseEntered = WindowHelper.ButtonType.NONE;
       private WindowHelper.ButtonType _lastButtonMouseLeave = WindowHelper.ButtonType.NONE;
       private WindowHelper.ButtonType _lastButtonMouseDown = WindowHelper.ButtonType.NONE;
       private bool _newButtonMouseEnteredAlreadyTriggered = true;
       private bool _lastButtonMouseLeaveAlreadyTriggered = true;
       private bool _continueButtonInvocation = false;
+
+      internal IntPtr Hwnd { get; set; }
 
       private static HTButtonSettings _getInstance()
       {
@@ -44,9 +35,12 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
          return _instance;
       }
 
-      private void InitHooks()
+      private IntPtr InitHooks()
       {
-         this._windowSource?.GetHwndSource()?.AddHook(this.HwndSourceHook);
+         var Hwnd = this._windowSource.EnsureHandle();
+         this._windowSource?.GetHwndSource(Hwnd)?.AddHook(this.HwndSourceHook);
+         this.Hwnd = Hwnd;
+         return Hwnd;
       }
 
       private void FixWindowChromeSetups()
@@ -68,7 +62,7 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
          }
       }
 
-      public static void AddContextMenuHook(Window window, Button minimizeButton, Button maximizeButton, Button restoreButton, Button closeButton)
+      public static IntPtr AddContextMenuHook(Window window, Button minimizeButton, Button maximizeButton, Button restoreButton, Button closeButton)
       {
          var instance = _getInstance();
          if (instance != null)
@@ -87,15 +81,17 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
 
             instance.FixWindowChromeSetups();
 
-            instance.InitHooks();
+            return instance.InitHooks();
          }
+         else
+            return IntPtr.Zero;
       }
 
       private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
       {
          switch (msg)
          {
-            case HTButtonSettings.WM_NCHITTEST:
+            case InteropValues.WM_NCHITTEST:
                var buttonType = GetButtonType(lParam, InteropValues.DPI_SCALE);
                IntPtr returnPtr = IntPtr.Zero;
 
@@ -117,16 +113,16 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
                switch (buttonType)
                {
                   case WindowHelper.ButtonType.MINIMIZEBUTTON:
-                     returnPtr = new IntPtr(HTButtonSettings.HTMINBUTTON);
+                     returnPtr = new IntPtr(InteropValues.HTMINBUTTON);
                      break;
                   case WindowHelper.ButtonType.CLOSEBUTTON:
-                     returnPtr = new IntPtr(HTButtonSettings.HTCLOSE);
+                     returnPtr = new IntPtr(InteropValues.HTCLOSE);
                      break;
                   case WindowHelper.ButtonType.MAXIMIZEBUTTON:
                   case WindowHelper.ButtonType.RESTOREBUTTON:
                      if (OSVersionHelper.IsWindows11_OrGreater && this._windowSource.ResizeMode != ResizeMode.NoResize && this._windowSource.ResizeMode != ResizeMode.CanMinimize)
                      {
-                        returnPtr = new IntPtr(HTButtonSettings.HTMAXBUTTON);
+                        returnPtr = new IntPtr(InteropValues.HTMAXBUTTON);
                      }
                      break;
                }
@@ -158,7 +154,7 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
                   handled = false;
                break;
 
-            case HTButtonSettings.WM_NCLBUTTONDOWN:
+            case InteropValues.WM_NCLBUTTONDOWN:
                var buttonType_mousedown = GetButtonType(lParam, InteropValues.DPI_SCALE);
                _lastButtonMouseDown = buttonType_mousedown;
                if (buttonType_mousedown != WindowHelper.ButtonType.NONE)
@@ -170,7 +166,7 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
                   handled = false;
                break;
 
-            case HTButtonSettings.WM_NCLBUTTONUP:
+            case InteropValues.WM_NCLBUTTONUP:
                var buttonType_mouseup = GetButton(_lastButtonMouseDown);
                if (_continueButtonInvocation)
                {
@@ -186,6 +182,11 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
                }
                else
                   handled = false;
+               break;
+
+            case InteropValues.WM_GETMINMAXINFO:
+               ScreenHelper.WmGetMinMaxInfo(hwnd, lParam, this._windowSource);
+               handled = true;
                break;
 
             default:
@@ -248,9 +249,9 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
 
       public bool IsOnClientArea(IntPtr hWnd, int uMsg, IntPtr wParam, IntPtr lParam)
       {
-         if (uMsg == WM_NCHITTEST)
+         if (uMsg == InteropValues.WM_NCHITTEST)
          {
-            if (InteropMethods.DefWindowProc(hWnd, uMsg, wParam, lParam).ToInt32() == HTCLIENT)
+            if (InteropMethods.DefWindowProc(hWnd, uMsg, wParam, lParam).ToInt32() == InteropValues.HTCLIENT)
             {
                return true;
             }

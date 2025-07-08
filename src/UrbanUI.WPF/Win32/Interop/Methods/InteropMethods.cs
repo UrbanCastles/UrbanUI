@@ -10,7 +10,7 @@ namespace UrbanUI.WPF.Win32.Interop.Methods
 
       [DllImport(InteropValues.ExternDll.User32)]
       [return: MarshalAs(UnmanagedType.Bool)]
-      internal static extern bool GetCursorPos(out Win32Point lpPoint);
+      internal static extern bool GetCursorPos(out POINT lpPoint);
 
       [DllImport(InteropValues.ExternDll.User32)]
       internal static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
@@ -24,31 +24,26 @@ namespace UrbanUI.WPF.Win32.Interop.Methods
       [DllImport(InteropValues.ExternDll.User32)]
       internal static extern IntPtr DefWindowProc(IntPtr hWnd, int uMsg, IntPtr wParam, IntPtr lParam);
 
+      [DllImport(InteropValues.ExternDll.Dwmapi, PreserveSig = true)]
+      internal static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
-      [StructLayout(LayoutKind.Sequential)]
-      internal struct RTL_OSVERSIONINFOEX
-      {
-#if NET6_0_OR_GREATER
-         public RTL_OSVERSIONINFOEX(uint dwMajorVersion, uint dwMinorVersion, uint dwBuildNumber, uint dwRevision, uint dwPlatformId, string szCSDVersion) : this()
-         {
-            this.dwMajorVersion = dwMajorVersion;
-            this.dwMinorVersion = dwMinorVersion;
-            this.dwBuildNumber = dwBuildNumber;
-            this.dwRevision = dwRevision;
-            this.dwPlatformId = dwPlatformId;
-            this.szCSDVersion = szCSDVersion;
-         }
-         public readonly uint dwOSVersionInfoSize { get; init; } = (uint)Marshal.SizeOf<RTL_OSVERSIONINFOEX>();
-#else
-         public uint dwOSVersionInfoSize;
-#endif
-         public uint dwMajorVersion;
-         public uint dwMinorVersion;
-         public uint dwBuildNumber;
-         public uint dwRevision;
-         public uint dwPlatformId;
-         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-         public string szCSDVersion;
-      }
+      [DllImport(InteropValues.ExternDll.Dwmapi)]
+      internal static extern bool DwmIsCompositionEnabled();
+
+      [DllImport(InteropValues.ExternDll.User32, SetLastError = true)]
+      internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+      [DllImport(InteropValues.ExternDll.Shell32, SetLastError = true)]
+      internal static extern int SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
+
+      [DllImport(InteropValues.ExternDll.User32)]
+      internal static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
+
+      [DllImport(InteropValues.ExternDll.User32, SetLastError = true)]
+      internal static extern IntPtr MonitorFromPoint(POINT pt, int dwFlags);
+
+
+
+
    }
 }

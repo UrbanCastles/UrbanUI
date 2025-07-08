@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using UrbanUI.WPF.Win32.WinBUttonContext;
 using System.Windows.Media;
+using static UrbanUI.WPF.Win32.Interop.Structs.InteropStructs;
+using System.Windows.Controls.Primitives;
 
 namespace UrbanUI.WPF.Controls
 {
@@ -24,6 +26,7 @@ namespace UrbanUI.WPF.Controls
    [TemplatePart(Name = "PART_windowIcon", Type = typeof(System.Windows.Controls.Image))]
    [TemplatePart(Name = "PART_windowTitle", Type = typeof(TextBlock))]
    [TemplatePart(Name = "PART_ContentPresenter", Type = typeof(ContentPresenter))]
+   [TemplatePart(Name = "PART_WindowResizeGrip", Type = typeof(ResizeGrip))]
 
    public partial class Window : System.Windows.Window, ITheme
    {
@@ -32,12 +35,14 @@ namespace UrbanUI.WPF.Controls
       private Theme _theme;
 
       internal Button minimizeButton, maximizeButton, restoreButton, closeButton;
+      private ResizeGrip windowResizeGrip;
       private Grid dragGrid;
       private Border MainGridContainer;
       private System.Windows.Controls.Image windowIcon;
       private TextBlock windowTitle;
       private ContentPresenter contentPresenter;
       private bool _templateApplied = false;
+      private bool _internalTreatAsGrip = false;
       #endregion Initializations
 
 
@@ -70,16 +75,28 @@ namespace UrbanUI.WPF.Controls
                }
                catch { }
             }
-
-            HTButtonSettings.AddContextMenuHook(this, minimizeButton, maximizeButton, restoreButton, closeButton);
          };
+
          #endregion On Loaded Setups
+      }
+
+
+      protected override void OnSourceInitialized(EventArgs e)
+      {
+         EnforceWindowAttributes();
+
+         base.OnSourceInitialized(e);
+         HTButtonSettings.AddContextMenuHook(this, minimizeButton, maximizeButton, restoreButton, closeButton);
 
       }
 
       #region On Apply Template
       public override void OnApplyTemplate()
       {
+         windowResizeGrip = GetTemplateChild("PART_WindowResizeGrip") as ResizeGrip;
+         if (windowResizeGrip != null)
+            windowResizeGrip.Visibility = _internalTreatAsGrip ? Visibility.Visible : Visibility.Collapsed;
+
          minimizeButton = GetTemplateChild("PART_minimizeButton") as Button;
          if (minimizeButton != null)
             minimizeButton.Click += MinimizeButton_Click;
@@ -137,6 +154,26 @@ namespace UrbanUI.WPF.Controls
          base.OnInitialized(e);
       }
       #endregion On Initialized
+
+
+      #region Window Attribute Forcing
+      private void EnforceWindowAttributes()
+      {
+         if (this.ResizeMode == ResizeMode.CanResizeWithGrip) //to avoid my control template to not work
+         {
+            _internalTreatAsGrip = true;
+            this.ResizeMode = ResizeMode.CanResize; // force template to be used
+         }
+
+         if (this.WindowStyle != WindowStyle.SingleBorderWindow) //controls what users can only set for this 
+         {
+            if (this.WindowStyle == WindowStyle.None)
+               this.WindowStyle = WindowStyle.None; //retain
+            else
+               this.WindowStyle = WindowStyle.SingleBorderWindow;
+         }
+      }
+      #endregion Window Attribute Forcing
 
 
       #region Manual Hover and Pressed Triggering
@@ -294,7 +331,7 @@ namespace UrbanUI.WPF.Controls
 
             SetWindowState(WindowState.Normal);
 
-            Win32Point lMousePosition;
+            POINT lMousePosition;
             InteropMethods.GetCursorPos(out lMousePosition);
 
             Left = lMousePosition.X - targetHorizontal;
@@ -319,6 +356,8 @@ namespace UrbanUI.WPF.Controls
             WindowState = state;
          }
 
+         if (MainGridContainer == null) return;
+
          if (this.WindowState == WindowState.Maximized)
          {
             MainGridContainer.Padding = new Thickness(
@@ -329,6 +368,11 @@ namespace UrbanUI.WPF.Controls
          else
          {
             MainGridContainer.Padding = new Thickness(0, 0, 0, 0);
+         }
+
+         if(windowResizeGrip != null && this._internalTreatAsGrip)
+         {
+            windowResizeGrip.Visibility = (this.WindowState == WindowState.Maximized) ? Visibility.Collapsed : Visibility.Visible;
          }
       }
 
