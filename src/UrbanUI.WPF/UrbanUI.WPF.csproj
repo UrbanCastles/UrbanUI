@@ -4,11 +4,12 @@
     <!-- Multi-target .NET Framework 4.6.2 + .NET 6.0 -->
     <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
+    <EnableDpiAwareness>PerMonitorV2</EnableDpiAwareness>
 
     <!-- NuGet Package Info -->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>UrbanUI.WPF</PackageId>
-    <Version>0.8.0</Version>
+    <Version>0.8.1</Version>
     <Authors>Reymark Cruz Urbano</Authors>
     <Company>Urban Castle</Company>
     <Description>Urban UI - Transform Your WPF Applications with Modern Design</Description>

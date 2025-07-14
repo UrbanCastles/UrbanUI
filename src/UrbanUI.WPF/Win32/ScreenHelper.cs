@@ -66,9 +66,6 @@ namespace UrbanUI.WPF.Win32
 
                mmi.ptMaxTrackSize.X = mmi.ptMaxSize.X;
                mmi.ptMaxTrackSize.Y = mmi.ptMaxSize.Y;
-
-               // Adjust for auto-hide taskbar (optional enhancement)
-               mmi = AdjustWorkingAreaForAutoHide(monitor, mmi);
             }
 
             // Determine min width/height
@@ -91,63 +88,6 @@ namespace UrbanUI.WPF.Win32
          }
 
          Marshal.StructureToPtr(mmi, lParam, false);
-      }
-
-
-
-      private static MINMAXINFO AdjustWorkingAreaForAutoHide(IntPtr monitorContainingApplication, MINMAXINFO mmi)
-      {
-         IntPtr hwnd = InteropMethods.FindWindow("Shell_TrayWnd", null);
-         if (hwnd == null) return mmi;
-         IntPtr monitorWithTaskbarOnIt = InteropMethods.MonitorFromWindow(hwnd, InteropValues.MONITOR_DEFAULTTONEAREST);
-         if (!monitorContainingApplication.Equals(monitorWithTaskbarOnIt)) return mmi;
-         APPBARDATA abd = new APPBARDATA();
-         abd.cbSize = Marshal.SizeOf(abd);
-         abd.hWnd = hwnd;
-         InteropMethods.SHAppBarMessage((int)ABMsg.ABM_GETTASKBARPOS, ref abd);
-         int uEdge = GetEdge(abd.rc);
-         bool autoHide = System.Convert.ToBoolean(InteropMethods.SHAppBarMessage((int)ABMsg.ABM_GETSTATE, ref abd));
-
-         if (!autoHide) return mmi;
-
-         switch (uEdge)
-         {
-            case (int)ABEdge.ABE_LEFT:
-               mmi.ptMaxPosition.X += 2;
-               mmi.ptMaxTrackSize.X -= 2;
-               mmi.ptMaxSize.X -= 2;
-               break;
-            case (int)ABEdge.ABE_RIGHT:
-               mmi.ptMaxSize.X -= 2;
-               mmi.ptMaxTrackSize.X -= 2;
-               break;
-            case (int)ABEdge.ABE_TOP:
-               mmi.ptMaxPosition.Y += 2;
-               mmi.ptMaxTrackSize.Y -= 2;
-               mmi.ptMaxSize.Y -= 2;
-               break;
-            case (int)ABEdge.ABE_BOTTOM:
-               mmi.ptMaxSize.Y -= 2;
-               mmi.ptMaxTrackSize.Y -= 2;
-               break;
-            default:
-               return mmi;
-         }
-         return mmi;
-      }
-
-      private static int GetEdge(RECT rc)
-      {
-         int uEdge = -1;
-         if (rc.Top == rc.Left && rc.Bottom > rc.Right)
-            uEdge = (int)ABEdge.ABE_LEFT;
-         else if (rc.Top == rc.Left && rc.Bottom < rc.Right)
-            uEdge = (int)ABEdge.ABE_TOP;
-         else if (rc.Top > rc.Left)
-            uEdge = (int)ABEdge.ABE_BOTTOM;
-         else
-            uEdge = (int)ABEdge.ABE_RIGHT;
-         return uEdge;
       }
 
       internal static void ExtendGlassFrame(IntPtr hwnd)
