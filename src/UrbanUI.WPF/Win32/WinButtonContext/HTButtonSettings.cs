@@ -52,12 +52,20 @@ namespace UrbanUI.WPF.Win32.WinBUttonContext
          var windowChrome = WindowChrome.GetWindowChrome(_windowSource);
          if (windowChrome != null)
          {
+            windowChrome.ResizeBorderThickness = _windowSource.ResizeMode == ResizeMode.NoResize ? default : new Thickness(4);
             windowChrome.GlassFrameThickness = new Thickness(-1);
          }
          else
          {
-            windowChrome = new WindowChrome();
-            windowChrome.GlassFrameThickness = new Thickness(-1);
+            windowChrome = new WindowChrome()
+            {
+               GlassFrameThickness = new Thickness(-1),
+               ResizeBorderThickness = _windowSource.ResizeMode == ResizeMode.NoResize ? default : new Thickness(4),
+               CaptionHeight = 0,
+               CornerRadius = default,
+               UseAeroCaptionButtons = false
+            };
+
             WindowChrome.SetWindowChrome(_windowSource, windowChrome);
          }
       }

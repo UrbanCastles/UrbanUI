@@ -51,12 +51,11 @@ namespace UrbanUI.WPF.Controls
          #region Setups
          DefaultStyleKeyProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata(typeof(Window)));
 
-         double currentDPIScaleFactor =
-                (double)SystemDPI.GetCurrentDPIScaleFactor();
-         //Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
+         //double currentDPIScaleFactor = (double)SystemDPI.GetCurrentDPIScaleFactor();
+         ////Screen screen = Screen.FromHandle((new WindowInteropHelper(this)).Handle);
 
-         Rect workingArea = ScreenHelper.GetWorkingArea(this);
-         //base.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
+         //Rect workingArea = ScreenHelper.GetWorkingArea(this);
+         ////base.MaxHeight = (double)(workingArea.Height + 16) / currentDPIScaleFactor;
          #endregion Setups
 
          #region On Loaded Setups

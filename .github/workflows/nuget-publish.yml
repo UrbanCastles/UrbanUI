@@ -1,0 +1,41 @@
+name: Publish NuGet package
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+    paths:
+      - 'src/**'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build src\UrbanUI.WPF\UrbanUI.WPF.csproj --configuration Release --no-restore -p:SourceLinkEnabled=true
+
+      - name: Pack
+        run: dotnet pack src\UrbanUI.WPF\UrbanUI.WPF.csproj --configuration Release --no-build --output ./nupkg
+
+      - name: Push to NuGet
+        run: |
+          for file in ./nupkg/*.nupkg; do
+            echo "Pushing $file to NuGet..."
+            dotnet nuget push "$file" \
+              --source https://api.nuget.org/v3/index.json \
+              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --skip-duplicate
+          done
