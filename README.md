@@ -15,7 +15,7 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 ## 📦 NuGet Package
 
 ```bash
-dotnet add package UrbanUI.WPF --version 0.8.0
+dotnet add package UrbanUI.WPF
 ```
 
 ## Features:
@@ -93,10 +93,10 @@ These changes allow you to use the Urban UI `Window` in your MainWindow, providi
 ## Screenshots:
 
 1. **Sample UI Application:**
-   ![Sample UI](https://github.com/UrbanCastles/UrbanUI/blob/master/samples/test_app.png)
+   ![Sample UI](https://github.com/UrbanCastles/UrbanUI/blob/main/samples/test_app.png)
 
 2. **Snap Layout Support (Feature Highlight):**
-   ![Snap Layout](https://github.com/UrbanCastles/UrbanUI/blob/master/samples/snap_layout.png)
+   ![Snap Layout](https://github.com/UrbanCastles/UrbanUI/blob/main/samples/snap_layout.png)
 
 ---
 
