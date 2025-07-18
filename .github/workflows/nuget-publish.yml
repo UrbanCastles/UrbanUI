@@ -32,10 +32,15 @@ jobs:
 
       - name: Push to NuGet
         run: |
-          for file in ./nupkg/*.nupkg; do
-            echo "Pushing $file to NuGet..."
-            dotnet nuget push "$file" \
+          Get-ChildItem -Path "./nupkg" -Filter *.nupkg | ForEach-Object {
+            Write-Host "Pushing $($_.FullName) to NuGet..."
+            dotnet nuget push $_.FullName `
+              --source https://api.nuget.org/v3/index.json `
+              --api-key ${{ secrets.NUGET_API_KEY }} `
+              --skip-duplicate
+          }
+
               --source https://api.nuget.org/v3/index.json \
-              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --api-key "${{ secrets.NUGET_API_KEY }}" \
               --skip-duplicate
           done
