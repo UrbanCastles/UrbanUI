@@ -15,7 +15,7 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 ## 📦 NuGet Package
 
 ```bash
-dotnet add package UrbanUI.WPF --version 0.8.0
+dotnet add package UrbanUI.WPF
 ```
 
 ## Features:
