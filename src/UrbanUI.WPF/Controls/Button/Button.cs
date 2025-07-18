@@ -187,7 +187,7 @@ namespace UrbanUI.WPF.Controls
 
       private bool _templateApplied = false;
       private bool _manuallyTriggerUIEvents = false;
-      public Button()
+      static Button()
       {
          //DefaultStyleKeyProperty.OverrideMetadata(typeof(FlatButton), new FrameworkPropertyMetadata(typeof(FlatButton)));
       }
@@ -197,11 +197,12 @@ namespace UrbanUI.WPF.Controls
       #region On Apply Template
       public override void OnApplyTemplate()
       {
+         base.OnApplyTemplate();
+
          _mainBorder = GetTemplateChild("PART_mainBorder") as Border;
          _iconControl = GetTemplateChild("PART_iconControl") as PathIconer;
          _contentHost = GetTemplateChild("PART_contentHost") as ContentPresenter;
 
-         base.OnApplyTemplate();
 
          if (_mainBorder != null && _iconControl != null)
          {

@@ -20,6 +20,7 @@
     <PackageProjectUrl>https://github.com/UrbanCastles/UrbanUI</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,9 +51,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Window\Window.xaml">
+    <Page Update="Controls\Window\UrbanWindow.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Win32\Interop\Classes\" />
   </ItemGroup>
 
 </Project>

@@ -87,6 +87,46 @@ namespace UrbanUI.WPF.Win32.Interop.Structs
          ABE_BOTTOM = 3
       }
 
+      [StructLayout(LayoutKind.Sequential)]
+      internal struct PAINTSTRUCT
+      {
+         public IntPtr hdc;
+         public bool fErase;
+         public RECT rcPaint;
+         public bool fRestore;
+         public bool fIncUpdate;
+         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+         public byte[] rgbReserved;
+      }
+
+      public enum DwmWindowCornerPreference
+      {
+         Default = 0,
+         DoNotRound = 1,
+         Round = 2,
+         RoundSmall = 3
+      }
+
+      public enum ShowWindowCommands : int
+      {
+         SW_HIDE = 0,
+         SW_SHOWNORMAL = 1,
+         SW_SHOWMINIMIZED = 2,
+         SW_SHOWMAXIMIZED = 3,
+         SW_MAXIMIZE = 3,
+      }
+
+      [StructLayout(LayoutKind.Sequential)]
+      public struct WINDOWPLACEMENT
+      {
+         public int length;
+         public int flags;
+         public ShowWindowCommands showCmd;
+         public POINT ptMinPosition;
+         public POINT ptMaxPosition;
+         public RECT rcNormalPosition;
+      }
+
 
       [StructLayout(LayoutKind.Sequential)]
       internal struct RTL_OSVERSIONINFOEX

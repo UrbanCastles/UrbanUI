@@ -321,7 +321,7 @@ namespace UrbanUI.WPF.Controls
       public override void OnApplyTemplate()
       {
          base.OnApplyTemplate();
-         this.CheckedIconPath = this.CheckedIconPath ?? this.IconPath;
+         CheckedIconPath = CheckedIconPath ?? IconPath;
       }
 
    }

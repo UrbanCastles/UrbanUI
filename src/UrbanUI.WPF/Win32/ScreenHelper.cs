@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Shell;
 using UrbanUI.WPF.Win32.Helper;
 using UrbanUI.WPF.Win32.Interop.Methods;
 using UrbanUI.WPF.Win32.Interop.Values;
@@ -66,38 +67,51 @@ namespace UrbanUI.WPF.Win32
 
                mmi.ptMaxTrackSize.X = mmi.ptMaxSize.X;
                mmi.ptMaxTrackSize.Y = mmi.ptMaxSize.Y;
-            }
 
-            // Determine min width/height
-            double minWidth = window.MinWidth > 0 ? window.MinWidth : 180;
-            double minHeight = window.MinHeight > 0 ? window.MinHeight : 190;
+               // Apply WPF MaxWidth/MaxHeight constraint
+               var source = PresentationSource.FromVisual(window);
+               double dpiX = 1.0, dpiY = 1.0;
+               if (source?.CompositionTarget != null)
+               {
+                  dpiX = source.CompositionTarget.TransformToDevice.M11;
+                  dpiY = source.CompositionTarget.TransformToDevice.M22;
+               }
 
-            // Apply DPI scaling
-            var source = PresentationSource.FromVisual(window);
-            if (source?.CompositionTarget != null)
-            {
-               var m = source.CompositionTarget.TransformToDevice;
-               mmi.ptMinTrackSize.X = (int)(minWidth * m.M11);
-               mmi.ptMinTrackSize.Y = (int)(minHeight * m.M22);
-            }
-            else
-            {
-               mmi.ptMinTrackSize.X = (int)minWidth;
-               mmi.ptMinTrackSize.Y = (int)minHeight;
+               if (!double.IsInfinity(window.MaxWidth))
+               {
+                  int maxWidth = (int)(window.MaxWidth * dpiX);
+                  mmi.ptMaxSize.X = Math.Min(mmi.ptMaxSize.X, maxWidth);
+                  mmi.ptMaxTrackSize.X = Math.Min(mmi.ptMaxTrackSize.X, maxWidth);
+               }
+
+               if (!double.IsInfinity(window.MaxHeight))
+               {
+                  int maxHeight = (int)(window.MaxHeight * dpiY);
+                  mmi.ptMaxSize.Y = Math.Min(mmi.ptMaxSize.Y, maxHeight);
+                  mmi.ptMaxTrackSize.Y = Math.Min(mmi.ptMaxTrackSize.Y, maxHeight);
+               }
+
+               // Handle min tracking sizes
+               double minWidth = window.MinWidth > 0 ? window.MinWidth : mmi.ptReserved.X;
+               double minHeight = window.MinHeight > 0 ? window.MinHeight : mmi.ptReserved.Y;
+
+
+               mmi.ptMinTrackSize.X = (int)(minWidth * dpiX);
+               mmi.ptMinTrackSize.Y = (int)(minHeight * dpiY);
             }
          }
 
-         Marshal.StructureToPtr(mmi, lParam, false);
+         Marshal.StructureToPtr(mmi, lParam, true);
       }
 
-      internal static void ExtendGlassFrame(IntPtr hwnd)
+      internal static unsafe int ExtendFrameIntoClientArea(IntPtr hWnd, Window window)
       {
-         if (!InteropMethods.DwmIsCompositionEnabled()) return;
-
-         // Add a 1px transparent margin to all sides
-         var margins = new MARGINS { cxLeftWidth = 1, cxRightWidth = 1, cyTopHeight = 1, cyBottomHeight = 1 };
-         InteropMethods.DwmExtendFrameIntoClientArea(hwnd, ref margins);
+         Thickness margins = WindowChrome.GetWindowChrome(window).GlassFrameThickness;
+         var nativeMargins = new MARGINS { cxLeftWidth = (int)margins.Left, cyTopHeight = (int)margins.Top, cxRightWidth = (int)margins.Right, cyBottomHeight = (int)margins.Bottom };
+         var result = InteropMethods.DwmExtendFrameIntoClientArea(hWnd, ref nativeMargins);
+         return result;
       }
+
 
    }
 }
