@@ -1,6 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:UrbanUI.WPF.Converters">
+    
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/PathIconer/PathIconer.xaml" />
@@ -15,6 +17,6 @@
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Menu/MenuItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Menu/Menu.xaml" />
         <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/RichTextBox/RichTextBox.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Window/Window.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UrbanUI.WPF;component/Controls/Window/UrbanWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
