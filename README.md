@@ -8,6 +8,7 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 
 [![NuGet](https://img.shields.io/nuget/v/UrbanUI.WPF.svg)](https://www.nuget.org/packages/UrbanUI.WPF/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/UrbanUI.WPF.svg)](https://www.nuget.org/packages/UrbanUI.WPF/)
+[![Build](https://github.com/UrbanCastles/UrbanUI/actions/workflows/your-workflow.yml/badge.svg)](https://github.com/UrbanCastles/UrbanUI/actions/workflows/nuget-publish.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/UrbanCastles/UrbanUI/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/UrbanCastles/UrbanUI?style=social)](https://github.com/UrbanCastles/UrbanUI/stargazers)
 
