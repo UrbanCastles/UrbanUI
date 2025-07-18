@@ -31,11 +31,12 @@ jobs:
         run: dotnet pack src\UrbanUI.WPF\UrbanUI.WPF.csproj --configuration Release --no-build --output ./nupkg
 
       - name: Push to NuGet
+        shell: bash
         run: |
           for file in ./nupkg/*.nupkg; do
             echo "Pushing $file to NuGet..."
             dotnet nuget push "$file" \
               --source https://api.nuget.org/v3/index.json \
-              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --api-key "${{ secrets.NUGET_API_KEY }}" \
               --skip-duplicate
           done
