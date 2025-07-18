@@ -93,10 +93,10 @@ These changes allow you to use the Urban UI `Window` in your MainWindow, providi
 ## Screenshots:
 
 1. **Sample UI Application:**
-   ![Sample UI](https://github.com/UrbanCastles/UrbanUI/blob/master/samples/test_app.png)
+   ![Sample UI](https://github.com/UrbanCastles/UrbanUI/blob/main/samples/test_app.png)
 
 2. **Snap Layout Support (Feature Highlight):**
-   ![Snap Layout](https://github.com/UrbanCastles/UrbanUI/blob/master/samples/snap_layout.png)
+   ![Snap Layout](https://github.com/UrbanCastles/UrbanUI/blob/main/samples/snap_layout.png)
 
 ---
 
