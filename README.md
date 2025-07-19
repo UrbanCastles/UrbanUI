@@ -11,12 +11,13 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 [![Nuget Build](https://github.com/UrbanCastles/UrbanUI/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/UrbanCastles/UrbanUI/actions/workflows/nuget-publish.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/UrbanCastles/UrbanUI/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/UrbanCastles/UrbanUI?style=social)](https://github.com/UrbanCastles/UrbanUI/stargazers)
-![Last Commit](https://img.shields.io/github/last-commit/UrbanCastles/UrbanUI)
-![Repo Activity](https://img.shields.io/github/commit-activity/m/UrbanCastles/UrbanUI)
-![.NET](https://img.shields.io/badge/.NET-6.0-blue?logo=dotnet)
-![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey?logo=windows)
-![Contributors](https://img.shields.io/github/contributors/UrbanCastles/UrbanUI)
-![GitHub issues](https://img.shields.io/github/issues/UrbanCastles/UrbanUI)
+[![Last Commit](https://img.shields.io/github/last-commit/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/commits/main)
+[![Repo Activity](https://img.shields.io/github/commit-activity/m/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/pulls)
+[![.NET](https://img.shields.io/badge/.NET-6.0-blue?logo=dotnet)](https://dotnet.microsoft.com/)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey?logo=windows)](https://www.microsoft.com/windows/)
 
 ## 📦 NuGet Package
 
