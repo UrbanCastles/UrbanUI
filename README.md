@@ -11,6 +11,13 @@ We're constantly evolving to bring you even more stunning designs and enhanced f
 [![Nuget Build](https://github.com/UrbanCastles/UrbanUI/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/UrbanCastles/UrbanUI/actions/workflows/nuget-publish.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/UrbanCastles/UrbanUI/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/UrbanCastles/UrbanUI?style=social)](https://github.com/UrbanCastles/UrbanUI/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/commits/main)
+[![Repo Activity](https://img.shields.io/github/commit-activity/m/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/UrbanCastles/UrbanUI)](https://github.com/UrbanCastles/UrbanUI/pulls)
+[![.NET](https://img.shields.io/badge/.NET-6.0-blue?logo=dotnet)](https://dotnet.microsoft.com/)
+[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey?logo=windows)](https://www.microsoft.com/windows/)
 
 ## 📦 NuGet Package
 
@@ -71,7 +78,7 @@ Open your `MainWindow.xaml` file and make the following modifications:
 2. Replace your existing `Window` declaration with the Urban UI `Window`:
 
     ```xml
-    <urbanUI:Window x:Class="MultiTool.MainWindow"
+    <urbanUI:UrbanWindow x:Class="MultiTool.MainWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -83,10 +90,10 @@ Open your `MainWindow.xaml` file and make the following modifications:
                  MinHeight="600"
                  Title="Multi-Tool"
                  mc:Ignorable="d" ResizeMode="CanResize">
-    </urbanUI:Window>
+    </urbanUI:UrbanWindow>
     ```
 
-These changes allow you to use the Urban UI `Window` in your MainWindow, providing a modernized and customizable window layout.
+These changes allow you to use the Urban UI `UrbanWindow` in your MainWindow, providing a modernized and customizable window layout.
 
 ---
 
