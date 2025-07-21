@@ -9,7 +9,7 @@
     <!-- NuGet Package Info -->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>UrbanUI.WPF</PackageId>
-    <Version>0.8.2.23</Version>
+    <Version>0.8.2.25</Version>
     <Authors>Reymark Cruz Urbano</Authors>
     <Company>Urban Castle</Company>
     <Description>Urban UI - Transform Your WPF Applications with Modern Design</Description>

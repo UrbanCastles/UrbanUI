@@ -3,73 +3,59 @@
                     xmlns:controls="clr-namespace:UrbanUI.WPF.Controls"
                     xmlns:converters="clr-namespace:UrbanUI.WPF.Converters">
 
-    <converters:BorderBrushToThicknessConverter x:Key="BrushToMarginConverter" ConvertMode="Margin"/>
-    <converters:BorderBrushToThicknessConverter x:Key="BrushToThicknessConverter" ConvertMode="BorderThickness"/>
-
     <ControlTemplate x:Key="UrbanUI.WPF.WindowStyle" TargetType="{x:Type Window}">
         <AdornerDecorator>
-            <Border x:Name="PART_MainGridContainer" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-                <Border.BorderThickness>
-                    <MultiBinding Converter="{StaticResource BrushToThicknessConverter}">
-                        <Binding Path="BorderBrush" RelativeSource="{RelativeSource TemplatedParent}" />
-                        <Binding Path="BorderThickness" RelativeSource="{RelativeSource TemplatedParent}" />
-                    </MultiBinding>
-                </Border.BorderThickness>
+            <Grid>
+                <controls:ClipBorder x:Name="PART_MainGridContainer" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="PART_TopBarGrid" MinHeight="35">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowStyle}" Value="None">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid x:Name="PART_dragGrid" IsHitTestVisible="True" Background="Transparent">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15, 0 0 0">
+                                    <Image x:Name="PART_windowIcon" Width="16" Height="16" Source="{TemplateBinding Icon}"/>
 
-                <Border.Margin>
-                    <MultiBinding Converter="{StaticResource BrushToMarginConverter}">
-                        <Binding Path="BorderBrush" RelativeSource="{RelativeSource TemplatedParent}" />
-                        <Binding Path="BorderThickness" RelativeSource="{RelativeSource TemplatedParent}" />
-                    </MultiBinding>
-                </Border.Margin>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid x:Name="PART_TopBarGrid" MinHeight="35">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowStyle}" Value="None">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <Grid x:Name="PART_dragGrid" IsHitTestVisible="True" Background="Transparent">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15, 0 0 0">
-                                <Image x:Name="PART_windowIcon" Width="16" Height="16" Source="{TemplateBinding Icon}"/>
-
-                                <TextBlock x:Name="PART_windowTitle" Text="{TemplateBinding Title}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" TextTrimming="CharacterEllipsis" 
+                                    <TextBlock x:Name="PART_windowTitle" Text="{TemplateBinding Title}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" TextTrimming="CharacterEllipsis" 
                                        IsEnabled="{TemplateBinding IsActive}" 
                                        FontSize="{TemplateBinding FontSize}"
                                        FontWeight="{TemplateBinding FontWeight}"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontStyle="{TemplateBinding FontStyle}"
                                        FontStretch="{TemplateBinding FontStretch}"/>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" MaxHeight="30">
+                                <controls:Button x:Name="PART_minimizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M2048 819v205H0V819h2048z"/>
+                                <controls:Button x:Name="PART_maximizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M3 3v10h10V3H3zm9 9H4V4h8v8z"/>
+                                <controls:Button x:Name="PART_restoreButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M2048 1638h-410v410H0V410h410V0h1638v1638zM1434 614H205v1229h1229V614zm409-409H614v205h1024v1024h205V205z"/>
+                                <controls:Button x:Name="PART_closeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="m1169 1024l879 879l-145 145l-879-879l-879 879L0 1903l879-879L0 145L145 0l879 879L1903 0l145 145l-879 879z"/>
                             </StackPanel>
                         </Grid>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" MaxHeight="30">
-                            <controls:Button x:Name="PART_minimizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M175 100V87.5H37.5V100H175z"/>
-                            <controls:Button x:Name="PART_maximizeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 162.5V37.5H162.5V162.5H37.5zM150 50H50V150H150V50z"/>
-                            <controls:Button x:Name="PART_restoreButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M37.5 137.5V25H150V137.5H37.5zM137.5 37.5H50V125H137.5V37.5zM62.5 137.5H75V150H162.5V62.5H150V50H175V162.5H62.5V137.5z"/>
-                            <controls:Button x:Name="PART_closeButton" Width="46" PathIconWidth="10" PathIconHeight="10" IconPath="M88.95 100L31.975 43.025L43.025 31.975L100 88.95L156.975 31.975L168.025 43.025L111.05 100L168.025 156.975L156.975 168.025L100 111.05L43.025 168.025L31.975 156.975L88.95 100z"/>
-                        </StackPanel>
-                    </Grid>
 
-                    <Grid x:Name="SubContainerGrid" Grid.Row="1"
+                        <Grid x:Name="SubContainerGrid" Grid.Row="1"
                           FocusVisualStyle="{x:Null}">
-                        <ContentPresenter x:Name="PART_ContentPresenter" Margin="1"/>
-                        <ResizeGrip HorizontalAlignment="Right" x:Name="PART_WindowResizeGrip" VerticalAlignment="Bottom" IsTabStop="False" Visibility="Collapsed" Grid.Row="1" Margin="4"/>
-                    </Grid>
+                            <ContentPresenter x:Name="PART_ContentPresenter" Margin="1" Content="{TemplateBinding Content}" />
+                            <ResizeGrip HorizontalAlignment="Right" x:Name="PART_WindowResizeGrip" VerticalAlignment="Bottom" IsTabStop="False" Visibility="Collapsed" Grid.Row="1" Margin="4"/>
+                        </Grid>
 
-                </Grid>
-            </Border>
+                    </Grid>
+                </controls:ClipBorder>
+            </Grid>
 
         </AdornerDecorator>
 

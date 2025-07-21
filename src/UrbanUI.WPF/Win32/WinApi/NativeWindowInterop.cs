@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using UrbanUI.WPF.Controls.Window;
 using UrbanUI.WPF.Win32.Helper;
 using UrbanUI.WPF.Win32.Interop.Methods;
 using UrbanUI.WPF.Win32.Interop.Values;
@@ -28,9 +29,6 @@ namespace UrbanUI.WPF.Win32.WinApi
       private bool _newButtonMouseEnteredAlreadyTriggered = true;
       private bool _lastButtonMouseLeaveAlreadyTriggered = true;
       private bool _continueButtonInvocation = false;
-
-      //private bool HandleClientFrameBG = true;
-      //private bool isHandlingClientFrameBG;
 
       internal IntPtr Hwnd { get; set; }
       private static bool _isHookInitialized = false;
@@ -55,9 +53,7 @@ namespace UrbanUI.WPF.Win32.WinApi
       private IntPtr InitHooks()
       {
          var Hwnd = this._windowSource.EnsureHandle();
-
-         SetNativeFrameColor(Hwnd, ((SolidColorBrush)_windowSource.Background).Color);
-         ScreenHelper.ExtendFrameIntoClientArea(Hwnd, _windowSource);
+         WindowChromeHelper.Initialize(Hwnd);
 
          this._windowSource?.GetHwndSource(Hwnd)?.AddHook(this.HwndSourceHook);
 
@@ -192,23 +188,9 @@ namespace UrbanUI.WPF.Win32.WinApi
                handled = true;
                break;
 
-            case InteropValues.WM_NCCALCSIZE:
-            case InteropValues.WM_WINDOWPOSCHANGED:
-            case InteropValues.WM_EXITSIZEMOVE:
-               _windowSource?.UpdateTemplateCornerRadius();
-               break;
-
             case InteropValues.WM_SIZE:
-               /*if (_windowSource.IsLoaded && this.HandleClientFrameBG)
-               {
-                  this.HandleClientFrameBG = false;
-                  this.isHandlingClientFrameBG = false;
-               }*/
                ForceNativeWindowRedraw();
                break;
-
-            //case InteropValues.WM_ERASEBKGND:
-            //   return this.HandleClientFrameBackground(hwnd, wParam, lParam, out handled);
 
             default:
                handled = false;
@@ -291,100 +273,6 @@ namespace UrbanUI.WPF.Win32.WinApi
          }
       }
 
-      public static void SetNativeFrameColor(IntPtr hwnd, Color color)
-      {
-         uint colorRef = (uint)((color.R) | (color.G << 8) | (color.B << 16));
-         InteropMethods.DwmSetWindowAttribute(hwnd, InteropValues.DWMWA_CAPTION_COLOR, ref colorRef, Marshal.SizeOf<uint>());
-      }
-
-
-      public static CornerRadius GetSystemCornerRadius()
-      {
-         if (_isHookInitialized && Environment.OSVersion.Version.Major >= 10)
-         {
-            // Get current window rect
-            if (InteropMethods.GetWindowRect(_instance.Hwnd, out RECT rect))
-            {
-               IntPtr monitor = InteropMethods.MonitorFromWindow(_instance.Hwnd, InteropValues.MONITOR_DEFAULTTONEAREST);
-               MONITORINFO monitorInfo = new MONITORINFO();
-               monitorInfo.cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-               if (InteropMethods.GetMonitorInfo(monitor, ref monitorInfo))
-               {
-                  RECT workArea = monitorInfo.rcWork;
-                  RECT fullArea = monitorInfo.rcMonitor;
-
-                  const int TOLERANCE = 2;
-
-                  int width = rect.Right - rect.Left;
-                  int height = rect.Bottom - rect.Top;
-
-                  bool isMaximized =
-                      Math.Abs(rect.Left - workArea.Left) <= TOLERANCE &&
-                      Math.Abs(rect.Top - workArea.Top) <= TOLERANCE &&
-                      Math.Abs(rect.Right - workArea.Right) <= TOLERANCE &&
-                      Math.Abs(rect.Bottom - workArea.Bottom) <= TOLERANCE;
-
-                  bool isSnappedLeft =
-                      Math.Abs(rect.Left - workArea.Left) <= TOLERANCE &&
-                      Math.Abs(width - (workArea.Right - workArea.Left) / 2) <= TOLERANCE;
-
-                  bool isSnappedRight =
-                      Math.Abs(rect.Right - workArea.Right) <= TOLERANCE &&
-                      Math.Abs(width - (workArea.Right - workArea.Left) / 2) <= TOLERANCE;
-
-                  if (isMaximized || isSnappedLeft || isSnappedRight)
-                  {
-                     return new CornerRadius(0);
-                  }
-               }
-            }
-
-            // Fallback to system preference
-            DwmWindowCornerPreference pref;
-            InteropMethods.DwmGetWindowAttribute(
-                _instance.Hwnd,
-                InteropValues.DWMWA_WINDOW_CORNER_PREFERENCE,
-                out pref,
-                sizeof(int)
-            );
-
-            return GetEffectiveCornerRadius(pref);
-         }
-
-         return new CornerRadius(0);
-      }
-
-
-
-      private static CornerRadius GetEffectiveCornerRadius(DwmWindowCornerPreference pref)
-      {
-         switch (pref)
-         {
-            case DwmWindowCornerPreference.Round:
-               return new CornerRadius(8);
-            case DwmWindowCornerPreference.RoundSmall:
-               return new CornerRadius(4);
-            case DwmWindowCornerPreference.DoNotRound:
-               return new CornerRadius(0);
-            case DwmWindowCornerPreference.Default:
-               if (IsWindows11OrNewer())
-                  return new CornerRadius(8);
-               else
-                  return new CornerRadius(0);
-            default:
-               return new CornerRadius(0);
-         }
-      }
-
-      private static bool IsWindows11OrNewer()
-      {
-         // Windows 11 is version 10.0.22000 or newer
-         Version windows11Version = new Version(10, 0, 22000);
-         return Environment.OSVersion.Platform == PlatformID.Win32NT &&
-                Environment.OSVersion.Version >= windows11Version;
-      }
-
-
       internal static void Dispose()
       {
          if (_instance != null && _instance._windowSource != null)
@@ -394,60 +282,6 @@ namespace UrbanUI.WPF.Win32.WinApi
             _instance._windowSource = null;
          }
       }
-
-      /*private IntPtr HandleClientFrameBackground(IntPtr hwnd, IntPtr wParam, IntPtr lParam, out bool handled)
-      {
-         handled = false;
-
-         if (!_instance.HandleClientFrameBG || _instance.isHandlingClientFrameBG)
-            return IntPtr.Zero;
-
-         _instance.isHandlingClientFrameBG = true;
-
-         try
-         {
-            if (!InteropMethods.GetClientRect(hwnd, out RECT rect))
-               return IntPtr.Zero;
-
-            var backgroundColor = _windowSource.Background is SolidColorBrush scb ? scb.Color : Colors.Transparent;
-            uint colorRef = ToColorRef(backgroundColor);
-
-            IntPtr hBrush = InteropMethods.CreateSolidBrush(colorRef);
-            if (hBrush == IntPtr.Zero)
-               return IntPtr.Zero;
-
-            IntPtr hdc = InteropMethods.GetWindowDC(hwnd);
-            if (hdc == IntPtr.Zero)
-            {
-               InteropMethods.DeleteObject(hBrush);
-               return IntPtr.Zero;
-            }
-            int result = InteropMethods.FillRect(hdc, ref rect, hBrush);
-
-            InteropMethods.ReleaseDC(hwnd, hdc);
-            InteropMethods.DeleteObject(hBrush);
-
-            if (result != 0)
-            {
-               handled = true;
-               return new IntPtr(1);
-            }
-         }
-         catch (Exception e)
-         {
-            int error = Marshal.GetLastWin32Error();
-            Debug.WriteLine($"Win32 Error: {error}");
-         }
-         finally
-         {
-            _instance.isHandlingClientFrameBG = false;
-         }
-         return IntPtr.Zero;
-      }
-
-
-      private static uint ToColorRef(Color c) => ((uint)c.R) | ((uint)c.G << 8) | ((uint)c.B << 16);*/
-
 
    }
 
