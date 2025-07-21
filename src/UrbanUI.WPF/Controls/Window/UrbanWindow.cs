@@ -14,6 +14,9 @@ using UrbanUI.WPF.Win32.Interop.Values;
 using System.Windows.Shell;
 using UrbanUI.WPF.Win32.WinApi;
 using UrbanUI.WPF.Behaviors;
+using System.Diagnostics;
+using UrbanUI.WPF.Controls.Window;
+using UrbanUI.WPF.Win32;
 
 namespace UrbanUI.WPF.Controls
 {
@@ -22,7 +25,7 @@ namespace UrbanUI.WPF.Controls
    [System.Windows.TemplatePart(Name = "PART_restoreButton", Type = typeof(Button))]
    [System.Windows.TemplatePart(Name = "PART_closeButton", Type = typeof(Button))]
    [System.Windows.TemplatePart(Name = "PART_dragGrid", Type = typeof(Grid))]
-   [System.Windows.TemplatePart(Name = "PART_MainGridContainer", Type = typeof(Border))]
+   [System.Windows.TemplatePart(Name = "PART_MainGridContainer", Type = typeof(ClipBorder))]
    [System.Windows.TemplatePart(Name = "PART_windowIcon", Type = typeof(System.Windows.Controls.Image))]
    [System.Windows.TemplatePart(Name = "PART_windowTitle", Type = typeof(TextBlock))]
    [System.Windows.TemplatePart(Name = "PART_ContentPresenter", Type = typeof(ContentPresenter))]
@@ -30,18 +33,42 @@ namespace UrbanUI.WPF.Controls
 
    public partial class UrbanWindow : System.Windows.Window, ITheme
    {
+
+      #region Dependency Properties
+
+      public static readonly DependencyProperty CornerPreferenceProperty = DependencyProperty.Register(
+                                                                                                     nameof(CornerPreference),
+                                                                                                     typeof(WindowCornerPreference),
+                                                                                                     typeof(UrbanWindow), // Your custom Window class
+                                                                                                     new PropertyMetadata(WindowCornerPreference.Default, OnWindowCornerPreferenceChanged));
+
+      public WindowCornerPreference CornerPreference
+      {
+         get => (WindowCornerPreference)GetValue(CornerPreferenceProperty);
+         set => SetValue(CornerPreferenceProperty, value);
+      }
+      #endregion Dependency Properties
+
+      #region Dependency Callbacks
+      private static void OnWindowCornerPreferenceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+         if (d is UrbanWindow window && e.NewValue is WindowCornerPreference newPref)
+         {
+            WindowChromeHelper.getInstance(window).SetCornerPreference(newPref);
+         }
+      }
+      #endregion Dependency Callbacks
+
       #region Initializations
       private bool mRestoreIfMove = false;
-      private NonClientFrameEdges _defaultClientEdgeSetup = NonClientFrameEdges.None;
       private Theme _theme;
 
       internal Button minimizeButton, maximizeButton, restoreButton, closeButton;
       private ResizeGrip windowResizeGrip;
       private Grid dragGrid;
-      private Border MainGridContainer;
+      private ClipBorder MainGridContainer;
       private System.Windows.Controls.Image windowIcon;
       private TextBlock windowTitle;
-      private ContentPresenter contentPresenter;
       private bool _templateApplied = false;
       private bool _internalTreatAsGrip = false;
       #endregion Initializations
@@ -81,7 +108,7 @@ namespace UrbanUI.WPF.Controls
             {
                if(NativeWindowInterop.IseInitialized() && NativeWindowInterop.IsHookInitialized())
                {
-                  NativeWindowInterop.SetNativeFrameColor(NativeWindowInterop.GetInstance().Hwnd, ((SolidColorBrush)this.Background).Color);
+                  WindowChromeHelper.getInstance().SetNativeFrameColor(((SolidColorBrush)this.Background).Color);
                }
             });
          };
@@ -103,8 +130,10 @@ namespace UrbanUI.WPF.Controls
       {
          base.OnSourceInitialized(e);
          EnforceWindowAttributes();
-         InitializeWindowChromeSetups();
          NativeWindowInterop.AddContextMenuHook(this, minimizeButton, maximizeButton, restoreButton, closeButton);
+         WindowChromeHelper.getInstance(this).InitializeWindowChromeSetups(this);
+         ScreenHelper.ExtendFrameIntoClientArea(NativeWindowInterop.GetInstance().Hwnd, this);
+         WindowChromeHelper.getInstance(this).SetCornerPreference(CornerPreference);
       }
 
       #region On Apply Template
@@ -147,10 +176,9 @@ namespace UrbanUI.WPF.Controls
             dragGrid.MouseMove += Grid_MouseMove;
          }
 
-         MainGridContainer = GetTemplateChild("PART_MainGridContainer") as Border;
+         MainGridContainer = GetTemplateChild("PART_MainGridContainer") as ClipBorder;
          windowIcon = GetTemplateChild("PART_windowIcon") as System.Windows.Controls.Image;
          windowTitle = GetTemplateChild("PART_windowTitle") as TextBlock;
-         contentPresenter = GetTemplateChild("PART_ContentPresenter") as ContentPresenter;
 
          this.StateChanged += Window_StateChanged;
 
@@ -232,7 +260,8 @@ namespace UrbanUI.WPF.Controls
 
             //windowIcon.Color = theme.MenuFocusIconColor;
             windowTitle.Foreground = theme.ThemeForeground;
-            base.Background = MainGridContainer.Background = theme.ThemeBackground;
+            this.Background = theme.ThemeBackground;
+            //base.Background = MainGridContainer.Background = theme.ThemeBackground;
          }
       }
 
@@ -352,91 +381,56 @@ namespace UrbanUI.WPF.Controls
 
       private void SetWindowButtonsStateVisibility()
       {
-         var isNoneStyle = this.WindowStyle == WindowStyle.None;
-         var isToolWindow = this.WindowStyle == WindowStyle.ToolWindow;
-
-         if (maximizeButton != null && restoreButton != null && closeButton != null)
+         this.Dispatcher.Invoke(() =>
          {
 
-            var canMinimize = this.ResizeMode != ResizeMode.NoResize;
-            var canResize = this.ResizeMode == ResizeMode.CanResize || this.ResizeMode == ResizeMode.CanResizeWithGrip;
+            var isNoneStyle = this.WindowStyle == WindowStyle.None;
+            var isToolWindow = this.WindowStyle == WindowStyle.ToolWindow;
 
-            minimizeButton.Visibility = canMinimize && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
-
-            maximizeButton.Visibility = canResize && this.WindowState != WindowState.Maximized && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
-
-            restoreButton.Visibility = canResize && this.WindowState == WindowState.Maximized && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
-
-            closeButton.Visibility = !isNoneStyle ? Visibility.Visible : Visibility.Collapsed;
-         }
-
-         if (MainGridContainer != null)
-         {
-            if (this.WindowState == WindowState.Maximized)
+            if (maximizeButton != null && restoreButton != null && closeButton != null)
             {
-               if (this.WindowStyle == WindowStyle.SingleBorderWindow || this.WindowStyle == WindowStyle.ThreeDBorderWindow)
+
+               var canMinimize = this.ResizeMode != ResizeMode.NoResize;
+               var canResize = this.ResizeMode == ResizeMode.CanResize || this.ResizeMode == ResizeMode.CanResizeWithGrip;
+
+               minimizeButton.Visibility = canMinimize && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
+
+               maximizeButton.Visibility = canResize && this.WindowState != WindowState.Maximized && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
+
+               restoreButton.Visibility = canResize && this.WindowState == WindowState.Maximized && !isNoneStyle && !isToolWindow ? Visibility.Visible : Visibility.Collapsed;
+
+               closeButton.Visibility = !isNoneStyle ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            if (MainGridContainer != null)
+            {
+               if (this.WindowState == WindowState.Maximized)
                {
-                  MainGridContainer.Padding = new Thickness(
-                      SystemParameters.WorkArea.Left + 7,
-                      SystemParameters.WorkArea.Top + 7,
-                      (SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right) + 7, 7);
+                  if (this.WindowStyle == WindowStyle.SingleBorderWindow || this.WindowStyle == WindowStyle.ThreeDBorderWindow)
+                  {
+                     MainGridContainer.Padding = new Thickness(
+                         SystemParameters.WorkArea.Left + 7,
+                         SystemParameters.WorkArea.Top + 7,
+                         (SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right) + 7, 7);
+                  }
+                  else if (this.WindowStyle == WindowStyle.ToolWindow)
+                  {
+                     MainGridContainer.Padding = new Thickness(0, 0, 0, 0);
+                  }
                }
-               else if (this.WindowStyle == WindowStyle.ToolWindow)
+               else
                {
                   MainGridContainer.Padding = new Thickness(0, 0, 0, 0);
                }
-            }
-            else
-            {
-               MainGridContainer.Padding = new Thickness(0, 0, 0, 0);
-            }
 
-            if (windowResizeGrip != null && this._internalTreatAsGrip)
-            {
-               windowResizeGrip.Visibility = (this.WindowState == WindowState.Maximized) ? Visibility.Collapsed : Visibility.Visible;
+               if (windowResizeGrip != null && this._internalTreatAsGrip)
+               {
+                  windowResizeGrip.Visibility = (this.WindowState == WindowState.Maximized) ? Visibility.Collapsed : Visibility.Visible;
+               }
             }
-         }
+         });
       }
 
-      internal void UpdateTemplateCornerRadius()
-      {
-         if (MainGridContainer != null)
-         {
-            MainGridContainer.CornerRadius = NativeWindowInterop.GetSystemCornerRadius();
-         }
-      }
-
-      private void InitializeWindowChromeSetups()
-      {
-         //Source: https://learn.microsoft.com/en-us/dotnet/api/system.windows.shell.windowchrome?view=windowsdesktop-8.0&redirectedfrom=MSDN
-         //When GlassFrameThickness is set to a negative value for any side, its coerced value will be equal to GlassFrameCompleteThickness.
-         //This fixes the issue that the Snap Layout is not showing when on Normal Mode
-
-         var windowChrome = WindowChrome.GetWindowChrome(this);
-         if (windowChrome != null)
-         {
-            windowChrome.GlassFrameThickness = new Thickness(-1);
-            windowChrome.ResizeBorderThickness = this.ResizeMode == ResizeMode.NoResize ? default : new Thickness(8);
-            
-            windowChrome.CaptionHeight = 0;
-            windowChrome.CornerRadius = default;
-            windowChrome.UseAeroCaptionButtons = false;
-            windowChrome.NonClientFrameEdges = NonClientFrameEdges.None;
-         }
-         else
-         {
-            windowChrome = new WindowChrome()
-            {
-               GlassFrameThickness = new Thickness(-1),
-               ResizeBorderThickness = this.ResizeMode == ResizeMode.NoResize ? default : new Thickness(8),
-               CaptionHeight = 0,
-               CornerRadius = default,
-               UseAeroCaptionButtons = false,
-               NonClientFrameEdges = NonClientFrameEdges.None
-            };
-            WindowChrome.SetWindowChrome(this, windowChrome);
-         }
-      }
       #endregion Window Styling Functions
 
 
