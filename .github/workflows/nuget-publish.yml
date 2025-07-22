@@ -52,7 +52,7 @@ jobs:
             Write-Host "Pushing $($_.FullName) to NuGet..."
             dotnet nuget push $($_.FullName) `
               --source "github" `
-              --api-key "${{ secrets.NUGET_API_KEY }}" `
+              --api-key "${{ secrets.NUPKG_GITHUB_PAT }}" `
               --skip-duplicate
           }
 
