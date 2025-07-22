@@ -44,7 +44,7 @@ jobs:
           }
           
       - name: Add Github Packages Source
-        run: dotnet nuget add source --username UrbanCastles --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/UrbanUI.WPF/index.json"
+        run: dotnet nuget add source --username UrbanCastles --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/UrbanCastles/index.json"
           
       - name: Push to Github Packages
         run: |
@@ -52,7 +52,7 @@ jobs:
             Write-Host "Pushing $($_.FullName) to NuGet..."
             dotnet nuget push $($_.FullName) `
               --source "github" `
-              --api-key "${{ secrets.NUPKG_GITHUB_PAT }}" `
+              --api-key "${{ secrets.GITHUB_TOKEN }}" `
               --skip-duplicate
           }
 
