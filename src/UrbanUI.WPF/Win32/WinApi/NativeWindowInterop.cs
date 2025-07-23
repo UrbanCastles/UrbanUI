@@ -18,7 +18,6 @@ namespace UrbanUI.WPF.Win32.WinApi
 {
    public class NativeWindowInterop
    {
-      private static NativeWindowInterop _instance = null;
       private UrbanUI.WPF.Controls.UrbanWindow _windowSource;
       private Button _minimizeButton, _maximizeButton, _restoreButton, _closeButton;
 
@@ -31,59 +30,42 @@ namespace UrbanUI.WPF.Win32.WinApi
       private bool _continueButtonInvocation = false;
 
       internal IntPtr Hwnd { get; set; }
-      private static bool _isHookInitialized = false;
+      private bool _isHookInitialized = false;
 
-      internal static NativeWindowInterop GetInstance()
+      internal NativeWindowInterop(UrbanUI.WPF.Controls.UrbanWindow window)
       {
-         if (_instance == null)
-            _instance = new NativeWindowInterop();
-         return _instance;
+         this._windowSource = window;
+         var Hwnd = this._windowSource.EnsureHandle();
+         WindowChromeHelper.Initialize(Hwnd);
+
+         this.Hwnd = Hwnd;
+         _isHookInitialized = true;
       }
 
-      internal static bool IseInitialized()
-      {
-         return _instance != null;
-      }
-
-      internal static bool IsHookInitialized()
+      internal bool IsHookInitialized()
       {
          return _isHookInitialized;
       }
 
-      private IntPtr InitHooks()
+      public void AddContextMenuHook(Button minimizeButton, Button maximizeButton, Button restoreButton, Button closeButton)
       {
-         var Hwnd = this._windowSource.EnsureHandle();
-         WindowChromeHelper.Initialize(Hwnd);
-
-         this._windowSource?.GetHwndSource(Hwnd)?.AddHook(this.HwndSourceHook);
-
-         this.Hwnd = Hwnd;
-         _isHookInitialized = true;
-         return Hwnd;
-      }
-
-
-      public static IntPtr AddContextMenuHook(UrbanUI.WPF.Controls.UrbanWindow window, Button minimizeButton, Button maximizeButton, Button restoreButton, Button closeButton)
-      {
-         var instance = GetInstance();
-         if (instance != null)
+         if (IsHookInitialized())
          {
-            instance._windowSource = window;
+            this._minimizeButton = minimizeButton;
+            this._maximizeButton = maximizeButton;
+            this._restoreButton = restoreButton;
+            this._closeButton = closeButton;
 
-            instance._minimizeButton = minimizeButton;
-            instance._maximizeButton = maximizeButton;
-            instance._restoreButton = restoreButton;
-            instance._closeButton = closeButton;
-
-            if (window == null || maximizeButton == null || restoreButton == null)
+            if (this._windowSource == null || maximizeButton == null || restoreButton == null)
             {
                throw new Exception("All parameters must have a value.");
             }
 
-            return instance.InitHooks();
+
+            this._windowSource?.GetHwndSource(this.Hwnd)?.AddHook(this.HwndSourceHook);
          }
          else
-            return IntPtr.Zero;
+            throw new Exception("Window Handle is not initialized yet.");
       }
 
       private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -263,23 +245,23 @@ namespace UrbanUI.WPF.Win32.WinApi
          return false;
       }
 
-      internal static void ForceNativeWindowRedraw()
+      internal void ForceNativeWindowRedraw()
       {
-         if (_instance != null)
+         if (IsHookInitialized())
          {
             const uint SwpFlags = InteropValues.SWP_FRAMECHANGED | InteropValues.SWP_NOSIZE | InteropValues.SWP_NOMOVE | InteropValues.SWP_NOZORDER | InteropValues.SWP_NOOWNERZORDER | InteropValues.SWP_NOACTIVATE;
-            InteropMethods.SetWindowPos(_instance.Hwnd, default, 0, 0, 0, 0, SwpFlags);
-            InteropMethods.RedrawWindow(_instance.Hwnd, IntPtr.Zero, IntPtr.Zero, InteropValues.RDW_INVALIDATE | InteropValues.RDW_UPDATENOW | InteropValues.RDW_FRAME);
+            InteropMethods.SetWindowPos(this.Hwnd, default, 0, 0, 0, 0, SwpFlags);
+            InteropMethods.RedrawWindow(this.Hwnd, IntPtr.Zero, IntPtr.Zero, InteropValues.RDW_INVALIDATE | InteropValues.RDW_UPDATENOW | InteropValues.RDW_FRAME);
          }
       }
 
-      internal static void Dispose()
+      internal void Dispose()
       {
-         if (_instance != null && _instance._windowSource != null)
+         if (IsHookInitialized() && this._windowSource != null)
          {
-            _instance._windowSource?.GetHwndSource(_instance.Hwnd)?.RemoveHook(_instance.HwndSourceHook);
-            _instance.Hwnd = default;
-            _instance._windowSource = null;
+            this._windowSource?.GetHwndSource(this.Hwnd)?.RemoveHook(this.HwndSourceHook);
+            this.Hwnd = default;
+            this._windowSource = null;
          }
       }
 

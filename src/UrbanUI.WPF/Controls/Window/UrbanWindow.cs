@@ -71,6 +71,7 @@ namespace UrbanUI.WPF.Controls
       private TextBlock windowTitle;
       private bool _templateApplied = false;
       private bool _internalTreatAsGrip = false;
+      private NativeWindowInterop nativeWindowInterop;
       #endregion Initializations
 
       static UrbanWindow()
@@ -106,7 +107,7 @@ namespace UrbanUI.WPF.Controls
             var _watcher = new DependencyPropertyWatcher(this);
             _watcher.Watch(Control.BackgroundProperty, (o, e) =>
             {
-               if(NativeWindowInterop.IseInitialized() && NativeWindowInterop.IsHookInitialized())
+               if(nativeWindowInterop != null && nativeWindowInterop.IsHookInitialized())
                {
                   WindowChromeHelper.getInstance().SetNativeFrameColor(((SolidColorBrush)this.Background).Color);
                }
@@ -116,12 +117,14 @@ namespace UrbanUI.WPF.Controls
 
          this.Closed += delegate
          {
-            NativeWindowInterop.Dispose();
+            if(nativeWindowInterop != null)
+               nativeWindowInterop.Dispose();
          };
 
          AppDomain.CurrentDomain.ProcessExit += (s, e) =>
          {
-            NativeWindowInterop.Dispose();
+            if (nativeWindowInterop != null)
+               nativeWindowInterop.Dispose();
          };
       }
 
@@ -130,10 +133,11 @@ namespace UrbanUI.WPF.Controls
       {
          base.OnSourceInitialized(e);
          EnforceWindowAttributes();
-         NativeWindowInterop.AddContextMenuHook(this, minimizeButton, maximizeButton, restoreButton, closeButton);
+         nativeWindowInterop = new NativeWindowInterop(this);
          WindowChromeHelper.getInstance(this).InitializeWindowChromeSetups(this);
-         ScreenHelper.ExtendFrameIntoClientArea(NativeWindowInterop.GetInstance().Hwnd, this);
+         ScreenHelper.ExtendFrameIntoClientArea(nativeWindowInterop.Hwnd, this);
          WindowChromeHelper.getInstance(this).SetCornerPreference(CornerPreference);
+         nativeWindowInterop.AddContextMenuHook(minimizeButton, maximizeButton, restoreButton, closeButton);
       }
 
       #region On Apply Template
@@ -261,7 +265,6 @@ namespace UrbanUI.WPF.Controls
             //windowIcon.Color = theme.MenuFocusIconColor;
             windowTitle.Foreground = theme.ThemeForeground;
             this.Background = theme.ThemeBackground;
-            //base.Background = MainGridContainer.Background = theme.ThemeBackground;
          }
       }
 
