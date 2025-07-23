@@ -39,7 +39,7 @@ namespace UrbanUI.WPF.Controls
       public static readonly DependencyProperty CornerPreferenceProperty = DependencyProperty.Register(
                                                                                                      nameof(CornerPreference),
                                                                                                      typeof(WindowCornerPreference),
-                                                                                                     typeof(UrbanWindow), // Your custom Window class
+                                                                                                     typeof(UrbanWindow),
                                                                                                      new PropertyMetadata(WindowCornerPreference.Default, OnWindowCornerPreferenceChanged));
 
       public WindowCornerPreference CornerPreference
