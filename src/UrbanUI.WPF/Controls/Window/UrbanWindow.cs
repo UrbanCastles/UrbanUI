@@ -131,13 +131,15 @@ namespace UrbanUI.WPF.Controls
 
       protected override void OnSourceInitialized(EventArgs e)
       {
-         base.OnSourceInitialized(e);
          EnforceWindowAttributes();
          nativeWindowInterop = new NativeWindowInterop(this);
          WindowChromeHelper.getInstance(this).InitializeWindowChromeSetups(this);
          ScreenHelper.ExtendFrameIntoClientArea(nativeWindowInterop.Hwnd, this);
          WindowChromeHelper.getInstance(this).SetCornerPreference(CornerPreference);
+         WindowChromeHelper.getInstance().SetNativeFrameColor(((SolidColorBrush)this.Background).Color);
          nativeWindowInterop.AddContextMenuHook(minimizeButton, maximizeButton, restoreButton, closeButton);
+
+         base.OnSourceInitialized(e);
       }
 
       #region On Apply Template
