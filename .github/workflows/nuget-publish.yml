@@ -33,7 +33,7 @@ jobs:
       - name: Pack
         run: dotnet pack src\UrbanUI.WPF\UrbanUI.WPF.csproj --configuration Release --no-build --output ./nupkg
 
-      - name: Push to NuGet
+      - name: Push to NuGet Packages
         run: |
           Get-ChildItem -Path "./nupkg" -Filter *.nupkg | ForEach-Object {
             Write-Host "Pushing $($_.FullName) to NuGet..."
@@ -42,3 +42,18 @@ jobs:
               --api-key "${{ secrets.NUGET_API_KEY }}" `
               --skip-duplicate
           }
+          
+      - name: Add Github Packages Source
+        run: dotnet nuget add source --username UrbanCastles --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/UrbanCastles/index.json"
+          
+      - name: Push to Github Packages
+        run: |
+          Get-ChildItem -Path "./nupkg" -Filter *.nupkg | ForEach-Object {
+            Write-Host "Pushing $($_.FullName) to NuGet..."
+            dotnet nuget push $($_.FullName) `
+              --source "github" `
+              --api-key "${{ secrets.NUPKG_GITHUB_PAT }}" `
+              --skip-duplicate
+          }
+
+        
